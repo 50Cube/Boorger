@@ -70,16 +70,6 @@
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>3.1.0</version>
-<!--				<executions>-->
-<!--					<execution>-->
-<!--						<id>copy resources</id>-->
-<!--						<goals>-->
-<!--							<goal>copy-resources</goal>-->
-<!--						</goals>-->
-<!--						<phase>clean</phase>-->
-
-<!--					</execution>-->
-<!--				</executions>-->
 				<configuration>
 					<outputDirectory>${project.build.outputDirectory}/public</outputDirectory>
 					<resources>
