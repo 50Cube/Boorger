@@ -16,8 +16,8 @@
 //public class Hours extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    @NotNull
 //    private LocalDateTime mondayStart;

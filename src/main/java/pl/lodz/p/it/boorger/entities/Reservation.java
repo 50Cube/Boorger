@@ -16,8 +16,8 @@
 //public class Reservation extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    @NotNull
 //    private long clientId;

@@ -15,8 +15,8 @@
 //public class Tables extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    @NotNull
 //    private int number;

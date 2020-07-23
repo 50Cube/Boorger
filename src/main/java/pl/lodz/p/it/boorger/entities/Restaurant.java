@@ -17,8 +17,8 @@
 //public class Restaurant extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    @NotBlank
 //    private String name;

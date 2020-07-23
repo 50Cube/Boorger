@@ -15,8 +15,8 @@
 //public class AuthData extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    private LocalDateTime lastSuccessfulAuth;
 //    private LocalDateTime lastFailedAuth;

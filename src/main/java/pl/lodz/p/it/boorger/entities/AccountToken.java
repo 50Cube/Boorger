@@ -18,8 +18,8 @@
 //public abstract class AccountToken extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue
-//    private long id;
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Long id;
 //
 //    @NotNull
 //    private LocalDateTime expireDate;
