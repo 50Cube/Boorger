@@ -20,5 +20,6 @@ public class AccountDTO {
     @NotBlank private String firstname;
     @NotBlank private String lastname;
     @NotBlank private String email;
-    @NotNull  private Collection<String> accessLevels;
+    @Builder.Default
+    @NotNull  private Collection<String> accessLevels = new ArrayList<>();
 }

@@ -7,19 +7,22 @@ import pl.lodz.p.it.boorger.abstraction.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-public class AccessLevel extends AbstractEntity {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(discriminatorType = DiscriminatorType.STRING, name = "access_level")
+public abstract class AccessLevel extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotBlank
+    @Column(name = "access_level", nullable = false, insertable = false, updatable = false)
     private String accessLevel;
 
     @NotNull
@@ -28,16 +31,6 @@ public class AccessLevel extends AbstractEntity {
     @NotNull
     @ManyToOne
     private Account account;
-
-//    @OneToMany
-//    private Collection<ClientRestaurants> clientRestaurantsById;
-//
-//    @OneToMany
-//    private Collection<Opinion> opinionsById;
-//
-//    @OneToMany
-//    private Collection<Reservation> reservationsById;
-
 
     @Override
     public boolean equals(Object o) {

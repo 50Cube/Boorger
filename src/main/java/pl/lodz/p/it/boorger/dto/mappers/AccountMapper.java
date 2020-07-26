@@ -20,4 +20,17 @@ public class AccountMapper {
                 .accessLevels(account.getAccessLevels().stream().map(AccessLevel::getAccessLevel).collect(Collectors.toList()))
                 .build();
     }
+
+    public static Account mapFromDto(AccountDTO accountDTO) {
+        return Account.builder()
+                .login(accountDTO.getLogin())
+                .password(accountDTO.getPassword())
+                .active(accountDTO.isActive())
+                .confirmed(accountDTO.isConfirmed())
+                .language(accountDTO.getLanguage())
+                .firstname(accountDTO.getFirstname())
+                .lastname(accountDTO.getLastname())
+                .email(accountDTO.getEmail())
+                .build();
+    }
 }

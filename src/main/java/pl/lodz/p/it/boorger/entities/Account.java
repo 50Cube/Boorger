@@ -1,12 +1,12 @@
 package pl.lodz.p.it.boorger.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.lodz.p.it.boorger.abstraction.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -14,18 +14,23 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "account_login_data", schema = "public")
 @SecondaryTable(name = "account_personal_data", schema = "public", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 public class Account extends AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(lombok.AccessLevel.NONE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @NotBlank
     private String login;
 
     @NotBlank
+    @Size(min = 60, max = 60)
     private String password;
 
     @NotNull
@@ -50,7 +55,8 @@ public class Account extends AbstractEntity {
     private String email;
 
     @NotNull
-    @OneToMany(mappedBy = "account")
+    @Builder.Default
+    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
     private Collection<AccessLevel> accessLevels = new ArrayList<>();
 
 //    @OneToMany

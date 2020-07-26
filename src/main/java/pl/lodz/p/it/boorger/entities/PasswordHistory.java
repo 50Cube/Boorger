@@ -15,7 +15,7 @@
 //public class PasswordHistory extends AbstractEntity {
 //
 //    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 //    private Long id;
 //
 //    @NotBlank

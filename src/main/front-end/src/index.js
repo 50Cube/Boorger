@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
 import "./css/index.css";
+import HttpsApp from "./HttpsApp";
 
 ReactDOM.render(
     <React.StrictMode>
-        <App/>
+        <HttpsApp />
     </React.StrictMode>,
     document.getElementById("root")
 );
