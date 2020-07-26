@@ -39,7 +39,7 @@ export default class Register extends Component {
             <div>
                 <form>
                     <FormGroup>
-                        <FormLabel>Login</FormLabel>
+                        <FormLabel>Nazwa uzytkownika</FormLabel>
                         <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
                     </FormGroup>
 
