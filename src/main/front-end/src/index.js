@@ -2,6 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./css/index.css";
 import HttpsApp from "./HttpsApp";
+import axios from 'axios';
+
+axios.defaults.baseURL = "http://localhost:8080/boorger";
 
 ReactDOM.render(
     <React.StrictMode>

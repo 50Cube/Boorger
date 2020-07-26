@@ -15,7 +15,7 @@ export default class Login extends Component {
                         <FormLabel>Password</FormLabel>
                         <FormControl type="password" />
                     </FormGroup>
-                    <Button block type="submit">Login</Button>
+                    <Button type="submit">Login</Button>
                 </form>
             </div>
         )

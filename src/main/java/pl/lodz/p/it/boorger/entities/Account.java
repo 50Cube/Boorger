@@ -1,7 +1,7 @@
 package pl.lodz.p.it.boorger.entities;
 
 import lombok.*;
-import pl.lodz.p.it.boorger.abstraction.AbstractEntity;
+import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

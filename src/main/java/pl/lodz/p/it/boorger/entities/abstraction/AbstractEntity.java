@@ -1,4 +1,4 @@
-package pl.lodz.p.it.boorger.abstraction;
+package pl.lodz.p.it.boorger.entities.abstraction;
 
 import lombok.Getter;
 import lombok.Setter;
