@@ -15,7 +15,8 @@ public class CustomProperties {
     private String managerRole;
     private String adminRole;
 
-    public void setClientRole(String role) {
-        this.clientRole = role;
-    }
+    private int jwtExpirationMs;
+    private String jwtHeaderString;
+    private String jwtTokenPrefix;
+    private String jwtSecret;
 }
