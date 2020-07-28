@@ -1,6 +1,6 @@
 package pl.lodz.p.it.boorger.security.jwt;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,11 +18,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@AllArgsConstructor
 public class JWTAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JWTUtils jwtUtils;
+
+    @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
     private Environment env;
 
     @Override

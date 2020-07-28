@@ -6,6 +6,7 @@ import NotFound from "./components/NotFound";
 import NavigationBar from "./components/NavigationBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import AccessDenied from "./components/AccessDenied";
 
 export default class App extends Component {
 
@@ -19,6 +20,7 @@ export default class App extends Component {
                             <Route exact path="/" component={Home} />
                             <Route path="/login" component={Login} />
                             <Route path="/register" component={Register} />
+                            <Route path="/accessDenied" component={AccessDenied} />
                             <Route component={NotFound} />
                         </Switch>
                     </Container>
