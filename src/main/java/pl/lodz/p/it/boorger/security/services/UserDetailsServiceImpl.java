@@ -16,7 +16,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private AccountRepository accountRepository;
 
     @Override
-//    @Transactional
+    @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Account account = accountRepository.findByLogin(login)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found")); //TODO i18n error message

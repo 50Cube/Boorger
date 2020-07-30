@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default class Login extends Component {
 
@@ -8,7 +10,8 @@ export default class Login extends Component {
         this.state = {
             user: {
                 "login": "",
-                "password": ""
+                "password": "",
+                "language": "pl"
             }
         }
     }
@@ -17,6 +20,34 @@ export default class Login extends Component {
         const tmp = {...this.state.user};
         tmp[field] = event.target.value;
         this.setState({ user: tmp });
+    };
+
+    reload = () => {
+      window.location.reload();
+    };
+
+    login = (e) => {
+        e.preventDefault();
+        axios.post("/login", this.state.user)
+            .then(response => {
+                if(response.data.token) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
+                    localStorage.setItem("swal1", response.data.messages[0]);
+                    localStorage.setItem("swal2", response.data.messages[1]);
+                    this.props.history.push("/");
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                }).then(() => this.setState({ user: {
+                        "login": "",
+                        "password": "",
+                        "language": "pl"
+                    } }))
+        })
     };
 
 
@@ -32,7 +63,7 @@ export default class Login extends Component {
                         <FormLabel>Password</FormLabel>
                         <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
                     </FormGroup>
-                    <Button type="submit">Login</Button>
+                    <Button type="submit" onClick={this.login}>Login</Button>
                 </form>
             </div>
         )

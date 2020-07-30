@@ -2,7 +2,6 @@ package pl.lodz.p.it.boorger.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +18,7 @@ public class UserDetailsImpl implements UserDetails {
     private String login;
     @JsonIgnore private String password;
     private boolean active;
-    @Getter private boolean confirmed;
+    private boolean confirmed;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(Account account) {
@@ -64,12 +63,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return confirmed;
     }
 
     @Override

@@ -4,7 +4,6 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,6 @@ public class JWTUtils {
     private int jwtExpirationMs;
     private String jwtSecret;
 
-    @Autowired
     public JWTUtils(Environment env) {
         this.jwtExpirationMs = Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.jwtExpirationMs")));
         this.jwtSecret = env.getProperty("JWT_SECRET");
