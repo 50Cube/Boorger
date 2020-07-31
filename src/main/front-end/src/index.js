@@ -4,7 +4,7 @@ import "./css/index.css";
 import HttpsApp from "./HttpsApp";
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://localhost:8080/boorger";
+axios.defaults.baseURL = process.env.REACT_APP_BASE_URL;
 
 ReactDOM.render(
     <React.StrictMode>
