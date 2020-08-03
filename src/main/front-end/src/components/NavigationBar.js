@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar } from 'react-bootstrap';
 import "../css/NavigationBar.css";
-import {getFirstAccessLevel, getUser} from "../UserDataService";
+import {getFirstAccessLevel, getUser} from "../services/UserDataService";
 
 export default class NavigationBar extends Component {
 
