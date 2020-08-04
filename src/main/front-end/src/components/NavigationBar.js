@@ -3,6 +3,7 @@ import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
 import {getAccessLevels, getUser} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
+import { BsFillPeopleFill, BsFillPersonFill } from "react-icons/bs";
 
 export default class NavigationBar extends Component {
 
@@ -85,7 +86,8 @@ export default class NavigationBar extends Component {
         if(getUser() !== "") {
             return (
                 <Nav className="ml-auto">
-                    <NavDropdown alignRight title={getUser()}>
+                    <NavDropdown alignRight title={
+                        <span><BsFillPersonFill className="navIcons" /> {getUser()}</span>}>
                         <NavDropdown.Item>profil</NavDropdown.Item>
                         <NavDropdown.Item>haslo</NavDropdown.Item>
                     </NavDropdown>
@@ -95,10 +97,11 @@ export default class NavigationBar extends Component {
     };
 
     accessLevel = () => {
-        if(getUser() !== "") {
+        if(getUser() !== "" && getAccessLevels().length > 1) {
             return (
                 <Nav className="ml-auto">
-                    <NavDropdown alignRight title={this.state.currentRole}>
+                    <NavDropdown alignRight title={
+                        <span><BsFillPeopleFill className="navIcons" /> {this.state.currentRole}</span>}>
                         {getAccessLevels().includes(process.env.REACT_APP_ADMIN_ROLE) ?
                             <NavDropdown.Item onClick={() => this.changeAccessLevel(process.env.REACT_APP_ADMIN_ROLE)}>Admin</NavDropdown.Item> : null}
                         {getAccessLevels().includes(process.env.REACT_APP_MANAGER_ROLE) ?

@@ -12,6 +12,7 @@
     "react-bootstrap": "^1.2.2",
     "react-dom": "^16.13.1",
     "react-https-redirect": "^1.1.0",
+    "react-icons": "^3.10.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.1.1",
     "sweetalert2": "^9.17.1",

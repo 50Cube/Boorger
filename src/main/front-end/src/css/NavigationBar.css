@@ -10,3 +10,7 @@
 .nav-link:hover {
     color: white !important;
 }
+
+.navIcons {
+    font-size: 125%;
+}
