@@ -10,14 +10,28 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AccessDenied from "./components/AccessDenied";
 import ListAccounts from "./components/ListAccounts";
+import {getFirstAccessLevel} from "./services/UserDataService";
 
 
 export default class App extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            role: getFirstAccessLevel()
+        }
+    }
+
+    roleCallback = (newRole) => {
+        this.setState({
+            role: newRole
+        });
+    };
+
     render() {
         return (
             <React.Fragment>
-                <NavigationBar />
+                <NavigationBar callbackFromParent={this.roleCallback} role={this.state.role} />
                 <Router>
                     <Container>
                         <Switch>

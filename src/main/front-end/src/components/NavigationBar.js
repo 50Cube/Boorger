@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
-import {getFirstAccessLevel, getUser} from "../services/UserDataService";
+import {getAccessLevels, getUser} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
 
 export default class NavigationBar extends Component {
@@ -9,6 +9,9 @@ export default class NavigationBar extends Component {
     constructor(props) {
         super(props);
         this.cookies = new Cookies();
+        this.state = {
+            currentRole: props.role
+        }
     }
 
     logout = () => {
@@ -43,7 +46,7 @@ export default class NavigationBar extends Component {
     };
 
     clientNavbar = () => {
-        if(getFirstAccessLevel() === process.env.REACT_APP_CLIENT_ROLE) {
+        if(this.state.currentRole === process.env.REACT_APP_CLIENT_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
@@ -55,7 +58,7 @@ export default class NavigationBar extends Component {
     };
 
     managerNavbar = () => {
-        if(getFirstAccessLevel() === process.env.REACT_APP_MANAGER_ROLE) {
+        if(this.state.currentRole === process.env.REACT_APP_MANAGER_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
@@ -67,7 +70,7 @@ export default class NavigationBar extends Component {
     };
 
     adminNavbar = () => {
-        if(getFirstAccessLevel() === process.env.REACT_APP_ADMIN_ROLE) {
+        if(this.state.currentRole === process.env.REACT_APP_ADMIN_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
@@ -79,14 +82,43 @@ export default class NavigationBar extends Component {
     };
 
     username = () => {
+        if(getUser() !== "") {
             return (
                 <Nav className="ml-auto">
-                    <Nav.Item>
-                        <Nav.Link>{getUser()}</Nav.Link>
-                    </Nav.Item>
+                    <NavDropdown alignRight title={getUser()}>
+                        <NavDropdown.Item>profil</NavDropdown.Item>
+                        <NavDropdown.Item>haslo</NavDropdown.Item>
+                    </NavDropdown>
                 </Nav>
             )
+        }
     };
+
+    accessLevel = () => {
+        if(getUser() !== "") {
+            return (
+                <Nav className="ml-auto">
+                    <NavDropdown alignRight title={this.state.currentRole}>
+                        {getAccessLevels().includes(process.env.REACT_APP_ADMIN_ROLE) ?
+                            <NavDropdown.Item onClick={() => this.changeAccessLevel(process.env.REACT_APP_ADMIN_ROLE)}>Admin</NavDropdown.Item> : null}
+                        {getAccessLevels().includes(process.env.REACT_APP_MANAGER_ROLE) ?
+                            <NavDropdown.Item onClick={() => this.changeAccessLevel(process.env.REACT_APP_MANAGER_ROLE)}>Manager</NavDropdown.Item> : null}
+                        {getAccessLevels().includes(process.env.REACT_APP_CLIENT_ROLE) ?
+                            <NavDropdown.Item onClick={() => this.changeAccessLevel(process.env.REACT_APP_CLIENT_ROLE)}>Client</NavDropdown.Item> : null}
+                    </NavDropdown>
+                </Nav>
+            )
+        }
+    };
+
+    changeAccessLevel = (level) => {
+        this.props.callbackFromParent(level);
+    };
+
+    static getDerivedStateFromProps(props, state) {
+        if(props.role !== state.currentRole)
+            return { currentRole: props.role }
+    }
 
     render() {
         return (
@@ -99,6 +131,7 @@ export default class NavigationBar extends Component {
                         {this.clientNavbar()}
                         {this.managerNavbar()}
                         {this.adminNavbar()}
+                        {this.accessLevel()}
                         {this.username()}
                         {this.logoutLabel()}
                     </Nav>
