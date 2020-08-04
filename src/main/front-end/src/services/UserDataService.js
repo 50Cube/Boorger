@@ -1,31 +1,40 @@
+import Cookies from "universal-cookie/lib";
+
+const cookies = new Cookies();
+let token = require("jsonwebtoken");
+
 export const getAuthHeader = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(user != null) {
-        return { Authorization: 'Bearer ' + user.token};
+    let jwt = cookies.get("jwt");
+    if(jwt != null) {
+        return { Authorization: 'Bearer ' + jwt};
     } else {
         return {};
     }
 };
 
 export const getUser = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(user != null) {
-        return user.login;
+    let jwt = cookies.get("jwt");
+    if(jwt != null) {
+        return token.decode(jwt)["sub"];
     } else {
         return "";
     }
 };
 
 export const getAccessLevels = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(user != null && user.accessLevels.length > 0) {
-        return user.accessLevels;
+    let jwt = cookies.get("jwt");
+    if(jwt != null) {
+        return token.decode(jwt)["roles"];
     } else {
         return "";
     }
 };
 
 export const getFirstAccessLevel = () => {
-    if(getAccessLevels() !== "")
-        return getAccessLevels()[getAccessLevels().length - 1];
+    let roles = getAccessLevels();
+    if(roles) {
+        if(roles.includes(process.env.REACT_APP_ADMIN_ROLE)) return process.env.REACT_APP_ADMIN_ROLE;
+        else if(roles.includes(process.env.REACT_APP_MANAGER_ROLE)) return process.env.REACT_APP_MANAGER_ROLE;
+        else if(roles.includes(process.env.REACT_APP_CLIENT_ROLE)) return process.env.REACT_APP_CLIENT_ROLE;
+    }
 };

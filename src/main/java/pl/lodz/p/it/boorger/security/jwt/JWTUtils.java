@@ -6,12 +6,15 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 import pl.lodz.p.it.boorger.exceptions.AppJWTException;
 import pl.lodz.p.it.boorger.security.services.UserDetailsImpl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log
 @Component
@@ -28,10 +31,15 @@ public class JWTUtils {
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .claim("roles", roles)
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }

@@ -2,11 +2,17 @@ import React, { Component } from "react";
 import { Nav, Navbar } from 'react-bootstrap';
 import "../css/NavigationBar.css";
 import {getFirstAccessLevel, getUser} from "../services/UserDataService";
+import Cookies from "universal-cookie/lib";
 
 export default class NavigationBar extends Component {
 
+    constructor(props) {
+        super(props);
+        this.cookies = new Cookies();
+    }
+
     logout = () => {
-        localStorage.removeItem("user");
+        this.cookies.remove("jwt");
     };
 
     guestNavbar = () => {
@@ -65,7 +71,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link>admin page</Nav.Link>
+                        <Nav.Link href="/listAccounts">Users</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )

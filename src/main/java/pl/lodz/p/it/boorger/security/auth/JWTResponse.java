@@ -12,7 +12,5 @@ import java.util.List;
 public class JWTResponse {
 
     private String token;
-    private String login;
-    private List<String> accessLevels;
     private List<String> messages;
 }

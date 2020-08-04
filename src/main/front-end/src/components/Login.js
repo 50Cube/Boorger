@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Cookies from "universal-cookie/lib";
 
 export default class Login extends Component {
 
@@ -13,7 +14,8 @@ export default class Login extends Component {
                 "password": "",
                 "language": "pl"
             }
-        }
+        };
+        this.cookies = new Cookies();
     }
 
     handleFieldChanged = (event, field) => {
@@ -31,7 +33,7 @@ export default class Login extends Component {
         axios.post("/login", this.state.user)
             .then(response => {
                 if(response.data.token) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+                    this.cookies.set("jwt", response.data.token, { path: "/" });
                     localStorage.setItem("swal1", response.data.messages[0]);
                     localStorage.setItem("swal2", response.data.messages[1]);
                     this.props.history.push("/");

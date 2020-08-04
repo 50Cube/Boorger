@@ -46,18 +46,10 @@ public class AuthControllerImpl implements AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<String> roles = userDetails.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
         List<String> messages = new ArrayList<>();
         messages.add("Last suc ");
         messages.add("Last failed ");
 
-        return ResponseEntity.ok(new JWTResponse(
-                jwt,
-                userDetails.getUsername(),
-                roles,
-                messages));
+        return ResponseEntity.ok(new JWTResponse(jwt, messages));
     }
 }
