@@ -9,3 +9,5 @@ deploy:
   app: boorger
   on:
     repo: 50Cube/Boorger
+env:
+  CI: false
