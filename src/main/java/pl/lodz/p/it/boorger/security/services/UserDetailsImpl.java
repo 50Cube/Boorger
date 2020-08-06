@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore private String password;
     private boolean active;
     private boolean confirmed;
+    @Getter private String language;
     private Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(Account account) {
@@ -32,6 +34,7 @@ public class UserDetailsImpl implements UserDetails {
                 account.getPassword(),
                 account.isActive(),
                 account.isConfirmed(),
+                account.getLanguage(),
                 authorityList
         );
     }

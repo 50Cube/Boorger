@@ -3,6 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
+import {getFirstAccessLevel, hashString} from "../services/UserDataService";
 
 export default class Login extends Component {
 
@@ -12,7 +13,7 @@ export default class Login extends Component {
             user: {
                 "login": "",
                 "password": "",
-                "language": "pl"
+                "language": navigator.language
             }
         };
         this.cookies = new Cookies();
@@ -36,6 +37,8 @@ export default class Login extends Component {
                     this.cookies.set("jwt", response.data.token, { path: "/" });
                     localStorage.setItem("swal1", response.data.messages[0]);
                     localStorage.setItem("swal2", response.data.messages[1]);
+                    localStorage.setItem("lang", response.data.language);
+                    sessionStorage.setItem("role", hashString(getFirstAccessLevel()));
                     this.props.history.push("/");
                     window.location.reload();
                 }
@@ -47,7 +50,7 @@ export default class Login extends Component {
                 }).then(() => this.setState({ user: {
                         "login": "",
                         "password": "",
-                        "language": "pl"
+                        "language": navigator.language
                     } }))
         })
     };

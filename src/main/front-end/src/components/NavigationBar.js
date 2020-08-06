@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
-import {getAccessLevels, getUser} from "../services/UserDataService";
+import {getAccessLevels, getLanguage, getUser, hashString} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
 import { BsFillPeopleFill, BsFillPersonFill } from "react-icons/bs";
 import Translate from '../i18n/Translate';
@@ -14,10 +14,6 @@ export default class NavigationBar extends Component {
     constructor(props) {
         super(props);
         this.cookies = new Cookies();
-        this.state = {
-            currentRole: props.role,
-            currentLanguage: props.language
-        }
     }
 
     logout = () => {
@@ -39,8 +35,8 @@ export default class NavigationBar extends Component {
         }
     };
 
-    clientNavbar = () => {
-        if(this.state.currentRole === process.env.REACT_APP_CLIENT_ROLE) {
+    clientNavbar = (role) => {
+        if(role === process.env.REACT_APP_CLIENT_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
@@ -51,8 +47,8 @@ export default class NavigationBar extends Component {
         }
     };
 
-    managerNavbar = () => {
-        if(this.state.currentRole === process.env.REACT_APP_MANAGER_ROLE) {
+    managerNavbar = (role) => {
+        if(role === process.env.REACT_APP_MANAGER_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
@@ -75,22 +71,27 @@ export default class NavigationBar extends Component {
         }
     };
 
-    accessLevelNavbar  = (role, setRole) => {
+    accessLevelNavbar  = (role) => {
         if(getUser() !== "" && getAccessLevels().length > 1) {
             return (
                 <Nav className="ml-auto">
                     <NavDropdown alignRight title={
                         <span><BsFillPeopleFill className="navIcons" /> {role}</span>}>
                         {getAccessLevels().includes(process.env.REACT_APP_ADMIN_ROLE) ?
-                            <NavDropdown.Item onClick={() => setRole(process.env.REACT_APP_ADMIN_ROLE)}>Admin</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_ADMIN_ROLE)}>Admin</NavDropdown.Item> : null}
                         {getAccessLevels().includes(process.env.REACT_APP_MANAGER_ROLE) ?
-                            <NavDropdown.Item onClick={() => setRole(process.env.REACT_APP_MANAGER_ROLE)}>Manager</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_MANAGER_ROLE)}>Manager</NavDropdown.Item> : null}
                         {getAccessLevels().includes(process.env.REACT_APP_CLIENT_ROLE) ?
-                            <NavDropdown.Item onClick={() => setRole(process.env.REACT_APP_CLIENT_ROLE)}>Client</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_CLIENT_ROLE)}>Client</NavDropdown.Item> : null}
                     </NavDropdown>
                 </Nav>
             )
         }
+    };
+
+    changeRole = (role) => {
+      sessionStorage.setItem("role", hashString(role));
+      window.location.replace("/");
     };
 
     usernameNavbar = () => {
@@ -110,17 +111,18 @@ export default class NavigationBar extends Component {
     languageNavbar = () => {
         return (
             <Nav className="ml-auto">
-                <NavDropdown title={this.state.currentLanguage}>
+                <NavDropdown title={getLanguage()}>
                     <NavDropdown.Item disabled={true}>Wybierz jezyk</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => this.changeLanguage("PL")}>pl</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => this.changeLanguage("EN")}>en</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => this.changeLanguage("pl")}>pl</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => this.changeLanguage("en")}>en</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
         )
     };
 
     changeLanguage = (language) => {
-        // this.props.languageCallback(language);
+        localStorage.setItem("lang", language);
+        window.location.reload();
     };
 
     logoutNavbar = () => {
@@ -138,16 +140,16 @@ export default class NavigationBar extends Component {
     render() {
         return (
             <RoleContext.Consumer>
-                {({ role, setRole }) => (
+                {({ role }) => (
                 <Navbar expand="lg">
                     <Navbar.Brand as={Link} to="/">BOORGER</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
-                            {this.clientNavbar()}
-                            {this.managerNavbar()}
+                            {this.clientNavbar(role)}
+                            {this.managerNavbar(role)}
                             {this.adminNavbar(role)}
-                            {this.accessLevelNavbar(role, setRole)}
+                            {this.accessLevelNavbar(role)}
                             {this.usernameNavbar()}
                             {this.languageNavbar()}
                             {this.guestNavbar()}

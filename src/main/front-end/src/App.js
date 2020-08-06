@@ -10,25 +10,24 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import AccessDenied from "./components/AccessDenied";
 import ListAccounts from "./components/ListAccounts";
-import {getFirstAccessLevel} from "./services/UserDataService";
-import { I18nProvider, LOCALES } from "./i18n";
+import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
+import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
 
 export default class App extends Component {
 
-    setRole = (role) => {
-      this.setState({ role })
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            role: getCurrentAccessLevel()
+        };
+    }
 
-    state = {
-        role: getFirstAccessLevel(),
-        setRole: this.setRole
-    };
 
     render() {
         return (
             <RoleContext.Provider value={this.state}>
-                <I18nProvider locale={LOCALES.POLISH}>
+                <I18nProvider locale={getLanguage()}>
                     <Fragment>
                         <Router>
                             <NavigationBar />

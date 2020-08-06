@@ -13,4 +13,5 @@ public class JWTResponse {
 
     private String token;
     private List<String> messages;
+    private String language;
 }

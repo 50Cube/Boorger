@@ -48,6 +48,6 @@ public class AuthControllerImpl implements AuthController {
         messages.add("Last suc ");
         messages.add("Last failed ");
 
-        return ResponseEntity.ok(new JWTResponse(jwt, messages));
+        return ResponseEntity.ok(new JWTResponse(jwt, messages, userDetails.getLanguage()));
     }
 }

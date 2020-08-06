@@ -1,9 +1,9 @@
 import React, {Fragment} from 'react';
 import { IntlProvider } from 'react-intl';
-import { LOCALES } from './Locales';
 import messages from './messages';
+import {getLanguage} from "../services/UserDataService";
 
-const Provider = ({children, locale = LOCALES.POLISH}) => (
+const Provider = ({children, locale = getLanguage()}) => (
   <IntlProvider
   locale={locale}
   textComponent={Fragment}
