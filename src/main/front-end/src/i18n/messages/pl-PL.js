@@ -19,6 +19,8 @@ export default {
         'confirmed': 'Potwierdzony',
         'lastAuthIP': 'Adres IP ostatniego uwierzytelnienia',
         'lastAuthDate': 'Data ostatniego uwierzytelnienia',
-        'chooseLanguage': 'Wybierz język'
+        'chooseLanguage': 'Wybierz język',
+        'en-US': 'EN',
+        'pl-PL': 'PL'
     }
 }

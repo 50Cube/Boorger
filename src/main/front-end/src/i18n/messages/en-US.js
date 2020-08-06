@@ -19,6 +19,8 @@ export default {
         'confirmed': 'Confirmed',
         'lastAuthIP': 'Last authentication IP address',
         'lastAuthDate': 'Last authentication date',
-        'chooseLanguage': 'Choose language'
+        'chooseLanguage': 'Choose language',
+        'en-US': 'EN',
+        'pl-PL': 'PL'
     }
 }
