@@ -28,7 +28,7 @@ export default class NavigationBar extends Component {
                         <Nav.Link as={Link} to="/login">{Translate('login')}</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link as={Link} to="/register">Rejestracja</Nav.Link>
+                        <Nav.Link as={Link} to="/register">{Translate('register')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )
@@ -64,7 +64,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <NavLink as={Link} to="/listAccounts" exact>Users</NavLink>
+                        <NavLink as={Link} to="/listAccounts" exact>{Translate('listAccounts')}</NavLink>
                     </Nav.Item>
                 </Nav>
             )
@@ -76,13 +76,13 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <NavDropdown alignRight title={
-                        <span><BsFillPeopleFill className="navIcons" /> {role}</span>}>
+                        <span><BsFillPeopleFill className="navIcons" /> {Translate(role)}</span>}>
                         {getAccessLevels().includes(process.env.REACT_APP_ADMIN_ROLE) ?
-                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_ADMIN_ROLE)}>Admin</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_ADMIN_ROLE)}>{Translate('admin')}</NavDropdown.Item> : null}
                         {getAccessLevels().includes(process.env.REACT_APP_MANAGER_ROLE) ?
-                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_MANAGER_ROLE)}>Manager</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_MANAGER_ROLE)}>{Translate('manager')}</NavDropdown.Item> : null}
                         {getAccessLevels().includes(process.env.REACT_APP_CLIENT_ROLE) ?
-                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_CLIENT_ROLE)}>Client</NavDropdown.Item> : null}
+                            <NavDropdown.Item onClick={() => this.changeRole(process.env.REACT_APP_CLIENT_ROLE)}>{Translate('client')}</NavDropdown.Item> : null}
                     </NavDropdown>
                 </Nav>
             )
@@ -100,8 +100,8 @@ export default class NavigationBar extends Component {
                 <Nav className="ml-auto">
                     <NavDropdown alignRight title={
                         <span><BsFillPersonFill className="navIcons" /> {getUser()}</span>}>
-                        <NavDropdown.Item>profil</NavDropdown.Item>
-                        <NavDropdown.Item>haslo</NavDropdown.Item>
+                        <NavDropdown.Item>profil placeholder</NavDropdown.Item>
+                        <NavDropdown.Item>haslo placeholder</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             )
@@ -111,10 +111,10 @@ export default class NavigationBar extends Component {
     languageNavbar = () => {
         return (
             <Nav className="ml-auto">
-                <NavDropdown title={getLanguage()}>
-                    <NavDropdown.Item disabled={true}>Wybierz jezyk</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => this.changeLanguage("pl")}>pl</NavDropdown.Item>
-                    <NavDropdown.Item onClick={() => this.changeLanguage("en")}>en</NavDropdown.Item>
+                <NavDropdown title={Translate(getLanguage())}>
+                    <NavDropdown.Item disabled={true}>{Translate('chooseLanguage')}</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => this.changeLanguage("pl")}>Polski</NavDropdown.Item>
+                    <NavDropdown.Item onClick={() => this.changeLanguage("en")}>English</NavDropdown.Item>
                 </NavDropdown>
             </Nav>
         )
@@ -130,7 +130,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link href="/" onClick={this.logout}>Wyloguj</Nav.Link>
+                        <Nav.Link href="/" onClick={this.logout}>{Translate('logout')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )

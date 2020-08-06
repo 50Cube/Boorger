@@ -9,6 +9,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Translate from "../i18n/Translate";
 
 
 export default class ListAccounts extends Component {
@@ -73,14 +74,14 @@ export default class ListAccounts extends Component {
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>login</TableCell>
-                            <TableCell align="right">email</TableCell>
-                            <TableCell align="right">name</TableCell>
-                            <TableCell align="right">surname</TableCell>
-                            <TableCell align="right">active</TableCell>
-                            <TableCell align="right">confirmed</TableCell>
-                            <TableCell align="right">last auth ip</TableCell>
-                            <TableCell align="right">last auth date</TableCell>
+                            <TableCell>{Translate('username')}</TableCell>
+                            <TableCell align="right">{Translate('email')}</TableCell>
+                            <TableCell align="right">{Translate('firstname')}</TableCell>
+                            <TableCell align="right">{Translate('lastname')}</TableCell>
+                            <TableCell align="right">{Translate('active')}</TableCell>
+                            <TableCell align="right">{Translate('confirmed')}</TableCell>
+                            <TableCell align="right">{Translate('lastAuthIP')}</TableCell>
+                            <TableCell align="right">{Translate('lastAuthDate')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -92,8 +93,8 @@ export default class ListAccounts extends Component {
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="right">{row.firstname}</TableCell>
                                 <TableCell align="right">{row.lastname}</TableCell>
-                                <TableCell align="right">{row.active}</TableCell>
-                                <TableCell align="right">{row.confirmed}</TableCell>
+                                <TableCell align="right">{Translate(row.active)}</TableCell>
+                                <TableCell align="right">{Translate(row.confirmed)}</TableCell>
                                 <TableCell align="right">{row.lastAuthIP}</TableCell>
                                 <TableCell align="right">{row.lastAuthDate}</TableCell>
                             </TableRow>

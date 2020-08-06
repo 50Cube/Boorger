@@ -2,6 +2,7 @@ import { LOCALES } from '../Locales';
 
 export default {
     [LOCALES.ENGLISH]: {
+        'confirm': 'Confirm',
         'login': 'Sign in',
         'register': 'Sign up',
         'logout': 'Logout',
@@ -12,8 +13,11 @@ export default {
         'lastname': 'Last name',
         'email': 'E-mail',
         'admin': 'Admin',
+        'ADMIN': 'Admin',
         'manager': 'Manager',
+        'MANAGER': 'Manager',
         'client': 'Client',
+        'CLIENT': 'Client',
         'listAccounts': 'List accounts',
         'active': 'Active',
         'confirmed': 'Confirmed',
@@ -21,6 +25,8 @@ export default {
         'lastAuthDate': 'Last authentication date',
         'chooseLanguage': 'Choose language',
         'en-US': 'EN',
-        'pl-PL': 'PL'
+        'pl-PL': 'PL',
+        'true': 'Yes',
+        'false': 'No'
     }
 }

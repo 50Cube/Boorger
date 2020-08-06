@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
+import Translate from "../i18n/Translate";
 
 export default class Register extends Component {
 
@@ -39,36 +40,36 @@ export default class Register extends Component {
             <div>
                 <form>
                     <FormGroup>
-                        <FormLabel>Login</FormLabel>
+                        <FormLabel>{Translate('username')}</FormLabel>
                         <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{Translate('password')}</FormLabel>
                         <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>Password2</FormLabel>
+                        <FormLabel>{Translate('password2')}</FormLabel>
                         <FormControl type="password" value={this.state.user["confirmPassword"]} onChange={event => this.handleFieldChanged(event, "confirmPassword")} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>Firstname</FormLabel>
+                        <FormLabel>{Translate('firstname')}</FormLabel>
                         <FormControl value={this.state.user["firstname"]} onChange={event => this.handleFieldChanged(event, "firstname")} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>LastName</FormLabel>
+                        <FormLabel>{Translate('lastname')}</FormLabel>
                         <FormControl value={this.state.user["lastname"]} onChange={event => this.handleFieldChanged(event, "lastname")} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>Email</FormLabel>
+                        <FormLabel>{Translate('email')}</FormLabel>
                         <FormControl value={this.state.user["email"]} onChange={event => this.handleFieldChanged(event, "email")} />
                     </FormGroup>
 
-                    <Button type="submit" onClick={this.register}>Register</Button>
+                    <Button type="submit" onClick={this.register}>{Translate('confirm')}</Button>
                 </form>
             </div>
         )

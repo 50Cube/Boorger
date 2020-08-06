@@ -4,6 +4,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
 import {getFirstAccessLevel, hashString} from "../services/UserDataService";
+import Translate from "../i18n/Translate";
 
 export default class Login extends Component {
 
@@ -61,14 +62,14 @@ export default class Login extends Component {
             <div>
                 <form>
                     <FormGroup>
-                        <FormLabel>Login</FormLabel>
+                        <FormLabel>{Translate('username')}</FormLabel>
                         <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
                     </FormGroup>
                     <FormGroup>
-                        <FormLabel>Password</FormLabel>
+                        <FormLabel>{Translate('password')}</FormLabel>
                         <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
                     </FormGroup>
-                    <Button type="submit" onClick={this.login}>Login</Button>
+                    <Button type="submit" onClick={this.login}>{Translate('confirm')}</Button>
                 </form>
             </div>
         )
