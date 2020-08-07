@@ -13,6 +13,8 @@ import ListAccounts from "./components/ListAccounts";
 import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
 import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
+import Cookies from "universal-cookie/cjs";
+
 
 export default class App extends Component {
 
@@ -21,6 +23,10 @@ export default class App extends Component {
         this.state = {
             role: getCurrentAccessLevel()
         };
+        this.cookies = new Cookies();
+        if(!sessionStorage.getItem("role")) {
+            this.cookies.remove("jwt");
+        }
     }
 
 
