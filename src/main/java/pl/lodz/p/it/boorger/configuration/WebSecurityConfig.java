@@ -23,6 +23,7 @@ import pl.lodz.p.it.boorger.security.services.UserDetailsServiceImpl;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register"};
     private final String[] CLIENT_PATHS = new String[]{"/tmp"};
     private final String[] MANAGER_PATHS = new String[]{"/tmp"};
     private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts"};
@@ -35,12 +36,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
+                .antMatchers(PUBLIC_PATHS).permitAll()
+                .antMatchers("/boorger/**").authenticated()
                 .antMatchers(CLIENT_PATHS).hasAuthority(env.getProperty("boorger.roleClient"))
                 .antMatchers(MANAGER_PATHS).hasAuthority(env.getProperty("boorger.roleManager"))
                 .antMatchers(ADMIN_PATHS).hasAuthority(env.getProperty("boorger.roleAdmin")).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).accessDeniedPage("/accessDenied");
-//                .and().formLogin().loginPage("/login").permitAll();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

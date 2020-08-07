@@ -8,7 +8,6 @@ import pl.lodz.p.it.boorger.controllers.AccountController;
 import pl.lodz.p.it.boorger.dto.AccountDTO;
 import pl.lodz.p.it.boorger.dto.mappers.AccountMapper;
 import pl.lodz.p.it.boorger.entities.*;
-import pl.lodz.p.it.boorger.exceptions.AccountNotFoundException;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.AccountService;
 
@@ -64,7 +63,7 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @PutMapping("language/{login}/{language}")
-    public void changeLanguage(@PathVariable String login, @PathVariable String language) throws AccountNotFoundException {
+    public void changeLanguage(@PathVariable String login, @PathVariable String language) throws AppBaseException {
         accountService.editLanguage(login, language);
     }
 }

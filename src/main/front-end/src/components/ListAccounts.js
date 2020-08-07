@@ -1,6 +1,6 @@
 import React, { Component }  from 'react';
 import axios from 'axios';
-import { getAuthHeader } from "../services/UserDataService";
+import { getHeader } from "../services/UserDataService";
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -32,7 +32,7 @@ export default class ListAccounts extends Component {
     }
 
     componentDidMount() {
-        axios.get("/accounts", { headers: getAuthHeader() } )
+        axios.get("/accounts", { headers: getHeader() } )
             .then(response => {
                 this.setState({
                     users: response.data

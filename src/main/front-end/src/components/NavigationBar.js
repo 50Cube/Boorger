@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
-import {getAccessLevels, getLanguage, getUser, hashString} from "../services/UserDataService";
+import {getAccessLevels, getHeader, getLanguage, getUser, hashString} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
 import { BsFillPeopleFill, BsFillPersonFill } from "react-icons/bs";
 import Translate from '../i18n/Translate';
@@ -124,7 +124,7 @@ export default class NavigationBar extends Component {
     changeLanguage = (language) => {
         localStorage.setItem("lang", language);
         if(getUser()) {
-            axios.put("/language/" + getUser() + "/" + language)
+            axios.put("/language/" + getUser() + "/" + language, null ,{ headers: getHeader() })
                 .catch(() => {
                     console.log("ERROR: Account not found")
                 })

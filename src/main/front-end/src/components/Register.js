@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Translate from "../i18n/Translate";
+import Swal from "sweetalert2";
+import {getHeader} from "../services/UserDataService";
 
 export default class Register extends Component {
 
@@ -30,11 +32,14 @@ export default class Register extends Component {
 
     register = (e) => {
         e.preventDefault();
-        axios.post("/register", this.state.user)
+        axios.post("/register", this.state.user, { headers: getHeader() })
             .then(() => {
                 this.props.history.push("/")
             }).catch(error => {
-                console.log(error)
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            })
         })
     };
 

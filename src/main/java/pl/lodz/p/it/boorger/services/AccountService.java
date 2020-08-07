@@ -34,11 +34,14 @@ public class AccountService {
         }
     }
 
-    public void editLanguage(String login, String language) throws AccountNotFoundException {
-        if(accountRepository.findByLogin(login).isEmpty())
-            throw new AccountNotFoundException();
-        Account account = accountRepository.findByLogin(login).get();
-        account.setLanguage(language);
-        accountRepository.save(account);
+    public void editLanguage(String login, String language) throws AppBaseException {
+        try {
+            Account account = accountRepository.findByLogin(login)
+                    .orElseThrow(AccountNotFoundException::new);
+            account.setLanguage(language);
+            accountRepository.save(account);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 }

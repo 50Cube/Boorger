@@ -4,12 +4,12 @@ import {LOCALES} from "../i18n/Locales";
 const cookies = new Cookies();
 let token = require("jsonwebtoken");
 
-export const getAuthHeader = () => {
+export const getHeader = () => {
     let jwt = cookies.get("jwt");
     if(jwt != null) {
-        return { Authorization: 'Bearer ' + jwt};
+        return { Authorization: 'Bearer ' + jwt, "lang": getLanguageShortcut()};
     } else {
-        return {};
+        return { "lang": getLanguageShortcut() };
     }
 };
 
@@ -51,6 +51,10 @@ export const getLanguage = () => {
   if(localStorage.getItem("lang") === 'en')
       return LOCALES.ENGLISH;
   else return LOCALES.POLISH;
+};
+
+export const getLanguageShortcut = () => {
+  return getLanguage().substring(0,2);
 };
 
 export const hashString = (string) => {
