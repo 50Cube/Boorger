@@ -8,6 +8,7 @@ import Translate from '../i18n/Translate';
 import RoleContext from "../services/RoleContext";
 import NavLink from "react-bootstrap/NavLink";
 import {Link} from "react-router-dom";
+import axios from 'axios';
 
 export default class NavigationBar extends Component {
 
@@ -64,7 +65,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <NavLink as={Link} to="/listAccounts" exact>{Translate('listAccounts')}</NavLink>
+                        <NavLink as={Link} to="/listAccounts">{Translate('listAccounts')}</NavLink>
                     </Nav.Item>
                 </Nav>
             )
@@ -122,7 +123,13 @@ export default class NavigationBar extends Component {
 
     changeLanguage = (language) => {
         localStorage.setItem("lang", language);
-        window.location.reload();
+        if(getUser()) {
+            axios.put("/language/" + getUser() + "/" + language)
+                .catch(() => {
+                    console.log("ERROR: Account not found")
+                })
+        }
+        window.location.reload()
     };
 
     logoutNavbar = () => {

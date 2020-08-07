@@ -5,18 +5,20 @@ import Translate from "../i18n/Translate";
 
 export default class Register extends Component {
 
+    emptyUser = {
+        "login": "",
+        "password": "",
+        "confirmPassword": "",
+        "firstname": "",
+        "lastname": "",
+        "email": "",
+        "language": localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                "login": "",
-                "password": "",
-                "confirmPassword": "",
-                "firstname": "",
-                "lastname": "",
-                "email": "",
-                "language": "pl"
-            }
+            user: this.emptyUser
         }
     }
 
@@ -26,12 +28,13 @@ export default class Register extends Component {
         this.setState({ user: tmp });
     };
 
-    register = () => {
+    register = (e) => {
+        e.preventDefault();
         axios.post("/register", this.state.user)
-            .then(response => {
-                this.props.history.push("/");
+            .then(() => {
+                this.props.history.push("/")
             }).catch(error => {
-
+                console.log(error)
         })
     };
 

@@ -8,14 +8,16 @@ import Translate from "../i18n/Translate";
 
 export default class Login extends Component {
 
+    emptyUser = {
+        "login": "",
+        "password": "",
+        "language": navigator.language
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                "login": "",
-                "password": "",
-                "language": navigator.language
-            }
+            user: this.emptyUser
         };
         this.cookies = new Cookies();
     }
@@ -48,11 +50,7 @@ export default class Login extends Component {
                 Swal.fire({
                     icon: "error",
                     title: error.response.data
-                }).then(() => this.setState({ user: {
-                        "login": "",
-                        "password": "",
-                        "language": navigator.language
-                    } }))
+                }).then(() => this.setState({ user: this.emptyUser }))
         })
     };
 
