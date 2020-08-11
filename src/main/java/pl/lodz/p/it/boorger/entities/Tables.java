@@ -15,6 +15,7 @@
 //public class Tables extends AbstractEntity {
 //
 //    @Id
+//    @Setter(lombok.AccessLevel.NONE)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 //    private Long id;
 //

@@ -16,6 +16,7 @@
 //public class Menu extends AbstractEntity {
 //
 //    @Id
+//    @Setter(lombok.AccessLevel.NONE)
 //    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 //    private Long id;
 //
