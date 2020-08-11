@@ -33,8 +33,11 @@ export default class Register extends Component {
     register = (e) => {
         e.preventDefault();
         axios.post("/register", this.state.user, { headers: getHeader() })
-            .then(() => {
-                this.props.history.push("/")
+            .then(response => {
+                Swal.fire({
+                    icon: "success",
+                    title: response.data
+                }).then(() => this.props.history.push("/"));
             }).catch(error => {
             Swal.fire({
                 icon: "error",

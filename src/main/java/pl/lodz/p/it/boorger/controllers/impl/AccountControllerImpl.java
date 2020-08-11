@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.AccountController;
@@ -10,6 +11,7 @@ import pl.lodz.p.it.boorger.dto.mappers.AccountMapper;
 import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.AccountService;
+import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +27,20 @@ public class AccountControllerImpl implements AccountController {
     private Environment env;
 
     @GetMapping("/accounts")
-    public List<AccountDTO> getAccounts() {
+    public List<AccountDTO> getAccounts() throws AppBaseException {
         return accountService.getAccounts().stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody AccountDTO accountDTO) throws AppBaseException {
+    public ResponseEntity<?> register(@RequestBody AccountDTO accountDTO) throws AppBaseException {
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         Account account = AccountMapper.mapFromDto(accountDTO);
         account.setAccessLevels(generateAccessLevels(account));
         account.setConfirmed(false);
+        account.setActive(true);
+        account.getAuthData().setAccount(account);
         accountService.register(account);
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("register.success", accountDTO.getLanguage()));
     }
 
     private List<AccessLevel> generateAccessLevels(Account account) {
@@ -62,8 +67,8 @@ public class AccountControllerImpl implements AccountController {
         return list;
     }
 
-    @PutMapping("language/{login}/{language}")
-    public void changeLanguage(@PathVariable String login, @PathVariable String language) throws AppBaseException {
+    @PutMapping("language/{login}")
+    public void changeLanguage(@PathVariable String login, @RequestHeader("lang") String language) throws AppBaseException {
         accountService.editLanguage(login, language);
     }
 }

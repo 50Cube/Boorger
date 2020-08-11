@@ -3,6 +3,7 @@ package pl.lodz.p.it.boorger.dto.mappers;
 import pl.lodz.p.it.boorger.dto.AccountDTO;
 import pl.lodz.p.it.boorger.entities.AccessLevel;
 import pl.lodz.p.it.boorger.entities.Account;
+import pl.lodz.p.it.boorger.entities.AuthData;
 
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ public class AccountMapper {
                 .email(account.getEmail())
                 .accessLevels(account.getAccessLevels().stream().filter(AccessLevel::isActive)
                         .map(AccessLevel::getAccessLevel).collect(Collectors.toList()))
+                .authData(account.getAuthData())
                 .build();
     }
 
@@ -32,6 +34,7 @@ public class AccountMapper {
                 .firstname(accountDTO.getFirstname())
                 .lastname(accountDTO.getLastname())
                 .email(accountDTO.getEmail())
+                .authData(new AuthData())
                 .build();
     }
 }

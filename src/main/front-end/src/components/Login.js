@@ -3,7 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
-import {getFirstAccessLevel, hashString} from "../services/UserDataService";
+import {getFirstAccessLevel, getHeader, hashString} from "../services/UserDataService";
 import Translate from "../i18n/Translate";
 
 export default class Login extends Component {
@@ -34,7 +34,7 @@ export default class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
-        axios.post("/login", this.state.user)
+        axios.post("/login", this.state.user, { headers: getHeader() })
             .then(response => {
                 if(response.data.token) {
                     this.cookies.set("jwt", response.data.token, { path: "/" });

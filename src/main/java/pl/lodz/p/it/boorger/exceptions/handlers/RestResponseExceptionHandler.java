@@ -19,4 +19,10 @@ public class RestResponseExceptionHandler {
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText(e.getMessage(),
                 Objects.requireNonNull(request.getHeader("lang"))));
     }
+
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<String> handleOtherExceptions(Exception e, WebRequest request) {
+        return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
+                Objects.requireNonNull(request.getHeader("lang"))));
+    }
 }

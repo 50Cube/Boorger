@@ -19,4 +19,6 @@ public class CustomProperties {
     private String jwtHeaderString;
     private String jwtTokenPrefix;
     private String jwtSecret;
+
+    private int failedAuthCounter;
 }

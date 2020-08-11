@@ -124,12 +124,12 @@ export default class NavigationBar extends Component {
     changeLanguage = (language) => {
         localStorage.setItem("lang", language);
         if(getUser()) {
-            axios.put("/language/" + getUser() + "/" + language, null ,{ headers: getHeader() })
+            axios.put("/language/" + getUser(), null ,{ headers: getHeader() })
                 .catch(() => {
                     console.log("ERROR: Account not found")
                 })
         }
-        window.location.reload()
+        window.location.reload();
     };
 
     logoutNavbar = () => {

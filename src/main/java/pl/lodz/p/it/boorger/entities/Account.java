@@ -62,8 +62,9 @@ public class Account extends AbstractEntity {
 //    @OneToMany
 //    private Collection<AccountToken> accountTokensById;
 
-//    @OneToMany
-//    private Collection<AuthData> authDataById;
+    @NotNull
+    @OneToOne(mappedBy = "account", cascade = CascadeType.PERSIST)
+    private AuthData authData;
 
 //    @OneToMany
 //    private Collection<PasswordHistory> passwordHistoriesById;

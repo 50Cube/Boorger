@@ -1,6 +1,8 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -8,35 +10,70 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.AuthController;
+import pl.lodz.p.it.boorger.entities.Account;
+import pl.lodz.p.it.boorger.entities.AuthData;
+import pl.lodz.p.it.boorger.exceptions.AppBaseException;
+import pl.lodz.p.it.boorger.exceptions.FailedAuthException;
 import pl.lodz.p.it.boorger.security.auth.JWTResponse;
 import pl.lodz.p.it.boorger.security.auth.LoginRequest;
 import pl.lodz.p.it.boorger.security.jwt.JWTUtils;
 import pl.lodz.p.it.boorger.security.services.UserDetailsImpl;
+import pl.lodz.p.it.boorger.services.AccountService;
+import pl.lodz.p.it.boorger.utils.DateFormatter;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+@Log
 @CrossOrigin
 @RestController
 @AllArgsConstructor
 public class AuthControllerImpl implements AuthController {
 
     private AuthenticationManager authenticationManager;
+    private AccountService accountService;
     private JWTUtils jwtUtils;
+    private Environment env;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws AppBaseException {
         Authentication authentication;
+        Account account = new Account();
+
+        try {
+            account = accountService.getAccount(loginRequest.getLogin());
+            account.getAuthData().setFailedAuthCounter(account.getAuthData().getFailedAuthCounter() + 1);
+            accountService.editAuthData(account.getAuthData());
+            if (account.getAuthData().getFailedAuthCounter() ==
+                    Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.failedAuthCounter")))) {
+                account.setActive(false);
+                accountService.editAccount(account);
+                throw new FailedAuthException();
+            }
+        } catch (FailedAuthException e) {
+            throw e;
+        } catch (AppBaseException e) {
+            log.warning("Login attempt error. Account with username: " + loginRequest.getLogin() + " does not exists");
+        }
+
         try {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(loginRequest.getLogin(), loginRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
+            account.getAuthData().setLastFailedAuth(LocalDateTime.now());
+            accountService.editAuthData(account.getAuthData());
             return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", loginRequest.getLanguage()));
         } catch (LockedException | DisabledException e) {
+            account.getAuthData().setLastFailedAuth(LocalDateTime.now());
+            accountService.editAuthData(account.getAuthData());
             return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.account.inactive", loginRequest.getLanguage()));
         } catch (AuthenticationException e) {
+            account.getAuthData().setLastFailedAuth(LocalDateTime.now());
+            accountService.editAuthData(account.getAuthData());
             return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default", loginRequest.getLanguage()));
         }
 
@@ -44,10 +81,35 @@ public class AuthControllerImpl implements AuthController {
         String jwt = jwtUtils.generateJwtToken(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        List<String> messages = new ArrayList<>();
-        messages.add("Last suc ");
-        messages.add("Last failed ");
+        return ResponseEntity.ok(new JWTResponse(
+                jwt,
+                prepareAuthDetails(account, loginRequest.getLanguage()),
+                userDetails.getLanguage()));
+    }
 
-        return ResponseEntity.ok(new JWTResponse(jwt, messages, userDetails.getLanguage()));
+    private List<String> prepareAuthDetails(Account account, String language) throws AppBaseException {
+        AuthData authData = account.getAuthData();
+
+        List<String> messages = new ArrayList<>();
+        String success = "";
+        if(authData.getLastSuccessfulAuth() != null)
+            success = MessageProvider.getTranslatedText("login.last.successful", language) + " "
+                    + DateFormatter.dateToString(authData.getLastSuccessfulAuth());
+        messages.add(success);
+
+        String fail = "";
+        if(authData.getLastFailedAuth() != null)
+            fail = MessageProvider.getTranslatedText("login.last.failed", language) + " "
+                    + DateFormatter.dateToString(authData.getLastFailedAuth());
+        messages.add(fail);
+
+        authData.setAccount(account);
+        authData.setFailedAuthCounter(0);
+        authData.setLastSuccessfulAuth(LocalDateTime.now());
+        authData.setLastAuthIp("ip placeholder");
+        account.setAuthData(authData);
+        accountService.editAuthData(authData);
+
+        return messages;
     }
 }
