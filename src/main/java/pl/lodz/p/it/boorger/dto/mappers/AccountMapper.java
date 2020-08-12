@@ -20,7 +20,7 @@ public class AccountMapper {
                 .email(account.getEmail())
                 .accessLevels(account.getAccessLevels().stream().filter(AccessLevel::isActive)
                         .map(AccessLevel::getAccessLevel).collect(Collectors.toList()))
-                .authData(account.getAuthData())
+                .authData(AuthDataMapper.mapToDto(account.getAuthData()))
                 .build();
     }
 

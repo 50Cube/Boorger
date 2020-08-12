@@ -1,6 +1,7 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,12 +12,18 @@ import pl.lodz.p.it.boorger.dto.mappers.AccountMapper;
 import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.AccountService;
+import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Log
 @CrossOrigin
 @RestController
 @AllArgsConstructor
@@ -25,6 +32,7 @@ public class AccountControllerImpl implements AccountController {
     private AccountService accountService;
     private BCryptPasswordEncoder passwordEncoder;
     private Environment env;
+    private EmailService emailService;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccounts() throws AppBaseException {
@@ -32,14 +40,23 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AccountDTO accountDTO) throws AppBaseException {
+    public ResponseEntity<?> register(@RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         Account account = AccountMapper.mapFromDto(accountDTO);
         account.setAccessLevels(generateAccessLevels(account));
         account.setConfirmed(false);
         account.setActive(true);
         account.getAuthData().setAccount(account);
-        accountService.register(account);
+        AccountConfirmToken token = generateConfirmToken(account);
+        account.setAccountTokens(new ArrayList<>());
+        account.getAccountTokens().add(token);
+        accountService.register(account, token);
+        try {
+            emailService.sendConfirmationEmail(account.getEmail(), account.getLanguage(),
+                    token.getBusinessKey(), request.getRequestURL().toString(), request.getServletPath());
+        } catch (MessagingException e) {
+            log.severe("An error occurred while sending email");
+        }
         return ResponseEntity.ok(MessageProvider.getTranslatedText("register.success", accountDTO.getLanguage()));
     }
 
@@ -65,6 +82,16 @@ public class AccountControllerImpl implements AccountController {
         list.add(admin);
 
         return list;
+    }
+
+    private AccountConfirmToken generateConfirmToken(Account account) {
+
+        AccountConfirmToken token = new AccountConfirmToken();
+        token.setAccount(account);
+        token.setTokenType(env.getProperty("boorger.confirmToken"));
+        token.setExpireDate(LocalDateTime.now()
+                .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
+        return token;
     }
 
     @PutMapping("language/{login}")

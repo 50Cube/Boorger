@@ -60,7 +60,7 @@ public class Account extends AbstractEntity {
     private Collection<AccessLevel> accessLevels = new ArrayList<>();
 
     @OneToMany(mappedBy = "account")
-    private Collection<AccountToken> accountTokens;
+    private Collection<AccountToken> accountTokens = new ArrayList<>();
 
     @NotNull
     @OneToOne(mappedBy = "account", cascade = CascadeType.PERSIST)

@@ -2,7 +2,6 @@ package pl.lodz.p.it.boorger.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import pl.lodz.p.it.boorger.entities.AuthData;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -23,5 +22,5 @@ public class AccountDTO {
     @NotBlank private String email;
     @Builder.Default
     @NotNull  private Collection<String> accessLevels = new ArrayList<>();
-    @NotNull  private AuthData authData;
+    @NotNull  private AuthDataDTO authData;
 }

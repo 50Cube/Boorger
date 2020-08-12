@@ -8,6 +8,7 @@ import NotFound from "./components/NotFound";
 import NavigationBar from "./components/NavigationBar";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Confirm from "./components/Confirm";
 import AccessDenied from "./components/AccessDenied";
 import ListAccounts from "./components/ListAccounts";
 import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
@@ -42,6 +43,7 @@ export default class App extends Component {
                                     <Route exact path="/" component={Home} />
                                     <RestrictedRoute path="/login" component={Login} />
                                     <RestrictedRoute path="/register" component={Register} />
+                                    <RestrictedRoute path="/confirm" component={Confirm} />
 
                                     <PrivateRoute path="/listAccounts" component={ListAccounts} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
 

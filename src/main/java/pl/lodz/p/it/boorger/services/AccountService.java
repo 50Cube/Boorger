@@ -5,9 +5,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.it.boorger.entities.Account;
+import pl.lodz.p.it.boorger.entities.AccountConfirmToken;
 import pl.lodz.p.it.boorger.entities.AuthData;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AccountRepository;
+import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
 import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class AccountService {
 
     private AccountRepository accountRepository;
     private AuthDataRepository authDataRepository;
+    private AccountTokenRepository accountTokenRepository;
 
     public List<Account> getAccounts() throws AppBaseException {
         try {
@@ -37,9 +40,10 @@ public class AccountService {
         }
     }
 
-    public void register(Account account) throws AppBaseException {
+    public void register(Account account, AccountConfirmToken token) throws AppBaseException {
         try {
             accountRepository.save(account);
+            accountTokenRepository.save(token);
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("account_login_data_login_uindex"))
                 throw new LoginAlreadyExistsException();

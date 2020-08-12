@@ -21,4 +21,9 @@ public class CustomProperties {
     private String jwtSecret;
 
     private int failedAuthCounter;
+
+    private String confirmToken;
+    private String resetToken;
+    private int confirmTokenExpirationTime;
+    private int resetTokenExpirationTime;
 }
