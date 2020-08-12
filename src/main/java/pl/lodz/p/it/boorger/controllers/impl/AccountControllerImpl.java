@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+
 @Log
 @CrossOrigin
 @RestController
@@ -92,6 +93,12 @@ public class AccountControllerImpl implements AccountController {
         token.setExpireDate(LocalDateTime.now()
                 .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
         return token;
+    }
+
+    @PostMapping(value = "/confirm/{token}")
+    public ResponseEntity<?> confirmAccount(@PathVariable String token, @RequestHeader("lang") String language) throws AppBaseException {
+        accountService.confirmAccount(token);
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.confirmed", language));
     }
 
     @PutMapping("language/{login}")

@@ -12,6 +12,7 @@ import pl.lodz.p.it.boorger.repositories.AccountRepository;
 import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
 import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,5 +80,18 @@ public class AccountService {
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+    }
+
+    public void confirmAccount(String token) throws AppBaseException {
+        AccountConfirmToken accountConfirmToken = (AccountConfirmToken) accountTokenRepository.findByBusinessKey(token)
+                .orElseThrow(AppBaseException::new);
+        if(accountConfirmToken.getExpireDate().isBefore(LocalDateTime.now()))
+            throw new TokenExpiredException();
+        Account account = accountConfirmToken.getAccount();
+        if(account.isConfirmed())
+            throw new AccountAlreadyConfirmedException();
+        account.setConfirmed(true);
+        accountRepository.save(account);
+        accountTokenRepository.delete(accountConfirmToken);
     }
 }
