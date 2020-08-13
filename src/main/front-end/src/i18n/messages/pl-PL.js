@@ -27,6 +27,13 @@ export default {
         'en-US': 'EN',
         'pl-PL': 'PL',
         'true': 'Tak',
-        'false': 'Nie'
+        'false': 'Nie',
+        'field-required': 'To pole jest wymagane',
+        'field-pattern': 'To pole zawiera niedozwolone znaki',
+        'password-length': 'Hasło musi składać się z co najmniej 8 znaków',
+        'password-number': 'Hasło musi zawierać cyfrę',
+        'password-char': 'Hasło musi zawierać znak specjalny: !@#$%^&*',
+        'password-confirm': 'Hasła nie są identyczne',
+        'email-pattern': 'Nieprawidłowy format adresu email'
     }
 }

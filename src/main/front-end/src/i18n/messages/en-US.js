@@ -27,6 +27,13 @@ export default {
         'en-US': 'EN',
         'pl-PL': 'PL',
         'true': 'Yes',
-        'false': 'No'
+        'false': 'No',
+        'field-required': 'This field is required',
+        'field-pattern': 'This field contains illegal characters',
+        'password-length': 'Password must be at least 8 characters long',
+        'password-number': 'Password must contain a digit',
+        'password-char': 'Password must contain special character: !@#$%^&*',
+        'password-confirm': 'Passwords do not match',
+        'email-pattern': 'Invalid email format'
     }
 }

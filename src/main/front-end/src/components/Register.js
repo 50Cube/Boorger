@@ -3,47 +3,185 @@ import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Translate from "../i18n/Translate";
 import Swal from "sweetalert2";
-import {getHeader} from "../services/UserDataService";
+import {getHeader, getLanguage} from "../services/UserDataService";
+import ValidationMessage from "../i18n/ValidationMessage";
 
 export default class Register extends Component {
-
-    emptyUser = {
-        "login": "",
-        "password": "",
-        "confirmPassword": "",
-        "firstname": "",
-        "lastname": "",
-        "email": "",
-        "language": localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language
-    };
 
     constructor(props) {
         super(props);
         this.state = {
-            user: this.emptyUser
+            login: '', loginValid: false,
+            password: '', passwordValid: false,
+            confirmPassword: '', confirmPasswordValid: false,
+            firstname: '', firstnameValid: false,
+            lastname: '', lastnameValid: false,
+            email: '', emailValid: false,
+            language: localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language,
+            formValid: false,
+            errorMsg: {}
         }
     }
 
-    handleFieldChanged = (event, field) => {
-        const tmp = {...this.state.user};
-        tmp[field] = event.target.value;
-        this.setState({ user: tmp });
+    validateForm = () => {
+      const { loginValid, passwordValid, confirmPasswordValid, firstnameValid, lastnameValid, emailValid } = this.state;
+      this.setState({
+          formValid: loginValid && passwordValid && confirmPasswordValid && firstnameValid && lastnameValid && emailValid
+      })
+    };
+
+    updateLogin = (login) => {
+        this.setState({login}, this.validateLogin)
+    };
+
+    validateLogin = () => {
+      const { login } = this.state;
+      let loginValid = true;
+      let errorMsg = {...this.state.errorMsg};
+
+      if(login.length < 1) {
+          loginValid = false;
+          errorMsg.login = 'field-required'
+      }
+      else if(!/^([a-zA-Z0-9!@#$%^&*]+)$/.test(login)) {
+          loginValid = false;
+          errorMsg.login = 'field-pattern'
+      }
+      this.setState({loginValid, errorMsg}, this.validateForm)
+    };
+
+    updatePassword = (password) => {
+      this.setState({password}, this.validatePassword)
+    };
+
+    validatePassword = () => {
+      const { password } = this.state;
+      let passwordValid = true;
+      let errorMsg = {...this.state.errorMsg};
+
+      if(password.length < 1) {
+          passwordValid = false;
+          errorMsg.password = 'field-required'
+      }
+      else if(password.length < 8) {
+          passwordValid = false;
+          errorMsg.password = 'password-length'
+      }
+      else if(!/\d/.test(password)) {
+          passwordValid = false;
+          errorMsg.password = 'password-number'
+      }
+      else if(!/[!@#$%^&*]/.test(password)) {
+          passwordValid = false;
+          errorMsg.password = 'password-char'
+      }
+      this.setState({passwordValid, errorMsg}, this.validateForm)
+    };
+
+    updateConfirmPassword = (confirmPassword) => {
+        this.setState({confirmPassword}, this.validateConfirmPassword)
+    };
+
+    validateConfirmPassword = () => {
+        const { confirmPassword } = this.state;
+        let confirmPasswordValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(confirmPassword !== this.state.password) {
+            confirmPasswordValid = false;
+            errorMsg.confirmPassword = 'password-confirm';
+        }
+        this.setState({confirmPasswordValid, errorMsg}, this.validateForm)
+    };
+
+    updateFirstname = (firstname) => {
+      this.setState({firstname}, this.validateFirstname)
+    };
+
+    validateFirstname = () => {
+      const { firstname } = this.state;
+      let firstnameValid = true;
+      let errorMsg = {...this.state.errorMsg};
+
+      if(firstname.length < 1) {
+          firstnameValid = false;
+          errorMsg.firstname = 'field-required';
+      }
+      else if(!/^([a-zA-Z0-9]+)$/.test(firstname)) {
+          firstnameValid = false;
+          errorMsg.firstname = 'field-pattern'
+      }
+      this.setState({firstnameValid, errorMsg}, this.validateForm)
+    };
+
+    updateLastname = (lastname) => {
+        this.setState({lastname}, this.validateLastname)
+    };
+
+    validateLastname = () => {
+        const { lastname } = this.state;
+        let lastnameValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(lastname.length < 1) {
+            lastnameValid = false;
+            errorMsg.lastname = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9`-]+)$/.test(lastname)) {
+            lastnameValid = false;
+            errorMsg.lastname = 'field-pattern'
+        }
+        this.setState({lastnameValid, errorMsg}, this.validateForm)
+    };
+
+    updateEmail = (email) => {
+      this.setState({email}, this.validateEmail)
+    };
+
+    validateEmail = () => {
+        const { email } = this.state;
+        let emailValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(email.length < 1) {
+            emailValid = false;
+            errorMsg.email = 'field-required';
+        } else if(!/^([a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,})$/.test(email)) {
+            emailValid = false;
+            errorMsg.email = 'email-pattern';
+        }
+        this.setState({emailValid, errorMsg}, this.validateForm)
     };
 
     register = (e) => {
         e.preventDefault();
-        axios.post("/register", this.state.user, { headers: getHeader() })
-            .then(response => {
+        if(this.state.formValid) {
+            axios.post("/register", {
+                login: this.state.login,
+                password: this.state.password,
+                confirmPassword: this.state.confirmPassword,
+                firstname: this.state.firstname,
+                lastname: this.state.lastname,
+                email: this.state.email,
+                language: this.state.language
+            }, {headers: getHeader()})
+                .then(response => {
+                    Swal.fire({
+                        icon: "success",
+                        title: response.data
+                    }).then(() => this.props.history.push("/"));
+                }).catch(error => {
                 Swal.fire({
-                    icon: "success",
-                    title: response.data
-                }).then(() => this.props.history.push("/"));
-            }).catch(error => {
-            Swal.fire({
-                icon: "error",
-                title: error.response.data
+                    icon: "error",
+                    title: error.response.data
+                })
             })
-        })
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title:  getLanguage() === ('en-US') ? 'Please fill out all required fields' : 'Uzupełnij wszystkie wymagane pola'
+            })
+        }
     };
 
     render() {
@@ -51,33 +189,39 @@ export default class Register extends Component {
             <div>
                 <form>
                     <FormGroup>
-                        <FormLabel>{Translate('username')}</FormLabel>
-                        <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
+                        <FormLabel>{Translate('username')} *</FormLabel>
+                        <ValidationMessage valid={this.state.loginValid} message={this.state.errorMsg.login} />
+                        <FormControl autoFocus value={this.state.login} onChange={event => this.updateLogin(event.target.value)} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>{Translate('password')}</FormLabel>
-                        <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
+                        <FormLabel>{Translate('password')} *</FormLabel>
+                        <ValidationMessage valid={this.state.passwordValid} message={this.state.errorMsg.password} />
+                        <FormControl type="password" value={this.state.password} onChange={event => this.updatePassword(event.target.value)} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>{Translate('password2')}</FormLabel>
-                        <FormControl type="password" value={this.state.user["confirmPassword"]} onChange={event => this.handleFieldChanged(event, "confirmPassword")} />
+                        <FormLabel>{Translate('password2')} *</FormLabel>
+                        <ValidationMessage valid={this.state.confirmPasswordValid} message={this.state.errorMsg.confirmPassword} />
+                        <FormControl type="password" value={this.state.confirmPassword} onChange={event => this.updateConfirmPassword(event.target.value)} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>{Translate('firstname')}</FormLabel>
-                        <FormControl value={this.state.user["firstname"]} onChange={event => this.handleFieldChanged(event, "firstname")} />
+                        <FormLabel>{Translate('firstname')} *</FormLabel>
+                        <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorMsg.firstname} />
+                        <FormControl value={this.state.firstname} onChange={event => this.updateFirstname(event.target.value)} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>{Translate('lastname')}</FormLabel>
-                        <FormControl value={this.state.user["lastname"]} onChange={event => this.handleFieldChanged(event, "lastname")} />
+                        <FormLabel>{Translate('lastname')} *</FormLabel>
+                        <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorMsg.lastname} />
+                        <FormControl value={this.state.lastname} onChange={event => this.updateLastname(event.target.value)} />
                     </FormGroup>
 
                     <FormGroup>
-                        <FormLabel>{Translate('email')}</FormLabel>
-                        <FormControl value={this.state.user["email"]} onChange={event => this.handleFieldChanged(event, "email")} />
+                        <FormLabel>{Translate('email')} *</FormLabel>
+                        <ValidationMessage valid={this.state.emailValid} message={this.state.errorMsg.email} />
+                        <FormControl value={this.state.email} onChange={event => this.updateEmail(event.target.value)} />
                     </FormGroup>
 
                     <Button type="submit" onClick={this.register}>{Translate('confirm')}</Button>
