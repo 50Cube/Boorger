@@ -20,8 +20,11 @@ import pl.lodz.p.it.boorger.security.jwt.JWTUtils;
 import pl.lodz.p.it.boorger.security.services.UserDetailsImpl;
 import pl.lodz.p.it.boorger.services.AccountService;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
+import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +40,10 @@ public class AuthControllerImpl implements AuthController {
     private AccountService accountService;
     private JWTUtils jwtUtils;
     private Environment env;
+    private EmailService emailService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) throws AppBaseException {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
         Authentication authentication;
         Account account = new Account();
 
@@ -51,6 +55,11 @@ public class AuthControllerImpl implements AuthController {
                     Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.failedAuthCounter")))) {
                 account.setActive(false);
                 accountService.editAccount(account);
+                try {
+                    emailService.sendAccountBlockedEmail(account.getEmail(), account.getLanguage());
+                } catch (MessagingException e) {
+                    log.severe("An error occurred while sending email");
+                }
                 throw new FailedAuthException();
             }
         } catch (FailedAuthException e) {
@@ -83,11 +92,11 @@ public class AuthControllerImpl implements AuthController {
 
         return ResponseEntity.ok(new JWTResponse(
                 jwt,
-                prepareAuthDetails(account, loginRequest.getLanguage()),
+                prepareAuthDetails(account, loginRequest.getLanguage(), request.getRemoteAddr()),
                 userDetails.getLanguage()));
     }
 
-    private List<String> prepareAuthDetails(Account account, String language) throws AppBaseException {
+    private List<String> prepareAuthDetails(Account account, String language, String ip) throws AppBaseException {
         AuthData authData = account.getAuthData();
 
         List<String> messages = new ArrayList<>();
@@ -106,7 +115,7 @@ public class AuthControllerImpl implements AuthController {
         authData.setAccount(account);
         authData.setFailedAuthCounter(0);
         authData.setLastSuccessfulAuth(LocalDateTime.now());
-        authData.setLastAuthIp("ip placeholder");
+        authData.setLastAuthIp(ip);
         account.setAuthData(authData);
         accountService.editAuthData(authData);
 

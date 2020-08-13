@@ -48,9 +48,17 @@ public class AccountControllerImpl implements AccountController {
         account.setConfirmed(false);
         account.setActive(true);
         account.getAuthData().setAccount(account);
+
         AccountConfirmToken token = generateConfirmToken(account);
         account.setAccountTokens(new ArrayList<>());
         account.getAccountTokens().add(token);
+
+        PreviousPassword previousPassword = new PreviousPassword();
+        previousPassword.setAccount(account);
+        previousPassword.setPassword(account.getPassword());
+        account.setPreviousPasswords(new ArrayList<>());
+        account.getPreviousPasswords().add(previousPassword);
+
         accountService.register(account, token);
         try {
             emailService.sendConfirmationEmail(account.getEmail(), account.getLanguage(),
@@ -86,7 +94,6 @@ public class AccountControllerImpl implements AccountController {
     }
 
     private AccountConfirmToken generateConfirmToken(Account account) {
-
         AccountConfirmToken token = new AccountConfirmToken();
         token.setAccount(account);
         token.setTokenType(env.getProperty("boorger.confirmToken"));
