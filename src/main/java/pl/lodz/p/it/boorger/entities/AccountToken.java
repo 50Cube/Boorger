@@ -5,8 +5,7 @@ import lombok.Setter;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -22,10 +21,13 @@ public abstract class AccountToken extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Future
     @NotNull
     private LocalDateTime expireDate;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z-_]+")
     @Column(name = "token_type", nullable = false, insertable = false, updatable = false)
     private String tokenType;
 

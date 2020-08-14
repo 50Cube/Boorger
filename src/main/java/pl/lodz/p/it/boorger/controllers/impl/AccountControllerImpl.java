@@ -17,6 +17,7 @@ import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
+    public ResponseEntity<?> register(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         Account account = AccountMapper.mapFromDto(accountDTO);
         account.setAccessLevels(generateAccessLevels(account));

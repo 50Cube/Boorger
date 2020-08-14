@@ -34,6 +34,7 @@ export default {
         'password-number': 'Hasło musi zawierać cyfrę',
         'password-char': 'Hasło musi zawierać znak specjalny: !@#$%^&*',
         'password-confirm': 'Hasła nie są identyczne',
-        'email-pattern': 'Nieprawidłowy format adresu email'
+        'email-pattern': 'Nieprawidłowy format adresu email',
+        'field-toolong': 'Wartość jest zbyt długa'
     }
 }

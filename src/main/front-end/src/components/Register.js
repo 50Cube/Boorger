@@ -47,6 +47,10 @@ export default class Register extends Component {
           loginValid = false;
           errorMsg.login = 'field-pattern'
       }
+      else if(login.length > 32) {
+            loginValid = false;
+            errorMsg.login = 'field-toolong'
+        }
       this.setState({loginValid, errorMsg}, this.validateForm)
     };
 
@@ -74,6 +78,10 @@ export default class Register extends Component {
       else if(!/[!@#$%^&*]/.test(password)) {
           passwordValid = false;
           errorMsg.password = 'password-char'
+      }
+      else if(password.length > 32) {
+          passwordValid = false;
+          errorMsg.password = 'field-toolong'
       }
       this.setState({passwordValid, errorMsg}, this.validateForm)
     };
@@ -111,6 +119,10 @@ export default class Register extends Component {
           firstnameValid = false;
           errorMsg.firstname = 'field-pattern'
       }
+      else if(firstname.length > 32) {
+          firstnameValid = false;
+          errorMsg.firstname = 'field-toolong'
+      }
       this.setState({firstnameValid, errorMsg}, this.validateForm)
     };
 
@@ -131,6 +143,10 @@ export default class Register extends Component {
             lastnameValid = false;
             errorMsg.lastname = 'field-pattern'
         }
+        else if(lastname.length > 32) {
+            lastnameValid = false;
+            errorMsg.lastname = 'field-toolong'
+        }
         this.setState({lastnameValid, errorMsg}, this.validateForm)
     };
 
@@ -149,6 +165,10 @@ export default class Register extends Component {
         } else if(!/^([a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,})$/.test(email)) {
             emailValid = false;
             errorMsg.email = 'email-pattern';
+        }
+        else if(email.length > 32) {
+            emailValid = false;
+            errorMsg.email = 'field-toolong'
         }
         this.setState({emailValid, errorMsg}, this.validateForm)
     };
@@ -179,7 +199,7 @@ export default class Register extends Component {
         } else {
             Swal.fire({
                 icon: "warning",
-                title:  getLanguage() === ('en-US') ? 'Please fill out all required fields' : 'Uzupełnij wszystkie wymagane pola'
+                title:  getLanguage() === ('en-US') ? 'Please fill out all required fields in correct way' : 'Uzupełnij wszystkie wymagane pola w poprawny sposób'
             })
         }
     };

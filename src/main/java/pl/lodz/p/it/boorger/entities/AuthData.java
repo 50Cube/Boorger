@@ -5,7 +5,10 @@ import lombok.Setter;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -21,9 +24,13 @@ public class AuthData extends AbstractEntity {
 
     private LocalDateTime lastSuccessfulAuth;
     private LocalDateTime lastFailedAuth;
+
+    @Size(max = 64)
+    @Pattern(regexp = "[0-9:.]+")
     private String lastAuthIp;
 
     @NotNull
+    @Digits(integer = 1, fraction = 0)
     private int failedAuthCounter;
 
     @NotNull

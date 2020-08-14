@@ -25,6 +25,7 @@ import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class AuthControllerImpl implements AuthController {
     private EmailService emailService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
         Authentication authentication;
         Account account = new Account();
 

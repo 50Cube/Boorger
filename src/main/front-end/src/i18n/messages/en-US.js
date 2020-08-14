@@ -34,6 +34,7 @@ export default {
         'password-number': 'Password must contain a digit',
         'password-char': 'Password must contain special character: !@#$%^&*',
         'password-confirm': 'Passwords do not match',
-        'email-pattern': 'Invalid email format'
+        'email-pattern': 'Invalid email format',
+        'field-toolong': 'Value is too long'
     }
 }

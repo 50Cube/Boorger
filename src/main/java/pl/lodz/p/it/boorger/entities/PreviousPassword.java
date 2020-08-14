@@ -7,6 +7,7 @@ import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Getter
@@ -21,6 +22,7 @@ public class PreviousPassword extends AbstractEntity {
     private Long id;
 
     @NotBlank
+    @Size(min = 60, max = 60)
     private String password;
 
     @NotNull

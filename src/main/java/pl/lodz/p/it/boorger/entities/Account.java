@@ -4,9 +4,7 @@ import lombok.*;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -27,6 +25,8 @@ public class Account extends AbstractEntity {
     private Long id;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
     private String login;
 
     @NotBlank
@@ -40,17 +40,24 @@ public class Account extends AbstractEntity {
     private boolean confirmed;
 
     @NotBlank
+    @Size(min = 2, max = 2)
     private String language;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9]+")
     @Column(name = "firstname", table = "account_personal_data")
     private String firstname;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9`-]+")
     @Column(name = "lastname", table = "account_personal_data")
     private String lastname;
 
+    @Email
     @NotBlank
+    @Size(min = 1, max = 32)
     @Column(name = "email", table = "account_personal_data")
     private String email;
 

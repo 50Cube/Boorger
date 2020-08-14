@@ -12,6 +12,7 @@ import pl.lodz.p.it.boorger.repositories.AccountRepository;
 import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
 import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -41,7 +42,7 @@ public class AccountService {
         }
     }
 
-    public void register(Account account, AccountConfirmToken token) throws AppBaseException {
+    public void register(@Valid Account account, @Valid AccountConfirmToken token) throws AppBaseException {
         try {
             accountRepository.save(account);
             accountTokenRepository.save(token);
@@ -55,7 +56,7 @@ public class AccountService {
         }
     }
 
-    public void editAccount(Account account) throws AppBaseException {
+    public void editAccount(@Valid Account account) throws AppBaseException {
         try {
             accountRepository.save(account);
         } catch (DataAccessException e) {
@@ -74,7 +75,7 @@ public class AccountService {
         }
     }
 
-    public void editAuthData(AuthData authData) throws AppBaseException {
+    public void editAuthData(@Valid AuthData authData) throws AppBaseException {
         try {
             authDataRepository.save(authData);
         } catch (DataAccessException e) {

@@ -7,6 +7,8 @@ import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Getter
@@ -22,6 +24,8 @@ public abstract class AccessLevel extends AbstractEntity {
     private Long id;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z]+")
     @Column(name = "access_level", nullable = false, insertable = false, updatable = false)
     private String accessLevel;
 
