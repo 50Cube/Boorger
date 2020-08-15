@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
 import {getFirstAccessLevel, getHeader, hashString} from "../services/UserDataService";
 import Translate from "../i18n/Translate";
+import '../css/App.css';
 
 export default class Login extends Component {
 
@@ -57,7 +58,7 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div className="centerDiv">
                 <form>
                     <FormGroup>
                         <FormLabel>{Translate('username')}</FormLabel>

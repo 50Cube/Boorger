@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from "react";
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
-import { Container } from "react-bootstrap";
 import { PrivateRoute } from './PrivateRoute';
 import { RestrictedRoute } from "./RestrictedRoute";
 import Home from "./components/Home";
@@ -15,7 +14,6 @@ import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
 import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
 import Cookies from "universal-cookie/cjs";
-import { Jumbotron } from "./components/Jumbotron";
 import './css/App.css';
 
 
@@ -40,8 +38,7 @@ export default class App extends Component {
                     <Fragment>
                         <Router>
                             <NavigationBar />
-                            <Jumbotron />
-                            <Container>
+                            <div className="mainDiv">
                                 <Switch>
                                     <Route exact path="/" component={Home} />
                                     <RestrictedRoute path="/login" component={Login} />
@@ -53,7 +50,7 @@ export default class App extends Component {
                                     <Route path="/accessDenied" component={AccessDenied} />
                                     <Route component={NotFound} />
                                 </Switch>
-                            </Container>
+                            </div>
                         </Router>
                     </Fragment>
                 </I18nProvider>

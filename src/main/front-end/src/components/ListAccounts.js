@@ -10,6 +10,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Translate from "../i18n/Translate";
+import '../css/App.css';
 
 
 export default class ListAccounts extends Component {
@@ -70,38 +71,40 @@ export default class ListAccounts extends Component {
                 </div>
             )
         } else return (
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>{Translate('username')}</TableCell>
-                            <TableCell align="right">{Translate('email')}</TableCell>
-                            <TableCell align="right">{Translate('firstname')}</TableCell>
-                            <TableCell align="right">{Translate('lastname')}</TableCell>
-                            <TableCell align="right">{Translate('active')}</TableCell>
-                            <TableCell align="right">{Translate('confirmed')}</TableCell>
-                            <TableCell align="right">{Translate('lastAuthIP')}</TableCell>
-                            <TableCell align="right">{Translate('lastAuthDate')}</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.login}>
-                                <TableCell component="th" scope="row">
-                                    {row.login}
-                                </TableCell>
-                                <TableCell align="right">{row.email}</TableCell>
-                                <TableCell align="right">{row.firstname}</TableCell>
-                                <TableCell align="right">{row.lastname}</TableCell>
-                                <TableCell align="right">{Translate(row.active)}</TableCell>
-                                <TableCell align="right">{Translate(row.confirmed)}</TableCell>
-                                <TableCell align="right">{row.lastAuthIP}</TableCell>
-                                <TableCell align="right">{row.lastAuthDate}</TableCell>
+            <div className="centerDiv">
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>{Translate('username')}</TableCell>
+                                <TableCell align="right">{Translate('email')}</TableCell>
+                                <TableCell align="right">{Translate('firstname')}</TableCell>
+                                <TableCell align="right">{Translate('lastname')}</TableCell>
+                                <TableCell align="right">{Translate('active')}</TableCell>
+                                <TableCell align="right">{Translate('confirmed')}</TableCell>
+                                <TableCell align="right">{Translate('lastAuthIP')}</TableCell>
+                                <TableCell align="right">{Translate('lastAuthDate')}</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.login}>
+                                    <TableCell component="th" scope="row">
+                                        {row.login}
+                                    </TableCell>
+                                    <TableCell align="right">{row.email}</TableCell>
+                                    <TableCell align="right">{row.firstname}</TableCell>
+                                    <TableCell align="right">{row.lastname}</TableCell>
+                                    <TableCell align="right">{Translate(row.active)}</TableCell>
+                                    <TableCell align="right">{Translate(row.confirmed)}</TableCell>
+                                    <TableCell align="right">{row.lastAuthIP}</TableCell>
+                                    <TableCell align="right">{row.lastAuthDate}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </div>
         );
     }
 }

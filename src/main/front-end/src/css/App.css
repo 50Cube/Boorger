@@ -1,4 +1,11 @@
-.container {
+.mainDiv {
   text-align: center;
   font-family: "Trebuchet MS", sans-serif;
+}
+
+.centerDiv {
+  width: 75%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 25px;
 }

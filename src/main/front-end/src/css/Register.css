@@ -1,0 +1,30 @@
+.image {
+    background-image: url("../assets/backgroundImage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    box-sizing: unset !important;
+}
+
+.main {
+    box-sizing: unset !important;
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px;
+    border: 1px inset white;
+    border-radius: 25px;
+    background-color: #DADADA;
+    opacity: 0.9;
+}
+
+.labels {
+    text-align: left !important;
+}
+
+.icons {
+    font-size: 160%;
+    margin-right: 10px;
+}

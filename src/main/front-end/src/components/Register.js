@@ -1,10 +1,12 @@
 import React, { Component } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
+import {Button, FormGroup, FormControl, FormLabel, InputGroup} from 'react-bootstrap';
 import axios from 'axios';
 import Translate from "../i18n/Translate";
 import Swal from "sweetalert2";
 import {getHeader, getLanguage} from "../services/UserDataService";
 import ValidationMessage from "../i18n/ValidationMessage";
+import { AiOutlineMail, RiLockPasswordLine, FiUserPlus, FiUser, FiUsers } from "react-icons/all";
+import '../css/Register.css';
 
 export default class Register extends Component {
 
@@ -206,46 +208,54 @@ export default class Register extends Component {
 
     render() {
         return (
-            <div>
-                <form>
-                    <FormGroup>
-                        <FormLabel>{Translate('username')} *</FormLabel>
-                        <ValidationMessage valid={this.state.loginValid} message={this.state.errorMsg.login} />
-                        <FormControl autoFocus value={this.state.login} onChange={event => this.updateLogin(event.target.value)} />
-                    </FormGroup>
+            <div className="image">
+                <div className="main">
+                    <form>
+                        <FormGroup className="labels">
+                            <FiUserPlus className="icons"/>
+                            <FormLabel>{Translate('username')} *</FormLabel>
+                            <FormControl autoFocus value={this.state.login} onChange={event => this.updateLogin(event.target.value)} />
+                            <ValidationMessage valid={this.state.loginValid} message={this.state.errorMsg.login} />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>{Translate('password')} *</FormLabel>
-                        <ValidationMessage valid={this.state.passwordValid} message={this.state.errorMsg.password} />
-                        <FormControl type="password" value={this.state.password} onChange={event => this.updatePassword(event.target.value)} />
-                    </FormGroup>
+                        <FormGroup className="labels">
+                            <RiLockPasswordLine className="icons"/>
+                            <FormLabel>{Translate('password')} *</FormLabel>
+                            <FormControl type="password" value={this.state.password} onChange={event => this.updatePassword(event.target.value)} />
+                            <ValidationMessage valid={this.state.passwordValid} message={this.state.errorMsg.password} />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>{Translate('password2')} *</FormLabel>
-                        <ValidationMessage valid={this.state.confirmPasswordValid} message={this.state.errorMsg.confirmPassword} />
-                        <FormControl type="password" value={this.state.confirmPassword} onChange={event => this.updateConfirmPassword(event.target.value)} />
-                    </FormGroup>
+                        <FormGroup className="labels">
+                            <RiLockPasswordLine className="icons"/>
+                            <FormLabel>{Translate('password2')} *</FormLabel>
+                            <FormControl type="password" value={this.state.confirmPassword} onChange={event => this.updateConfirmPassword(event.target.value)} />
+                            <ValidationMessage valid={this.state.confirmPasswordValid} message={this.state.errorMsg.confirmPassword} />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>{Translate('firstname')} *</FormLabel>
-                        <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorMsg.firstname} />
-                        <FormControl value={this.state.firstname} onChange={event => this.updateFirstname(event.target.value)} />
-                    </FormGroup>
+                        <FormGroup className="labels">
+                            <FiUser className="icons"/>
+                            <FormLabel>{Translate('firstname')} *</FormLabel>
+                            <FormControl value={this.state.firstname} onChange={event => this.updateFirstname(event.target.value)} />
+                            <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorMsg.firstname} />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>{Translate('lastname')} *</FormLabel>
-                        <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorMsg.lastname} />
-                        <FormControl value={this.state.lastname} onChange={event => this.updateLastname(event.target.value)} />
-                    </FormGroup>
+                        <FormGroup className="labels">
+                            <FiUsers className="icons"/>
+                            <FormLabel>{Translate('lastname')} *</FormLabel>
+                            <FormControl value={this.state.lastname} onChange={event => this.updateLastname(event.target.value)} />
+                            <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorMsg.lastname} />
+                        </FormGroup>
 
-                    <FormGroup>
-                        <FormLabel>{Translate('email')} *</FormLabel>
-                        <ValidationMessage valid={this.state.emailValid} message={this.state.errorMsg.email} />
-                        <FormControl value={this.state.email} onChange={event => this.updateEmail(event.target.value)} />
-                    </FormGroup>
+                        <FormGroup className="labels">
+                            <AiOutlineMail className="icons"/>
+                            <FormLabel>{Translate('email')} *</FormLabel>
+                            <FormControl value={this.state.email} onChange={event => this.updateEmail(event.target.value)} />
+                            <ValidationMessage valid={this.state.emailValid} message={this.state.errorMsg.email} />
+                        </FormGroup>
 
-                    <Button type="submit" onClick={this.register}>{Translate('confirm')}</Button>
-                </form>
+                        <Button type="submit" onClick={this.register}>{Translate('confirm')}</Button>
+                    </form>
+                </div>
             </div>
         )
     }
