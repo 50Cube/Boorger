@@ -35,6 +35,12 @@ export default {
         'password-char': 'Hasło musi zawierać znak specjalny: !@#$%^&*',
         'password-confirm': 'Hasła nie są identyczne',
         'email-pattern': 'Nieprawidłowy format adresu email',
-        'field-toolong': 'Wartość jest zbyt długa'
+        'field-toolong': 'Wartość jest zbyt długa',
+        'motto': 'Od teraz jedzenie będzie czekać na Ciebie',
+        'choose-restaurant': 'Wybierz restaurację',
+        'book-table': 'Zarezerwuj stolik',
+        'order-food': 'Zamów jedzenie',
+        'search-restaurant': 'Szukaj swojej ulubionej restauracji',
+        'search': 'Szukaj'
     }
 }

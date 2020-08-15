@@ -1,0 +1,39 @@
+.main {
+    text-align: center;
+}
+
+.steps {
+    margin-top: 100px;
+    /*display: block;*/
+}
+
+.step {
+    width: 30%;
+    float: left;
+}
+
+.arrow {
+    width: 5%;
+    float:left;
+    margin-top: 25px;
+    font-size: 200%;
+}
+
+.title {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+.stepPicture {
+    max-width: 80%;
+    max-height: 100%;
+    padding-bottom: 10px;
+}
+
+.search {
+    float: none;
+    padding-top: 200px;
+    max-width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}

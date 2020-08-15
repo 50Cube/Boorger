@@ -35,6 +35,12 @@ export default {
         'password-char': 'Password must contain special character: !@#$%^&*',
         'password-confirm': 'Passwords do not match',
         'email-pattern': 'Invalid email format',
-        'field-toolong': 'Value is too long'
+        'motto': 'Since now food will be waiting for you',
+        'field-toolong': 'Value is too long',
+        'choose-restaurant': 'Choose a restaurant',
+        'book-table': 'Book a table',
+        'order-food': 'Order food',
+        'search-restaurant': 'Search for your favourite restaurant',
+        'search': 'Search'
     }
 }

@@ -15,6 +15,8 @@ import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
 import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
 import Cookies from "universal-cookie/cjs";
+import { Jumbotron } from "./components/Jumbotron";
+import './css/App.css';
 
 
 export default class App extends Component {
@@ -38,6 +40,7 @@ export default class App extends Component {
                     <Fragment>
                         <Router>
                             <NavigationBar />
+                            <Jumbotron />
                             <Container>
                                 <Switch>
                                     <Route exact path="/" component={Home} />
