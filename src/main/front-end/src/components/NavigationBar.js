@@ -3,7 +3,8 @@ import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
 import {getAccessLevels, getHeader, getLanguage, getUser, hashString} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
-import { BsFillPeopleFill, BsFillPersonFill } from "react-icons/bs";
+import { BsFillPeopleFill, BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
+import { FaRegFlag, FiLogIn, FiLogOut } from "react-icons/all";
 import Translate from '../i18n/Translate';
 import RoleContext from "../services/RoleContext";
 import NavLink from "react-bootstrap/NavLink";
@@ -19,6 +20,7 @@ export default class NavigationBar extends Component {
 
     logout = () => {
         this.cookies.remove("jwt");
+        sessionStorage.removeItem("role");
     };
 
     guestNavbar = () => {
@@ -26,10 +28,10 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link as={Link} to="/login">{Translate('login')}</Nav.Link>
+                        <Nav.Link as={Link} to="/login"><FiLogIn className="navIcons"/> {Translate('login')}</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link as={Link} to="/register">{Translate('register')}</Nav.Link>
+                        <Nav.Link as={Link} to="/register"><BsPencilSquare className="navIcons"/> {Translate('register')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )
@@ -112,7 +114,8 @@ export default class NavigationBar extends Component {
     languageNavbar = () => {
         return (
             <Nav className="ml-auto">
-                <NavDropdown title={Translate(getLanguage())}>
+                <NavDropdown title={
+                    <span><FaRegFlag className="navIcons" /> {Translate(getLanguage())}</span>}>
                     <NavDropdown.Item disabled={true}>{Translate('chooseLanguage')}</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => this.changeLanguage("pl")}>Polski</NavDropdown.Item>
                     <NavDropdown.Item onClick={() => this.changeLanguage("en")}>English</NavDropdown.Item>
@@ -137,7 +140,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link href="/" onClick={this.logout}>{Translate('logout')}</Nav.Link>
+                        <Nav.Link href="/" onClick={this.logout}><FiLogOut className="navIcons"/> {Translate('logout')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )
