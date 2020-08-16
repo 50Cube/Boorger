@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
 import {getFirstAccessLevel, getHeader, hashString} from "../services/UserDataService";
 import Translate from "../i18n/Translate";
-import '../css/App.css';
+import '../css/Login.css';
 
 export default class Login extends Component {
 
@@ -27,10 +27,6 @@ export default class Login extends Component {
         const tmp = {...this.state.user};
         tmp[field] = event.target.value;
         this.setState({ user: tmp });
-    };
-
-    reload = () => {
-      window.location.reload();
     };
 
     login = (e) => {
@@ -58,18 +54,20 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="centerDiv">
-                <form>
-                    <FormGroup>
-                        <FormLabel>{Translate('username')}</FormLabel>
-                        <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
-                    </FormGroup>
-                    <FormGroup>
-                        <FormLabel>{Translate('password')}</FormLabel>
-                        <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
-                    </FormGroup>
-                    <Button type="submit" onClick={this.login}>{Translate('confirm')}</Button>
-                </form>
+            <div className="loginImage">
+                <div className="loginMain">
+                    <form>
+                        <FormGroup className="labels">
+                            <FormLabel>{Translate('username')}</FormLabel>
+                            <FormControl autoFocus value={this.state.user["login"]} onChange={event => this.handleFieldChanged(event, "login")} />
+                        </FormGroup>
+                        <FormGroup className="labels">
+                            <FormLabel>{Translate('password')}</FormLabel>
+                            <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
+                        </FormGroup>
+                        <Button type="submit" onClick={this.login}>{Translate('confirm')}</Button>
+                    </form>
+                </div>
             </div>
         )
     }

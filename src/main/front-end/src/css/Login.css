@@ -1,41 +1,25 @@
-.image {
+.loginImage {
     background-image: url("../assets/backgroundImage.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     padding-top: 20px;
     padding-bottom: 40px;
+    height: 100%;
 }
 
-.main {
-    width: 40%;
+.loginMain {
+    width: 30%;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 8%;
     padding: 20px;
     border: 1px inset white;
     border-radius: 25px;
     background-color: #DADADA;
-    opacity: 0.9;
+    opacity: 0.94;
 }
 
 .labels {
     text-align: left !important;
-}
-
-.icons {
-    font-size: 160%;
-    margin-right: 10px;
-}
-
-.bottom {
-    display: inline-block;
-    vertical-align: top !important;
-}
-
-.button {
-    margin-top: 20px;
-}
-
-.captcha {
-    margin-right: 60px;
 }

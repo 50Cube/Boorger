@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import Swal from "sweetalert2";
 import Translate from "../i18n/Translate";
 import image from '../assets/navbarImage.jpg';
-import { BsFillForwardFill } from "react-icons/all";
+import { BsFillForwardFill, BsSearch } from "react-icons/all";
 import { Jumbotron } from "../components/Jumbotron";
+import { InputGroup, Form, Button } from "react-bootstrap";
 import '../css/Home.css';
 import '../css/App.css';
 
@@ -48,10 +49,15 @@ export default class Home extends Component {
                     </div>
                     <div className="search">
                         <p>{Translate('search-restaurant')}</p>
-                        <div class="input-group mb-3">
-                            <input type="text" class="form-control" className="form-control"/>
-                            <button class="btn btn-outline-secondary" type="button">{Translate('search')}</button>
-                        </div>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <BsSearch/>
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control type="text"/>
+                            <Button type="button" >{Translate('search')}</Button>
+                        </InputGroup>
                     </div>
                 </div>
             </div>

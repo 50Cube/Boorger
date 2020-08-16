@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import {getHeader, getLanguage} from "../services/UserDataService";
 import ValidationMessage from "../i18n/ValidationMessage";
 import { AiOutlineMail, RiLockPasswordLine, FiUserPlus, FiUser, FiUsers } from "react-icons/all";
+import Reaptcha from "reaptcha";
 import '../css/Register.css';
 
 export default class Register extends Component {
@@ -20,15 +21,16 @@ export default class Register extends Component {
             lastname: '', lastnameValid: false,
             email: '', emailValid: false,
             language: localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language,
+            captchaValid: false,
             formValid: false,
             errorMsg: {}
         }
     }
 
     validateForm = () => {
-      const { loginValid, passwordValid, confirmPasswordValid, firstnameValid, lastnameValid, emailValid } = this.state;
+      const { loginValid, passwordValid, confirmPasswordValid, firstnameValid, lastnameValid, emailValid, captchaValid } = this.state;
       this.setState({
-          formValid: loginValid && passwordValid && confirmPasswordValid && firstnameValid && lastnameValid && emailValid
+          formValid: loginValid && passwordValid && confirmPasswordValid && firstnameValid && lastnameValid && emailValid && captchaValid
       })
     };
 
@@ -206,6 +208,12 @@ export default class Register extends Component {
         }
     };
 
+    onCaptchaVerify = () => {
+        this.setState({
+            captchaValid: true
+        })
+    };
+
     render() {
         return (
             <div className="image">
@@ -253,7 +261,12 @@ export default class Register extends Component {
                             <ValidationMessage valid={this.state.emailValid} message={this.state.errorMsg.email} />
                         </FormGroup>
 
-                        <Button type="submit" onClick={this.register}>{Translate('confirm')}</Button>
+                        <div className="bottom">
+                            <Reaptcha className="captcha" sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
+                        </div>
+                        <div className="bottom">
+                            <Button className="button" type="submit" onClick={this.register}>{Translate('confirm')}</Button>
+                        </div>
                     </form>
                 </div>
             </div>
