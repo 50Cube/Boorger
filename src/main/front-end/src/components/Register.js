@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Button, FormGroup, FormControl, FormLabel, InputGroup} from 'react-bootstrap';
+import {Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import axios from 'axios';
 import Translate from "../i18n/Translate";
 import Swal from "sweetalert2";
@@ -21,16 +21,16 @@ export default class Register extends Component {
             lastname: '', lastnameValid: false,
             email: '', emailValid: false,
             language: localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language,
-            captchaValid: false,
+            captcha: '', captchaValid: false,
             formValid: false,
             errorMsg: {}
         }
     }
 
     validateForm = () => {
-      const { loginValid, passwordValid, confirmPasswordValid, firstnameValid, lastnameValid, emailValid, captchaValid } = this.state;
+      const { loginValid, passwordValid, confirmPasswordValid, firstnameValid, lastnameValid, emailValid } = this.state;
       this.setState({
-          formValid: loginValid && passwordValid && confirmPasswordValid && firstnameValid && lastnameValid && emailValid && captchaValid
+          formValid: loginValid && passwordValid && confirmPasswordValid && firstnameValid && lastnameValid && emailValid
       })
     };
 
@@ -180,7 +180,7 @@ export default class Register extends Component {
     register = (e) => {
         e.preventDefault();
         if(this.state.formValid) {
-            axios.post("/register", {
+            axios.post("/register/" + this.state.captcha, {
                 login: this.state.login,
                 password: this.state.password,
                 confirmPassword: this.state.confirmPassword,
@@ -208,9 +208,10 @@ export default class Register extends Component {
         }
     };
 
-    onCaptchaVerify = () => {
+    onCaptchaVerify = (response) => {
         this.setState({
-            captchaValid: true
+            captchaValid: true,
+            captcha: response
         })
     };
 
@@ -265,7 +266,7 @@ export default class Register extends Component {
                             <Reaptcha className="captcha" sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                         </div>
                         <div className="bottom">
-                            <Button className="button" type="submit" onClick={this.register}>{Translate('confirm')}</Button>
+                            <Button className="button" type="submit" onClick={this.register} disabled={!this.state.captchaValid}>{Translate('confirm')}</Button>
                         </div>
                     </form>
                 </div>

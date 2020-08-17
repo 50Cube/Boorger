@@ -10,7 +10,7 @@ import java.util.List;
 public interface AccountController {
 
     List<AccountDTO> getAccounts() throws AppBaseException;
-    ResponseEntity<?> register(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
+    ResponseEntity<?> register(AccountDTO accountDTO, String captcha, HttpServletRequest request) throws AppBaseException;
     ResponseEntity<?> confirmAccount(String token, String language) throws AppBaseException;
     void changeLanguage(String login, String language) throws AppBaseException;
 }

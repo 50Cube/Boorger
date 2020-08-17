@@ -11,6 +11,8 @@ import pl.lodz.p.it.boorger.dto.AccountDTO;
 import pl.lodz.p.it.boorger.dto.mappers.AccountMapper;
 import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
+import pl.lodz.p.it.boorger.exceptions.CaptchaException;
+import pl.lodz.p.it.boorger.security.services.CaptchaValidator;
 import pl.lodz.p.it.boorger.services.AccountService;
 import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
@@ -35,14 +37,18 @@ public class AccountControllerImpl implements AccountController {
     private BCryptPasswordEncoder passwordEncoder;
     private Environment env;
     private EmailService emailService;
+    private CaptchaValidator captchaValidator;
 
     @GetMapping("/accounts")
     public List<AccountDTO> getAccounts() throws AppBaseException {
         return accountService.getAccounts().stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
+    @PostMapping("/register/{captcha}")
+    public ResponseEntity<?> register(@Valid @RequestBody AccountDTO accountDTO, @PathVariable String captcha, HttpServletRequest request) throws AppBaseException {
+        if(!captchaValidator.validateCaptcha(captcha))
+            throw new CaptchaException();
+
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         Account account = AccountMapper.mapFromDto(accountDTO);
         account.setAccessLevels(generateAccessLevels(account));

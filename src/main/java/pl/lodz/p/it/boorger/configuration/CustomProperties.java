@@ -26,4 +26,7 @@ public class CustomProperties {
     private String resetToken;
     private int confirmTokenExpirationTime;
     private int resetTokenExpirationTime;
+
+    private String googleCaptchaApi;
+    private String recaptchaSecret;
 }
