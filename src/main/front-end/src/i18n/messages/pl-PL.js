@@ -41,6 +41,10 @@ export default {
         'book-table': 'Zarezerwuj stolik',
         'order-food': 'Zamów jedzenie',
         'search-restaurant': 'Szukaj swojej ulubionej restauracji',
-        'search': 'Szukaj'
+        'search': 'Szukaj',
+        'adminPanel': 'Panel administratora',
+        'managerPanel': 'Panel menadżera',
+        'adminPanelLabel1': 'Witaj w panelu administratora!',
+        'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.'
     }
 }

@@ -9,11 +9,11 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Confirm from "./components/Confirm";
 import AccessDenied from "./components/AccessDenied";
-import ListAccounts from "./components/ListAccounts";
 import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
 import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
 import Cookies from "universal-cookie/cjs";
+import AdminMenu from "./components/admin/AdminMenu";
 import './css/App.css';
 
 
@@ -45,7 +45,7 @@ export default class App extends Component {
                                     <RestrictedRoute path="/register" component={Register} />
                                     <RestrictedRoute path="/confirm" component={Confirm} />
 
-                                    <PrivateRoute path="/listAccounts" component={ListAccounts} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
+                                    <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
 
                                     <Route path="/accessDenied" component={AccessDenied} />
                                     <Route component={NotFound} />

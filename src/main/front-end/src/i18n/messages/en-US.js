@@ -41,6 +41,10 @@ export default {
         'book-table': 'Book a table',
         'order-food': 'Order food',
         'search-restaurant': 'Search for your favourite restaurant',
-        'search': 'Search'
+        'search': 'Search',
+        'adminPanel': 'Admin panel',
+        'managerPanel': 'Manager panel',
+        'adminPanelLabel1': 'Welcome to the admin panel!',
+        'adminPanelLabel2': 'From here you can manage user accounts.'
     }
 }

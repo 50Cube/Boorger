@@ -55,7 +55,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link>manager page</Nav.Link>
+                        <Nav.Link>{Translate('managerPanel')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )
@@ -67,7 +67,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <NavLink as={Link} to="/listAccounts">{Translate('listAccounts')}</NavLink>
+                        <NavLink as={Link} to="/adminMenu">{Translate('adminPanel')}</NavLink>
                     </Nav.Item>
                 </Nav>
             )
