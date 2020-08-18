@@ -18,11 +18,11 @@ export default {
         'MANAGER': 'Manager',
         'client': 'Client',
         'CLIENT': 'Client',
-        'listAccounts': 'List accounts',
         'active': 'Active',
         'confirmed': 'Confirmed',
         'lastAuthIP': 'Last authentication IP address',
         'lastAuthDate': 'Last authentication date',
+        'creationDate': 'Creation date',
         'chooseLanguage': 'Choose language',
         'en-US': 'EN',
         'pl-PL': 'PL',
@@ -45,6 +45,8 @@ export default {
         'adminPanel': 'Admin panel',
         'managerPanel': 'Manager panel',
         'adminPanelLabel1': 'Welcome to the admin panel!',
-        'adminPanelLabel2': 'From here you can manage user accounts.'
+        'adminPanelLabel2': 'From here you can manage user accounts.',
+        'listAccounts': 'List accounts',
+        'addAccount': 'Add new account'
     }
 }

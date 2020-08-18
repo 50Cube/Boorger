@@ -8,11 +8,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Spinner from "react-bootstrap/Spinner";
 import Paper from '@material-ui/core/Paper';
 import Translate from "../../i18n/Translate";
-import AdminMenu from "./AdminMenu";
-import '../../css/App.css';
 import '../../css/AdminMenu.css'
+
 
 
 export default class ListAccounts extends Component {
@@ -27,8 +27,9 @@ export default class ListAccounts extends Component {
                 lastname: "",
                 active: "",
                 confirmed: "",
-                lastAuthIP: "",
-                lastAuthDate: ""
+                lastAuthIp: "",
+                lastSuccessfulAuth: "",
+                creationDate: ""
             }],
             loaded: false
         })
@@ -43,14 +44,15 @@ export default class ListAccounts extends Component {
             }).catch(error => {
                 console.log("ERROR " + error)
             }).finally(() => {
+                console.log(this.state.users)
                 this.setState({
                     loaded: true
                 })
             })
     }
 
-    createData = (login, email, firstname, lastname, active, confirmed, lastAuthIP, lastAuthDate) => {
-        return { login, email, firstname, lastname, active, confirmed, lastAuthIP, lastAuthDate };
+    createData = (login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate ) => {
+        return { login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate };
     };
 
     render() {
@@ -62,44 +64,41 @@ export default class ListAccounts extends Component {
 
         const rows = [];
         for(let i=0; i<this.state.users.length; i++) {
-            rows.push(this.createData(this.state.users[i].login, this.state.users[i].email, this.state.users[i].firstname, this.state.users[i].lastname,
-                this.state.users[i].active.toString(), this.state.users[i].confirmed.toString(), this.state.users[i].lastAuthIP, this.state.users[i].lastAuthDate))
+            rows.push(this.createData(this.state.users[i].login, this.state.users[i].email, this.state.users[i].firstname,
+                this.state.users[i].lastname, this.state.users[i].active.toString(), this.state.users[i].confirmed.toString(),
+                this.state.users[i].lastAuthIp, this.state.users[i].lastSuccessfulAuth, this.state.users[i].creationDate))
         }
 
         if(!this.state.loaded) {
-            return (
-                <div>
-                    <h1>loading</h1>
-                </div>
-            )
+            return ( <Spinner animation="border" /> )
         } else return (
             <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell>{Translate('username')}</TableCell>
-                            <TableCell align="right">{Translate('email')}</TableCell>
-                            <TableCell align="right">{Translate('firstname')}</TableCell>
-                            <TableCell align="right">{Translate('lastname')}</TableCell>
-                            <TableCell align="right">{Translate('active')}</TableCell>
-                            <TableCell align="right">{Translate('confirmed')}</TableCell>
-                            <TableCell align="right">{Translate('lastAuthIP')}</TableCell>
-                            <TableCell align="right">{Translate('lastAuthDate')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('username')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('email')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('firstname')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('lastname')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('active')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('confirmed')}</TableCell>
+                            <TableCell className="tableLongLabels" align="center">{Translate('lastAuthIP')}</TableCell>
+                            <TableCell className="tableLongLabels" align="center">{Translate('lastAuthDate')}</TableCell>
+                            <TableCell className="tableLabels" align="center">{Translate('creationDate')}</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow key={row.login}>
-                                <TableCell component="th" scope="row">
-                                    {row.login}
-                                </TableCell>
-                                <TableCell align="right">{row.email}</TableCell>
-                                <TableCell align="right">{row.firstname}</TableCell>
-                                <TableCell align="right">{row.lastname}</TableCell>
-                                <TableCell align="right">{Translate(row.active)}</TableCell>
-                                <TableCell align="right">{Translate(row.confirmed)}</TableCell>
-                                <TableCell align="right">{row.lastAuthIP}</TableCell>
-                                <TableCell align="right">{row.lastAuthDate}</TableCell>
+                                <TableCell align="center">{row.login}</TableCell>
+                                <TableCell align="center">{row.email}</TableCell>
+                                <TableCell align="center">{row.firstname}</TableCell>
+                                <TableCell align="center">{row.lastname}</TableCell>
+                                <TableCell align="center">{Translate(row.active)}</TableCell>
+                                <TableCell align="center">{Translate(row.confirmed)}</TableCell>
+                                <TableCell align="center">{row.lastAuthIp}</TableCell>
+                                <TableCell align="center">{row.lastSuccessfulAuth}</TableCell>
+                                <TableCell align="center">{row.creationDate}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

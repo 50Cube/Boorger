@@ -99,7 +99,6 @@ public class AuthControllerImpl implements AuthController {
 
     private List<String> prepareAuthDetails(Account account, String language, String ip) throws AppBaseException {
         AuthData authData = account.getAuthData();
-
         List<String> messages = new ArrayList<>();
         String success = "";
         if(authData.getLastSuccessfulAuth() != null)

@@ -18,11 +18,11 @@ export default {
         'MANAGER': 'Menadżer',
         'client': 'Klient',
         'CLIENT': 'Klient',
-        'listAccounts': 'Lista kont',
         'active': 'Aktywny',
         'confirmed': 'Potwierdzony',
         'lastAuthIP': 'Adres IP ostatniego uwierzytelnienia',
         'lastAuthDate': 'Data ostatniego uwierzytelnienia',
+        'creationDate': 'Data utworzenia',
         'chooseLanguage': 'Wybierz język',
         'en-US': 'EN',
         'pl-PL': 'PL',
@@ -45,6 +45,8 @@ export default {
         'adminPanel': 'Panel administratora',
         'managerPanel': 'Panel menadżera',
         'adminPanelLabel1': 'Witaj w panelu administratora!',
-        'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.'
+        'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.',
+        'listAccounts': 'Lista kont',
+        'addAccount': 'Dodaj nowe konto'
     }
 }

@@ -4,12 +4,13 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
 @Builder
 public class AccountDTO {
+
+    protected String creationDate;
 
     @NotBlank
     @Size(min = 1, max = 32)
@@ -46,6 +47,11 @@ public class AccountDTO {
     private String email;
 
     @Builder.Default
-    private Collection<String> accessLevels = new ArrayList<>();
-    private AuthDataDTO authData;
+    private Collection<String> accessLevels;
+    private String lastSuccessfulAuth;
+    private String lastFailedAuth;
+
+    @Size(max = 64)
+    @Pattern(regexp = "[0-9:.]+")
+    private String lastAuthIp;
 }
