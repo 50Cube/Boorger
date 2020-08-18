@@ -12,6 +12,7 @@ import Spinner from "react-bootstrap/Spinner";
 import Paper from '@material-ui/core/Paper';
 import Translate from "../../i18n/Translate";
 import '../../css/AdminMenu.css'
+import {Pagination} from "react-bootstrap";
 
 
 
@@ -69,41 +70,54 @@ export default class ListAccounts extends Component {
                 this.state.users[i].lastAuthIp, this.state.users[i].lastSuccessfulAuth, this.state.users[i].creationDate))
         }
 
+        const pages = [<Pagination.Item active={true}>1</Pagination.Item>];
+
         if(!this.state.loaded) {
             return ( <Spinner animation="border" /> )
         } else return (
-            <TableContainer component={Paper}>
-                <Table className={classes.table} aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell className="tableLabels" align="center">{Translate('username')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('email')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('firstname')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('lastname')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('active')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('confirmed')}</TableCell>
-                            <TableCell className="tableLongLabels" align="center">{Translate('lastAuthIP')}</TableCell>
-                            <TableCell className="tableLongLabels" align="center">{Translate('lastAuthDate')}</TableCell>
-                            <TableCell className="tableLabels" align="center">{Translate('creationDate')}</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.map((row) => (
-                            <TableRow key={row.login}>
-                                <TableCell align="center">{row.login}</TableCell>
-                                <TableCell align="center">{row.email}</TableCell>
-                                <TableCell align="center">{row.firstname}</TableCell>
-                                <TableCell align="center">{row.lastname}</TableCell>
-                                <TableCell align="center">{Translate(row.active)}</TableCell>
-                                <TableCell align="center">{Translate(row.confirmed)}</TableCell>
-                                <TableCell align="center">{row.lastAuthIp}</TableCell>
-                                <TableCell align="center">{row.lastSuccessfulAuth}</TableCell>
-                                <TableCell align="center">{row.creationDate}</TableCell>
+            <div>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell className="tableLabels" align="center">{Translate('username')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('email')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('firstname')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('lastname')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('active')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('confirmed')}</TableCell>
+                                <TableCell className="tableLongLabels" align="center">{Translate('lastAuthIP')}</TableCell>
+                                <TableCell className="tableLongLabels" align="center">{Translate('lastAuthDate')}</TableCell>
+                                <TableCell className="tableLabels" align="center">{Translate('creationDate')}</TableCell>
                             </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                        </TableHead>
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.login}>
+                                    <TableCell align="center">{row.login}</TableCell>
+                                    <TableCell align="center">{row.email}</TableCell>
+                                    <TableCell align="center">{row.firstname}</TableCell>
+                                    <TableCell align="center">{row.lastname}</TableCell>
+                                    <TableCell align="center">{Translate(row.active)}</TableCell>
+                                    <TableCell align="center">{Translate(row.confirmed)}</TableCell>
+                                    <TableCell align="center">{row.lastAuthIp}</TableCell>
+                                    <TableCell align="center">{row.lastSuccessfulAuth}</TableCell>
+                                    <TableCell align="center">{row.creationDate}</TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <div className="paginationDiv">
+                    <Pagination>
+                        <Pagination.First />
+                        <Pagination.Prev />
+                        <Pagination>{pages}</Pagination>
+                        <Pagination.Next />
+                        <Pagination.Last />
+                    </Pagination>
+                </div>
+            </div>
         );
     }
 }

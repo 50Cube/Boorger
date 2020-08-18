@@ -15,7 +15,7 @@
 
 .adminContent {
     margin: 60px 10px 10px 20px;
-    padding: 30px 15px 40px 15px;
+    padding: 30px 15px 20px 15px;
     display: inline-block;
     vertical-align: top;
     border: 1px inset #F2E207;
@@ -46,4 +46,11 @@
 .tableLongLabels {
     font-weight: bold !important;
     font-size: 97% !important;
+}
+
+.paginationDiv {
+    padding-top: 10px;
+    float: right;
+    font-size: 160%;
+    margin-bottom: 0;
 }
