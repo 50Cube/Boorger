@@ -18,27 +18,27 @@ import java.util.Objects;
 @RestControllerAdvice
 public class RestResponseExceptionHandler {
 
-    @ExceptionHandler(value = {AppBaseException.class})
-    public ResponseEntity<String> handleException(Exception e, WebRequest request) {
-        return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText(e.getMessage(),
-                Objects.requireNonNull(request.getHeader("lang"))));
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
-    public Map<String, String> handleValidationException(MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
-    }
-
-    @ExceptionHandler(value = {Exception.class})
-    public ResponseEntity<String> handleOtherExceptions(Exception e, WebRequest request) {
-        return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
-                Objects.requireNonNull(request.getHeader("lang"))));
-    }
+//    @ExceptionHandler(value = {AppBaseException.class})
+//    public ResponseEntity<String> handleException(Exception e, WebRequest request) {
+//        return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText(e.getMessage(),
+//                Objects.requireNonNull(request.getHeader("lang"))));
+//    }
+//
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(value = {MethodArgumentNotValidException.class})
+//    public Map<String, String> handleValidationException(MethodArgumentNotValidException e) {
+//        Map<String, String> errors = new HashMap<>();
+//        e.getBindingResult().getAllErrors().forEach(error -> {
+//            String fieldName = ((FieldError) error).getField();
+//            String errorMessage = error.getDefaultMessage();
+//            errors.put(fieldName, errorMessage);
+//        });
+//        return errors;
+//    }
+//
+//    @ExceptionHandler(value = {Exception.class})
+//    public ResponseEntity<String> handleOtherExceptions(Exception e, WebRequest request) {
+//        return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
+//                Objects.requireNonNull(request.getHeader("lang"))));
+//    }
 }

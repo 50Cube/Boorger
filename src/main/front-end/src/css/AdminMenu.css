@@ -1,3 +1,11 @@
+.adminImage {
+    background-image: url("../assets/adminBackgroundImage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+}
+
 .adminMenu {
     text-align: center;
     margin-left: auto;
@@ -14,6 +22,8 @@
     border-radius: 5px;
     box-shadow: 1px 2px #888888;
     width: 80%;
+    background-color: #DADADA;
+    opacity: 0.94;
 }
 
 .menu {
@@ -24,6 +34,8 @@
     border: 1px inset lightgray;
     border-radius: 5px;
     box-shadow: 1px 2px #888888;
+    background-color: #DADADA;
+    opacity: 0.94;
 }
 
 .tableLabels {
