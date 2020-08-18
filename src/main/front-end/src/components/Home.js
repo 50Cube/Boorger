@@ -56,7 +56,7 @@ export default class Home extends Component {
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
                             <Form.Control type="text"/>
-                            <Button type="button" >{Translate('search')}</Button>
+                            <Button className="buttons" type="button" >{Translate('search')}</Button>
                         </InputGroup>
                     </div>
                 </div>

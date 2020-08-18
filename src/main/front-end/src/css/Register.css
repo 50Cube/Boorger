@@ -36,6 +36,9 @@
 
 .button {
     margin-top: 20px;
+    color: black !important;
+    background-color: #F2E207 !important;
+    border: 1px inset black !important;
 }
 
 .captcha {

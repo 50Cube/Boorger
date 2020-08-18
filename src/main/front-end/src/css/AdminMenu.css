@@ -18,11 +18,11 @@
     padding: 30px 15px 40px 15px;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset lightgray;
+    border: 1px inset #F2E207;
     border-radius: 5px;
-    box-shadow: 1px 2px #888888;
+    box-shadow: 2px 3px #A49A17;
     width: 80%;
-    background-color: #DADADA;
+    background-color: #F2E207;
     opacity: 0.94;
 }
 
@@ -31,10 +31,10 @@
     padding: 4px 6px 4px 0;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset lightgray;
+    border: 1px inset #F2E207;
     border-radius: 5px;
-    box-shadow: 1px 2px #888888;
-    background-color: #DADADA;
+    box-shadow: 2px 3px #A49A17;
+    background-color: #F2E207;
     opacity: 0.94;
 }
 
