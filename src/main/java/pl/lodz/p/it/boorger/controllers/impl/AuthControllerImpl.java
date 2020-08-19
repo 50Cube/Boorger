@@ -44,7 +44,7 @@ public class AuthControllerImpl implements AuthController {
     private EmailService emailService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
         Authentication authentication;
         Account account = new Account();
 
@@ -56,17 +56,14 @@ public class AuthControllerImpl implements AuthController {
                     Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.failedAuthCounter")))) {
                 account.setActive(false);
                 accountService.editAccount(account);
-                try {
-                    emailService.sendAccountBlockedEmail(account.getEmail(), account.getLanguage());
-                } catch (MessagingException e) {
-                    log.severe("An error occurred while sending email");
-                }
+                emailService.sendAccountBlockedEmail(account.getEmail(), account.getLanguage());
                 throw new FailedAuthException();
             }
         } catch (FailedAuthException e) {
             throw e;
         } catch (AppBaseException e) {
             log.warning("Login attempt error. Account with username: " + loginRequest.getLogin() + " does not exists");
+            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", loginRequest.getLanguage()));
         }
 
         try {

@@ -47,6 +47,9 @@ export default {
         'adminPanelLabel1': 'Welcome to the admin panel!',
         'adminPanelLabel2': 'From here you can manage user accounts.',
         'listAccounts': 'List accounts',
-        'addAccount': 'Add new account'
+        'addAccount': 'Add new account',
+        'viewProfile': 'View profile',
+        'changePassword': 'Change password',
+        'forgotPassword': 'Forgot password?'
     }
 }

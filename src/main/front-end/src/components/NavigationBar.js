@@ -3,7 +3,7 @@ import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
 import {getAccessLevels, getHeader, getLanguage, getUser, hashString} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
-import { BsFillPeopleFill, BsFillPersonFill, BsPencilSquare } from "react-icons/bs";
+import { BsFillPeopleFill, BsFillPersonFill, BsPencilSquare, BsBriefcaseFill } from "react-icons/bs";
 import { FaRegFlag, FiLogIn, FiLogOut } from "react-icons/all";
 import Translate from '../i18n/Translate';
 import RoleContext from "../services/RoleContext";
@@ -67,7 +67,7 @@ export default class NavigationBar extends Component {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <NavLink as={Link} to="/adminMenu">{Translate('adminPanel')}</NavLink>
+                        <NavLink as={Link} to="/adminMenu"><BsBriefcaseFill className="navIcons" /> {Translate('adminPanel')}</NavLink>
                     </Nav.Item>
                 </Nav>
             )
@@ -103,8 +103,8 @@ export default class NavigationBar extends Component {
                 <Nav className="ml-auto">
                     <NavDropdown alignRight title={
                         <span><BsFillPersonFill className="navIcons" /> {getUser()}</span>}>
-                        <NavDropdown.Item>profil placeholder</NavDropdown.Item>
-                        <NavDropdown.Item>haslo placeholder</NavDropdown.Item>
+                        <NavDropdown.Item>{Translate('viewProfile')}</NavDropdown.Item>
+                        <NavDropdown.Item>{Translate('changePassword')}</NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
             )

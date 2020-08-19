@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
 import {getFirstAccessLevel, getHeader, hashString} from "../services/UserDataService";
 import Translate from "../i18n/Translate";
+import {Link} from "react-router-dom";
 import '../css/Login.css';
 
 export default class Login extends Component {
@@ -65,6 +66,7 @@ export default class Login extends Component {
                             <FormLabel>{Translate('password')}</FormLabel>
                             <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
                         </FormGroup>
+                        <Link className="forgot" to="/">{Translate('forgotPassword')}</Link>
                         <Button className="buttons" type="submit" onClick={this.login}>{Translate('confirm')}</Button>
                     </form>
                 </div>

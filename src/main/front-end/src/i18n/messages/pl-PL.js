@@ -47,6 +47,9 @@ export default {
         'adminPanelLabel1': 'Witaj w panelu administratora!',
         'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.',
         'listAccounts': 'Lista kont',
-        'addAccount': 'Dodaj nowe konto'
+        'addAccount': 'Dodaj nowe konto',
+        'viewProfile': 'Wyświetl profil',
+        'changePassword': 'Zmień hasło',
+        'forgotPassword': 'Zapomniałeś hasła?'
     }
 }
