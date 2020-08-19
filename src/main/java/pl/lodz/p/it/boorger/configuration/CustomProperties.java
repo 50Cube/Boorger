@@ -29,4 +29,6 @@ public class CustomProperties {
 
     private String googleCaptchaApi;
     private String recaptchaSecret;
+
+    private int pageSize;
 }

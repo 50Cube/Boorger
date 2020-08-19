@@ -39,9 +39,14 @@ public class AccountControllerImpl implements AccountController {
     private EmailService emailService;
     private CaptchaValidator captchaValidator;
 
-    @GetMapping("/accounts")
-    public List<AccountDTO> getAccounts() throws AppBaseException {
-        return accountService.getAccounts().stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
+    @GetMapping("/accounts/{page}")
+    public List<AccountDTO> getAccounts(@PathVariable int page) throws AppBaseException {
+        return accountService.getAccounts(page).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/accounts/pageAmount")
+    public int getAccountsPageAmount() throws AppBaseException {
+        return accountService.getAccounts(0).getTotalPages();
     }
 
     @PostMapping("/register/{captcha}")

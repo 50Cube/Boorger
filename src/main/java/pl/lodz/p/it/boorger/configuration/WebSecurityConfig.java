@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register/**", "/boorger/confirm/**"};
     private final String[] CLIENT_PATHS = new String[]{"/tmp"};
     private final String[] MANAGER_PATHS = new String[]{"/tmp"};
-    private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts"};
+    private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**"};
 
     private AuthEntryPointJwt authEntryPointJwt;
     private UserDetailsServiceImpl userDetailsService;

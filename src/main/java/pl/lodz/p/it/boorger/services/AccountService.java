@@ -1,8 +1,11 @@
 package pl.lodz.p.it.boorger.services;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.AccountConfirmToken;
@@ -14,7 +17,6 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -24,10 +26,12 @@ public class AccountService {
     private AccountRepository accountRepository;
     private AuthDataRepository authDataRepository;
     private AccountTokenRepository accountTokenRepository;
+    private Environment env;
 
-    public List<Account> getAccounts() throws AppBaseException {
+    public Page<Account> getAccounts(int page) throws AppBaseException {
         try {
-            return accountRepository.findAll();
+            return accountRepository.findAll(
+                    PageRequest.of(page, Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.pageSize")))));
         } catch (DataAccessException e) {
                 throw new DatabaseException();
             }

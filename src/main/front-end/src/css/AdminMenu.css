@@ -18,11 +18,11 @@
     padding: 30px 15px 20px 15px;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset #F2E207;
+    border: 1px inset #FFFF00;
     border-radius: 5px;
     box-shadow: 2px 3px #A49A17;
     width: 80%;
-    background-color: #F2E207;
+    background-color: #FFFF00;
     opacity: 0.94;
 }
 
@@ -31,10 +31,10 @@
     padding: 4px 6px 4px 0;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset #F2E207;
+    border: 1px inset #FFFF00;
     border-radius: 5px;
     box-shadow: 2px 3px #A49A17;
-    background-color: #F2E207;
+    background-color: #FFFF00;
     opacity: 0.94;
 }
 

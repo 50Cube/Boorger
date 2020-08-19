@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Translate from "../../i18n/Translate";
 import '../../css/AdminMenu.css'
 import {Pagination} from "react-bootstrap";
+import Swal from "sweetalert2";
 
 
 
@@ -32,28 +33,69 @@ export default class ListAccounts extends Component {
                 lastSuccessfulAuth: "",
                 creationDate: ""
             }],
-            loaded: false
+            loaded: false,
+            pageAmount: 1,
+            page: 0
         })
     }
 
-    componentDidMount() {
-        axios.get("/accounts", { headers: getHeader() } )
+    getAccounts = () => {
+        axios.get("/accounts/" + this.state.page, { headers: getHeader() } )
             .then(response => {
                 this.setState({
                     users: response.data
                 })
             }).catch(error => {
-                console.log("ERROR " + error)
-            }).finally(() => {
-                console.log(this.state.users)
-                this.setState({
-                    loaded: true
-                })
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
             })
+        }).finally(() => {
+            this.setState({
+                loaded: true
+            })
+        })
+    };
+
+    componentDidMount() {
+        axios.get("/accounts/pageAmount", { headers: getHeader() })
+            .then(response => {
+                this.setState({
+                    pageAmount: response.data
+                })
+            }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            })
+        });
+
+        this.getAccounts();
     }
 
     createData = (login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate ) => {
         return { login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate };
+    };
+
+
+    handlePageChange = (e) => {
+
+        // console.log(this.state.page)
+        // console.log(e.target.text - 1)
+        // console.log(this.state.page == e.target.text - 1)
+        // console.log(this.state.page === e.target.text - 1)
+        // if(e.target.text)
+        //     console.log("HERB")
+
+
+        if(e.target.text) {
+            this.setState({
+                    loaded: false,
+                    page: e.target.text - 1
+                },
+                this.getAccounts
+            );
+        }
     };
 
     render() {
@@ -70,7 +112,12 @@ export default class ListAccounts extends Component {
                 this.state.users[i].lastAuthIp, this.state.users[i].lastSuccessfulAuth, this.state.users[i].creationDate))
         }
 
-        const pages = [<Pagination.Item active={true}>1</Pagination.Item>];
+        const pages = [];
+        for(let i=0; i<this.state.pageAmount; i++) {
+            pages.push(
+                <Pagination.Item key={i} active={i === this.state.page}>{i+1}</Pagination.Item>
+            )
+        }
 
         if(!this.state.loaded) {
             return ( <Spinner animation="border" /> )
@@ -111,9 +158,7 @@ export default class ListAccounts extends Component {
                 <div className="paginationDiv">
                     <Pagination>
                         <Pagination.First />
-                        <Pagination.Prev />
-                        <Pagination>{pages}</Pagination>
-                        <Pagination.Next />
+                        <Pagination onClick={this.handlePageChange} >{pages}</Pagination>
                         <Pagination.Last />
                     </Pagination>
                 </div>

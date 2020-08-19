@@ -45,13 +45,13 @@ public class Account extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9]+")
+    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+")
     @Column(name = "firstname", table = "account_personal_data")
     private String firstname;
 
     @NotBlank
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9`-]+")
+    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ`-]+")
     @Column(name = "lastname", table = "account_personal_data")
     private String lastname;
 

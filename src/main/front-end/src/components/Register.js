@@ -119,7 +119,7 @@ export default class Register extends Component {
           firstnameValid = false;
           errorMsg.firstname = 'field-required';
       }
-      else if(!/^([a-zA-Z0-9]+)$/.test(firstname)) {
+      else if(!/^([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)$/.test(firstname)) {
           firstnameValid = false;
           errorMsg.firstname = 'field-pattern'
       }
@@ -143,7 +143,7 @@ export default class Register extends Component {
             lastnameValid = false;
             errorMsg.lastname = 'field-required';
         }
-        else if(!/^([a-zA-Z0-9`-]+)$/.test(lastname)) {
+        else if(!/^([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ`-]+)$/.test(lastname)) {
             lastnameValid = false;
             errorMsg.lastname = 'field-pattern'
         }
