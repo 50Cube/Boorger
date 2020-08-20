@@ -8,6 +8,7 @@ import ValidationMessage from "../i18n/ValidationMessage";
 import { AiOutlineMail, RiLockPasswordLine, FiUserPlus, FiUser, FiUsers } from "react-icons/all";
 import Reaptcha from "reaptcha";
 import '../css/Register.css';
+import Spinner from "react-bootstrap/Spinner";
 
 export default class Register extends Component {
 
@@ -23,7 +24,8 @@ export default class Register extends Component {
             language: localStorage.getItem("lang") ? localStorage.getItem("lang") : navigator.language,
             captcha: '', captchaValid: false,
             formValid: false,
-            errorMsg: {}
+            errorMsg: {},
+            loading: false
         }
     }
 
@@ -179,6 +181,9 @@ export default class Register extends Component {
 
     register = (e) => {
         e.preventDefault();
+        this.setState({
+            loading: true
+        });
         if(this.state.formValid) {
             axios.post("/register/" + this.state.captcha, {
                 login: this.state.login,
@@ -198,6 +203,9 @@ export default class Register extends Component {
                 Swal.fire({
                     icon: "error",
                     title: error.response.data
+                }).then(r => {
+                    this.setState({loading: false})
+                    this.captcha.reset();
                 })
             })
         } else {
@@ -263,12 +271,13 @@ export default class Register extends Component {
                         </FormGroup>
 
                         <div className="bottom">
-                            <Reaptcha className="captcha" sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
+                            <Reaptcha className="captcha" ref={e => (this.captcha = e)} sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                         </div>
                         <div className="bottom">
                             <Button className="button" type="submit" onClick={this.register} disabled={!this.state.captchaValid}>{Translate('confirm')}</Button>
                         </div>
                     </form>
+                    { this.state.loading ? <Spinner className="spinner" animation="border" /> : null }
                 </div>
             </div>
         )

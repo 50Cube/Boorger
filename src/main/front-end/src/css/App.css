@@ -15,3 +15,7 @@
   background-color: #FFFF00;
   border: 1px inset black;
 }
+
+.spinner {
+  margin-top: 20px;
+}

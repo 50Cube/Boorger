@@ -6,6 +6,7 @@ import Cookies from "universal-cookie/lib";
 import {getFirstAccessLevel, getHeader, hashString} from "../services/UserDataService";
 import Translate from "../i18n/Translate";
 import {Link} from "react-router-dom";
+import Spinner from "react-bootstrap/Spinner";
 import '../css/Login.css';
 
 export default class Login extends Component {
@@ -19,7 +20,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            user: this.emptyUser
+            user: this.emptyUser,
+            loading: false
         };
         this.cookies = new Cookies();
     }
@@ -32,6 +34,9 @@ export default class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
+        this.setState({
+            loading: true
+        });
         axios.post("/login", this.state.user, { headers: getHeader() })
             .then(response => {
                 if(response.data.token) {
@@ -55,6 +60,7 @@ export default class Login extends Component {
 
     render() {
         return (
+
             <div className="loginImage">
                 <div className="loginMain">
                     <form>
@@ -69,6 +75,7 @@ export default class Login extends Component {
                         <Link className="forgot" to="/">{Translate('forgotPassword')}</Link>
                         <Button className="buttons" type="submit" onClick={this.login}>{Translate('confirm')}</Button>
                     </form>
+                    { this.state.loading ? <Spinner className="spinner" animation="border" /> : null }
                 </div>
             </div>
         )

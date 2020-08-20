@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.AuthController;
+import pl.lodz.p.it.boorger.entities.AccessLevel;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.AuthData;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log
 @CrossOrigin
@@ -52,6 +54,7 @@ public class AuthControllerImpl implements AuthController {
             account = accountService.getAccount(loginRequest.getLogin());
             account.getAuthData().setFailedAuthCounter(account.getAuthData().getFailedAuthCounter() + 1);
             accountService.editAuthData(account.getAuthData());
+
             if (account.getAuthData().getFailedAuthCounter() ==
                     Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.failedAuthCounter")))) {
                 account.setActive(false);
@@ -59,6 +62,13 @@ public class AuthControllerImpl implements AuthController {
                 emailService.sendAccountBlockedEmail(account.getEmail(), account.getLanguage());
                 throw new FailedAuthException();
             }
+
+
+            if(account.getAccessLevels().stream().map(AccessLevel::getAccessLevel).collect(Collectors.toList())
+                    .contains(env.getProperty("boorger.roleAdmin"))) {
+                emailService.sendAdminAuthEmail(account.getEmail(), account.getLanguage(), request.getRemoteAddr());
+            }
+
         } catch (FailedAuthException e) {
             throw e;
         } catch (AppBaseException e) {

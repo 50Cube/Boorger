@@ -40,13 +40,13 @@ public class EmailService {
     }
     
     @Async
-    public void sendAdminAuthEmail(String mail, String language, LocalDateTime date, String ip) {
+    public void sendAdminAuthEmail(String mail, String language, String ip) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mail);
         message.setSubject(MessageProvider.getTranslatedText("email.adminauth.subject", language));
         message.setText(MessageProvider.getTranslatedText("email.adminauth.body", language) + ", "
                 + MessageProvider.getTranslatedText("email.adminauth.date", language) + " "
-                + DateFormatter.dateToString(date) + ", "
+                + DateFormatter.dateToString(LocalDateTime.now()) + ", "
                 + MessageProvider.getTranslatedText("email.adminauth.ip", language) + " "
                 + ip + "\n\n"
                 + MessageProvider.getTranslatedText("email.footer", language));
