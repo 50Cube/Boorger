@@ -1,6 +1,8 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.AccountController;
 import pl.lodz.p.it.boorger.dto.AccountDTO;
@@ -15,6 +17,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
+@Transactional(propagation = Propagation.NEVER)
 public class AccountControllerImpl implements AccountController {
 
     private AccountService accountService;

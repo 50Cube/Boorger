@@ -53,7 +53,10 @@ export default class Login extends Component {
                 Swal.fire({
                     icon: "error",
                     title: error.response.data
-                }).then(() => this.setState({ user: this.emptyUser }))
+                }).then(() => this.setState({
+                    user: this.emptyUser,
+                    loading: false
+                }))
         })
     };
 

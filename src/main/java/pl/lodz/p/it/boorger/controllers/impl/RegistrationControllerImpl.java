@@ -5,6 +5,8 @@ import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.RegistrationController;
 import pl.lodz.p.it.boorger.dto.AccountDTO;
@@ -29,6 +31,7 @@ import java.util.Objects;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
+@Transactional(propagation = Propagation.NEVER)
 public class RegistrationControllerImpl implements RegistrationController {
 
     private AccountService accountService;

@@ -7,6 +7,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import pl.lodz.p.it.boorger.configuration.transactions.ServiceReadOnlyTransaction;
+import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.AccountConfirmToken;
 import pl.lodz.p.it.boorger.entities.AuthData;
@@ -21,6 +23,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@ServiceTransaction
 public class AccountService {
 
     private AccountRepository accountRepository;
@@ -28,6 +31,7 @@ public class AccountService {
     private AccountTokenRepository accountTokenRepository;
     private Environment env;
 
+    @ServiceReadOnlyTransaction
     public Page<Account> getAccounts(int page) throws AppBaseException {
         try {
             return accountRepository.findAll(
@@ -37,6 +41,7 @@ public class AccountService {
             }
     }
 
+    @ServiceReadOnlyTransaction
     public Account getAccount(String login) throws AppBaseException {
         try {
             return accountRepository.findByLogin(login)

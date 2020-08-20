@@ -8,6 +8,8 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.AuthController;
 import pl.lodz.p.it.boorger.entities.AccessLevel;
@@ -37,6 +39,7 @@ import java.util.stream.Collectors;
 @CrossOrigin
 @RestController
 @AllArgsConstructor
+@Transactional(propagation = Propagation.NEVER)
 public class AuthControllerImpl implements AuthController {
 
     private AuthenticationManager authenticationManager;
