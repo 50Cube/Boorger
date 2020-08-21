@@ -43,16 +43,13 @@ export default class ListAccounts extends Component {
         axios.get("/accounts/" + this.state.page, { headers: getHeader() } )
             .then(response => {
                 this.setState({
-                    users: response.data
+                    users: response.data,
+                    loaded: true
                 })
             }).catch(error => {
             Swal.fire({
                 icon: "error",
                 title: error.response.data
-            })
-        }).finally(() => {
-            this.setState({
-                loaded: true
             })
         })
     };
@@ -79,15 +76,6 @@ export default class ListAccounts extends Component {
 
 
     handlePageChange = (e) => {
-
-        // console.log(this.state.page)
-        // console.log(e.target.text - 1)
-        // console.log(this.state.page == e.target.text - 1)
-        // console.log(this.state.page === e.target.text - 1)
-        // if(e.target.text)
-        //     console.log("HERB")
-
-
         if(e.target.text) {
             this.setState({
                     loaded: false,

@@ -6,7 +6,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceReadOnlyTransaction;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Account;
@@ -24,6 +26,7 @@ import java.util.Objects;
 @Service
 @AllArgsConstructor
 @ServiceTransaction
+@Retryable(value = TransactionException.class)
 public class AccountService {
 
     private AccountRepository accountRepository;
