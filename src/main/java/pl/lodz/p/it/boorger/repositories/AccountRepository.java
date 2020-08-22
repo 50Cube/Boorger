@@ -17,4 +17,7 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @RepositoryReadOnlyTransaction
     Page<Account> findAll(Pageable pageable);
+
+    @RepositoryReadOnlyTransaction
+    Optional<Account> findByEmail(String email);
 }

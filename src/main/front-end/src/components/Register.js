@@ -203,8 +203,8 @@ export default class Register extends Component {
                 Swal.fire({
                     icon: "error",
                     title: error.response.data
-                }).then(r => {
-                    this.setState({loading: false})
+                }).then(() => {
+                    this.setState({loading: false});
                     this.captcha.reset();
                 })
             })

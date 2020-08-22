@@ -50,6 +50,7 @@ export default {
         'addAccount': 'Add new account',
         'viewProfile': 'View profile',
         'changePassword': 'Change password',
-        'forgotPassword': 'Forgot password?'
+        'forgotPassword': 'Forgot password?',
+        'provideMail': 'Enter your email address',
     }
 }

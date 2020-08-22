@@ -1,6 +1,7 @@
 package pl.lodz.p.it.boorger.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -14,6 +15,7 @@ import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.AccountConfirmToken;
 import pl.lodz.p.it.boorger.entities.AuthData;
+import pl.lodz.p.it.boorger.entities.ForgotPasswordToken;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AccountRepository;
 import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
@@ -23,6 +25,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
+@Log
 @Service
 @AllArgsConstructor
 @ServiceTransaction
@@ -45,7 +48,7 @@ public class AccountService {
     }
 
     @ServiceReadOnlyTransaction
-    public Account getAccount(String login) throws AppBaseException {
+    public Account getAccountByLogin(String login) throws AppBaseException {
         try {
             return accountRepository.findByLogin(login)
                     .orElseThrow(AccountNotFoundException::new);
@@ -106,5 +109,25 @@ public class AccountService {
         account.setConfirmed(true);
         accountRepository.save(account);
         accountTokenRepository.delete(accountConfirmToken);
+    }
+
+    public Account getAccountByEmail(String email) throws AppBaseException {
+        try {
+            return accountRepository.findByEmail(email)
+                    .orElseThrow(AccountNotFoundException::new);
+        } catch (AccountNotFoundException e) {
+            log.warning("Password reset error: account with email " + email + " does not exists");
+            return null;
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void editForgotPasswordToken(ForgotPasswordToken token) throws AppBaseException {
+        try {
+            accountTokenRepository.save(token);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 }

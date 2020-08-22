@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.RetryCallback;
 import org.springframework.retry.RetryContext;
+import org.springframework.retry.RetryListener;
 import org.springframework.retry.listener.RetryListenerSupport;
 
 import java.util.Collections;
@@ -15,13 +16,12 @@ import java.util.List;
 public class RetryLogger {
 
     @Bean
-    public List<org.springframework.retry.RetryListener> retryListeners() {
+    public List<RetryListener> retryListeners() {
         return Collections.singletonList(new RetryListenerSupport() {
 
             @Override
             public <T, E extends Throwable> void onError(RetryContext context, RetryCallback<T, E> callback, Throwable throwable) {
-                if(context.getRetryCount() > 1)
-                    log.info("Transaction is being repeated for " + context.getRetryCount() + " time");
+                log.info("Transaction is being repeated for " + context.getRetryCount() + " time");
             }
         });
     }

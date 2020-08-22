@@ -26,9 +26,7 @@ import pl.lodz.p.it.boorger.utils.DateFormatter;
 import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,7 @@ public class AuthControllerImpl implements AuthController {
         Account account = new Account();
 
         try {
-            account = accountService.getAccount(loginRequest.getLogin());
+            account = accountService.getAccountByLogin(loginRequest.getLogin());
             account.getAuthData().setFailedAuthCounter(account.getAuthData().getFailedAuthCounter() + 1);
             accountService.editAuthData(account.getAuthData());
 

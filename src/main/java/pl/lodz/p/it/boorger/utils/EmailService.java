@@ -59,7 +59,7 @@ public class EmailService {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
         helper.setTo(mail);
         helper.setSubject(MessageProvider.getTranslatedText("email.resetpassword.subject", language));
-        String link = url.substring(0, url.length() - path.length()).concat("/reset?token=");
+        String link = url.substring(0, url.length() - path.length()).concat("/changePassword?token=");
         helper.setText("<a href=\"" + link + token + "\">" + MessageProvider.getTranslatedText("email.resetpassword.body", language)
                 + "</a></br></br>" + MessageProvider.getTranslatedText("email.footer", language), true);
         javaMailSender.send(message);

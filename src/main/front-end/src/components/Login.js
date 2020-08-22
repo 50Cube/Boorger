@@ -75,7 +75,7 @@ export default class Login extends Component {
                             <FormLabel>{Translate('password')}</FormLabel>
                             <FormControl type="password" value={this.state.user["password"]} onChange={event => this.handleFieldChanged(event, "password")} />
                         </FormGroup>
-                        <Link className="forgot" to="/">{Translate('forgotPassword')}</Link>
+                        <Link className="forgot" to="/reset">{Translate('forgotPassword')}</Link>
                         <Button className="buttons" type="submit" onClick={this.login}>{Translate('confirm')}</Button>
                     </form>
                     { this.state.loading ? <Spinner className="spinner" animation="border" /> : null }
