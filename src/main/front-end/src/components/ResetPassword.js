@@ -4,9 +4,9 @@ import {getHeader} from "../services/UserDataService";
 import Swal from "sweetalert2";
 import Translate from '../i18n/Translate';
 import {FormGroup, FormControl, Button} from "react-bootstrap";
-import '../css/ResetPassword.css';
 import ValidationMessage from "../i18n/ValidationMessage";
 import Spinner from "react-bootstrap/Spinner";
+import '../css/ResetPassword.css';
 
 export default class ResetPassword extends Component {
 
@@ -42,7 +42,11 @@ export default class ResetPassword extends Component {
         this.setState({emailValid, errorMsg})
     };
 
-    resetPassword = () => {
+    resetPassword = (e) => {
+        e.preventDefault();
+        this.setState({
+            loading: true
+        });
         axios.post("/reset/" + this.state.email, null, { headers: getHeader() })
             .then(response => {
                 Swal.fire({
@@ -69,9 +73,9 @@ export default class ResetPassword extends Component {
                             <FormControl autoFocus value={this.state.email} onChange={event => this.updateEmail(event.target.value)}/>
                             <ValidationMessage valid={this.state.emailValid} message={this.state.errorMsg.email} />
                         </FormGroup>
+                        <Button className="buttons" type="submit" disabled={!this.state.emailValid} onClick={this.resetPassword}>
+                            { this.state.loading ? <Spinner className="spinner" animation="border" /> : Translate('confirm') }</Button>
                     </form>
-                    <Button className="buttons" type="submit" disabled={!this.state.emailValid} onClick={this.resetPassword}>{Translate('confirm')}</Button>
-                    { this.state.loading ? <Spinner className="spinner" animation="border" /> : null }
                 </div>
             </div>
         )

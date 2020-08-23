@@ -9,6 +9,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -19,6 +20,8 @@ import java.util.UUID;
 public abstract class AbstractEntity implements Serializable {
 
     @NotBlank
+    @Size(min = 36, max = 36)
+    @Setter(lombok.AccessLevel.NONE)
     protected String businessKey;
 
     @NotBlank

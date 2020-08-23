@@ -12,38 +12,28 @@ public class AccountDTO {
 
     protected String creationDate;
 
-    @NotBlank
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
     private String login;
 
-    @NotBlank
     @Size(min = 8, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
     private String password;
-
-    @NotNull
     private boolean active;
-
-    @NotNull
     private boolean confirmed;
 
-    @NotBlank
     @Size(min = 2, max = 2)
     private String language;
 
-    @NotBlank
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9]+")
     private String firstname;
 
-    @NotBlank
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9`-]+")
     private String lastname;
 
     @Email
-    @NotBlank
     private String email;
 
     @Builder.Default

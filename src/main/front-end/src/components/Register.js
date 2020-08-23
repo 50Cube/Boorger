@@ -274,10 +274,10 @@ export default class Register extends Component {
                             <Reaptcha className="captcha" ref={e => (this.captcha = e)} sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                         </div>
                         <div className="bottom">
-                            <Button className="button" type="submit" onClick={this.register} disabled={!this.state.captchaValid}>{Translate('confirm')}</Button>
+                            <Button className="button" type="submit" onClick={this.register} disabled={!this.state.captchaValid}>
+                                { this.state.loading ? <Spinner className="spinner" animation="border" /> : Translate('confirm') } </Button>
                         </div>
                     </form>
-                    { this.state.loading ? <Spinner className="spinner" animation="border" /> : null }
                 </div>
             </div>
         )
