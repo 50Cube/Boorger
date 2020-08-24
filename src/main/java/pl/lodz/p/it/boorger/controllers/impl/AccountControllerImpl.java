@@ -13,6 +13,8 @@ import pl.lodz.p.it.boorger.dto.mappers.AccountMapper;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.ForgotPasswordToken;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
+import pl.lodz.p.it.boorger.exceptions.CaptchaException;
+import pl.lodz.p.it.boorger.security.services.CaptchaValidator;
 import pl.lodz.p.it.boorger.services.AccountService;
 import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
@@ -34,6 +36,7 @@ public class AccountControllerImpl implements AccountController {
     private AccountService accountService;
     private EmailService emailService;
     private Environment env;
+    private CaptchaValidator captchaValidator;
 
     @GetMapping("/accounts/{page}")
     public List<AccountDTO> getAccounts(@PathVariable int page) throws AppBaseException {
@@ -55,17 +58,16 @@ public class AccountControllerImpl implements AccountController {
         Account account = accountService.getAccountByEmail(email);
         if(account != null) {
             ForgotPasswordToken token;
-            if(account.getAccountTokens().stream().noneMatch(t -> t.getTokenType().equals(env.getProperty("boorger.resetToken")))) {
-                token = generateForgotPasswordToken(account);
-            } else {
-                token = (ForgotPasswordToken) account.getAccountTokens().stream()
+            ForgotPasswordToken oldToken = null;
+            if(account.getAccountTokens().stream().anyMatch(t -> t.getTokenType().equals(env.getProperty("boorger.resetToken")))) {
+                oldToken = (ForgotPasswordToken) account.getAccountTokens().stream()
                         .filter(t -> t.getTokenType().equals(env.getProperty("boorger.resetToken"))).findFirst().get();
-                token.setExpireDate(LocalDateTime.now()
-                        .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.resetTokenExpirationTime")))));
+                account.getAccountTokens().remove(oldToken);
             }
+            token = generateForgotPasswordToken(account);
             account.getAccountTokens().add(token);
+            accountService.resetPassword(oldToken, token);
             accountService.editAccount(account);
-            accountService.editForgotPasswordToken(token);
             try {
                 emailService.sendPasswordResetEmail(email, language, token.getBusinessKey(),
                         request.getRequestURL().toString(), request.getServletPath());
@@ -85,11 +87,12 @@ public class AccountControllerImpl implements AccountController {
         return token;
     }
 
-    @PostMapping("/changePassword/{login}/{token}")
-    public ResponseEntity<?> changePassword(@PathVariable String login, @PathVariable String token, @RequestBody Object object, @PathVariable String captcha) throws AppBaseException {
-        log.info("login = " + login);
-        log.info("token = " + token);
-        log.info("obj = " + object);
-        return null;
+    @PostMapping("/changePassword/{token}/{captcha}")
+    public ResponseEntity<?> changeResetPassword(@PathVariable String token, @RequestBody AccountDTO accountDTO,
+                                            @PathVariable String captcha, @RequestHeader("lang") String language) throws AppBaseException {
+        if(!captchaValidator.validateCaptcha(captcha))
+            throw new CaptchaException();
+        accountService.changeResetPassword(token, accountDTO);
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", language));
     }
 }

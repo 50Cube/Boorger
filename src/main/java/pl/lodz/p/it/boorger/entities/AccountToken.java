@@ -31,6 +31,7 @@ public abstract class AccountToken extends AbstractEntity {
     @Column(name = "token_type", nullable = false, insertable = false, updatable = false)
     private String tokenType;
 
+    @NotNull
     @ManyToOne
     private Account account;
 

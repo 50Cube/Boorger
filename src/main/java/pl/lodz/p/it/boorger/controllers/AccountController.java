@@ -13,5 +13,5 @@ public interface AccountController {
     int getAccountsPageAmount() throws AppBaseException;
     void changeLanguage(String login, String language) throws AppBaseException;
     ResponseEntity<?> resetPassword(String email, String language, HttpServletRequest request) throws AppBaseException;
-    ResponseEntity<?> changePassword(String login, String token, Object object, String captcha) throws AppBaseException;
+    ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha, String language) throws AppBaseException;
 }

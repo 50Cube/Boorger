@@ -8,14 +8,13 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceReadOnlyTransaction;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
-import pl.lodz.p.it.boorger.entities.Account;
-import pl.lodz.p.it.boorger.entities.AccountConfirmToken;
-import pl.lodz.p.it.boorger.entities.AuthData;
-import pl.lodz.p.it.boorger.entities.ForgotPasswordToken;
+import pl.lodz.p.it.boorger.dto.AccountDTO;
+import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AccountRepository;
 import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
@@ -24,6 +23,7 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log
 @Service
@@ -35,6 +35,7 @@ public class AccountService {
     private AccountRepository accountRepository;
     private AuthDataRepository authDataRepository;
     private AccountTokenRepository accountTokenRepository;
+    private PasswordEncoder passwordEncoder;
     private Environment env;
 
     @ServiceReadOnlyTransaction
@@ -123,11 +124,41 @@ public class AccountService {
         }
     }
 
-    public void editForgotPasswordToken(ForgotPasswordToken token) throws AppBaseException {
+    public void resetPassword(ForgotPasswordToken token, ForgotPasswordToken newToken) throws AppBaseException {
         try {
-            accountTokenRepository.save(token);
+            if(token != null) {
+                accountTokenRepository.delete(token);
+                accountTokenRepository.flush();
+            }
+            accountTokenRepository.save(newToken);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+    }
+
+    public void changeResetPassword(String token, AccountDTO accountDTO) throws AppBaseException {
+        ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
+                .orElseThrow(AppBaseException::new);
+
+        if(forgotPasswordToken.getExpireDate().isBefore(LocalDateTime.now()))
+            throw new TokenExpiredException();
+
+        Account account = forgotPasswordToken.getAccount();
+        if(checkIfPasswordWasUsed(account, accountDTO.getPassword()))
+            throw new PasswordAlreadyUsedException();
+
+        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        PreviousPassword previousPassword = new PreviousPassword();
+        previousPassword.setAccount(account);
+        previousPassword.setPassword(accountDTO.getPassword());
+
+        account.getPreviousPasswords().add(previousPassword);
+        account.setPassword(accountDTO.getPassword());
+        accountRepository.save(account);
+        accountTokenRepository.delete(forgotPasswordToken);
+    }
+
+    private boolean checkIfPasswordWasUsed(Account account, String newPassword) {
+        return account.getPreviousPasswords().stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getPassword()));
     }
 }

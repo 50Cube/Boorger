@@ -8,5 +8,5 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface AuthController {
 
-    ResponseEntity<?> login(LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException;
+    ResponseEntity<?> login(LoginRequest loginRequest, HttpServletRequest request, String language) throws AppBaseException;
 }

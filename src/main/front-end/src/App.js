@@ -15,7 +15,7 @@ import RoleContext from "./services/RoleContext";
 import Cookies from "universal-cookie/cjs";
 import AdminMenu from "./components/admin/AdminMenu";
 import ResetPassword from "./components/ResetPassword";
-import ChangePassword from "./components/ChangePassword";
+import ChangeResetPassword from "./components/ChangeResetPassword";
 import './css/App.css';
 
 
@@ -48,7 +48,7 @@ export default class App extends Component {
                                     <RestrictedRoute path="/confirm" component={Confirm} />
                                     <RestrictedRoute path="/reset" component={ResetPassword} />
 
-                                    <Route path="/changePassword" component={ChangePassword} />
+                                    <Route path="/changePassword" component={ChangeResetPassword} />
 
                                     <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
 

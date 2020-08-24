@@ -74,7 +74,7 @@ public class Account extends AbstractEntity {
     private AuthData authData;
 
     @NotNull
-    @OneToMany(mappedBy = "account", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "account", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<PreviousPassword> previousPasswords = new ArrayList<>();
 
     @Override

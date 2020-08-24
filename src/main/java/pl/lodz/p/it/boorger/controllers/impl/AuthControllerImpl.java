@@ -47,9 +47,9 @@ public class AuthControllerImpl implements AuthController {
     private EmailService emailService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) throws AppBaseException {
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, @RequestHeader("lang") String language) throws AppBaseException {
         Authentication authentication;
-        Account account = new Account();
+        Account account;
 
         try {
             account = accountService.getAccountByLogin(loginRequest.getLogin());
@@ -63,18 +63,11 @@ public class AuthControllerImpl implements AuthController {
                 emailService.sendAccountBlockedEmail(account.getEmail(), account.getLanguage());
                 throw new FailedAuthException();
             }
-
-
-            if(account.getAccessLevels().stream().map(AccessLevel::getAccessLevel).collect(Collectors.toList())
-                    .contains(env.getProperty("boorger.roleAdmin"))) {
-                emailService.sendAdminAuthEmail(account.getEmail(), account.getLanguage(), request.getRemoteAddr());
-            }
-
         } catch (FailedAuthException e) {
             throw e;
         } catch (AppBaseException e) {
             log.warning("Login attempt error. Account with username: " + loginRequest.getLogin() + " does not exists");
-            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", loginRequest.getLanguage()));
+            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", language));
         }
 
         try {
@@ -84,15 +77,20 @@ public class AuthControllerImpl implements AuthController {
         } catch (BadCredentialsException e) {
             account.getAuthData().setLastFailedAuth(LocalDateTime.now());
             accountService.editAuthData(account.getAuthData());
-            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", loginRequest.getLanguage()));
+            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.badcredentials", language));
         } catch (LockedException | DisabledException e) {
             account.getAuthData().setLastFailedAuth(LocalDateTime.now());
             accountService.editAuthData(account.getAuthData());
-            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.account.inactive", loginRequest.getLanguage()));
+            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.account.inactive", language));
         } catch (AuthenticationException e) {
             account.getAuthData().setLastFailedAuth(LocalDateTime.now());
             accountService.editAuthData(account.getAuthData());
-            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default", loginRequest.getLanguage()));
+            return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default", language));
+        }
+
+        if(account.getAccessLevels().stream().map(AccessLevel::getAccessLevel).collect(Collectors.toList())
+                .contains(env.getProperty("boorger.roleAdmin"))) {
+            emailService.sendAdminAuthEmail(account.getEmail(), account.getLanguage(), request.getRemoteAddr());
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -101,7 +99,7 @@ public class AuthControllerImpl implements AuthController {
 
         return ResponseEntity.ok(new JWTResponse(
                 jwt,
-                prepareAuthDetails(account, loginRequest.getLanguage(), request.getRemoteAddr()),
+                prepareAuthDetails(account, language, request.getRemoteAddr()),
                 userDetails.getLanguage()));
     }
 
