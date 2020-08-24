@@ -48,9 +48,12 @@ export default {
         'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.',
         'listAccounts': 'Lista kont',
         'addAccount': 'Dodaj nowe konto',
-        'viewProfile': 'Wyświetl profil',
+        'myProfile': 'Mój profil',
         'changePassword': 'Zmień hasło',
         'forgotPassword': 'Zapomniałeś hasła?',
-        'provideMail': 'Wprowadź swój adres email'
+        'currentPassword': 'Obecne hasło',
+        'newPassword': 'Nowe hasło',
+        'repeatNewPassword': 'Powtórz nowe hasło',
+        'provideMail': 'Wprowadź swój adres email',
     }
 }

@@ -14,4 +14,5 @@ public interface AccountController {
     void changeLanguage(String login, String language) throws AppBaseException;
     ResponseEntity<?> resetPassword(String email, String language, HttpServletRequest request) throws AppBaseException;
     ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha, String language) throws AppBaseException;
+    ResponseEntity<?> changePassword(AccountDTO accountDTO, String captcha, String language) throws AppBaseException;
 }

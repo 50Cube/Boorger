@@ -34,7 +34,7 @@ export default class AdminMenu extends Component {
                         </div> : null }
                         { activeItem === 'accountList' ?
                         <div className="adminContent">
-                            <ListAccounts render={false} />
+                            <ListAccounts />
                         </div> : null }
                     </div>
                 </div>

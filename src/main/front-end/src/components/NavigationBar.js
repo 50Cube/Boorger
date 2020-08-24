@@ -101,11 +101,9 @@ export default class NavigationBar extends Component {
         if(getUser() !== "") {
             return (
                 <Nav className="ml-auto">
-                    <NavDropdown alignRight title={
-                        <span><BsFillPersonFill className="navIcons" /> {getUser()}</span>}>
-                        <NavDropdown.Item>{Translate('viewProfile')}</NavDropdown.Item>
-                        <NavDropdown.Item>{Translate('changePassword')}</NavDropdown.Item>
-                    </NavDropdown>
+                    <Nav.Item>
+                        <Nav.Link as={Link} to="/userMenu"><BsFillPersonFill className="navIcons" /> {getUser()}</Nav.Link>
+                    </Nav.Item>
                 </Nav>
             )
         }

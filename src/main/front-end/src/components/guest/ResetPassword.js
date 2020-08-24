@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader} from "../services/UserDataService";
+import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
-import Translate from '../i18n/Translate';
+import Translate from '../../i18n/Translate';
 import {FormGroup, FormControl, Button} from "react-bootstrap";
-import ValidationMessage from "../i18n/ValidationMessage";
+import ValidationMessage from "../../i18n/ValidationMessage";
 import Spinner from "react-bootstrap/Spinner";
-import '../css/ResetPassword.css';
+import '../../css/ResetPassword.css';
 
 export default class ResetPassword extends Component {
 

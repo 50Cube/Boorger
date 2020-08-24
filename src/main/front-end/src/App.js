@@ -5,17 +5,18 @@ import { RestrictedRoute } from "./RestrictedRoute";
 import Home from "./components/Home";
 import NotFound from "./components/NotFound";
 import NavigationBar from "./components/NavigationBar";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import Confirm from "./components/Confirm";
+import Login from "./components/guest/Login";
+import Register from "./components/guest/Register";
+import Confirm from "./components/guest/Confirm";
 import AccessDenied from "./components/AccessDenied";
 import {getCurrentAccessLevel, getLanguage} from "./services/UserDataService";
 import { I18nProvider } from "./i18n";
 import RoleContext from "./services/RoleContext";
 import Cookies from "universal-cookie/cjs";
 import AdminMenu from "./components/admin/AdminMenu";
-import ResetPassword from "./components/ResetPassword";
-import ChangeResetPassword from "./components/ChangeResetPassword";
+import ResetPassword from "./components/guest/ResetPassword";
+import ChangeResetPassword from "./components/guest/ChangeResetPassword";
+import UserMenu from "./components/user/UserMenu";
 import './css/App.css';
 
 
@@ -48,9 +49,11 @@ export default class App extends Component {
                                     <RestrictedRoute path="/confirm" component={Confirm} />
                                     <RestrictedRoute path="/reset" component={ResetPassword} />
 
-                                    <Route path="/changePassword" component={ChangeResetPassword} />
+                                    <Route path="/changeResetPassword" component={ChangeResetPassword} />
 
                                     <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
+                                    <PrivateRoute path="/userMenu" component={UserMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                                                    process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
 
                                     <Route path="/accessDenied" component={AccessDenied} />
                                     <Route component={NotFound} />

@@ -87,12 +87,21 @@ public class AccountControllerImpl implements AccountController {
         return token;
     }
 
-    @PostMapping("/changePassword/{token}/{captcha}")
+    @PostMapping("/changeResetPassword/{token}/{captcha}")
     public ResponseEntity<?> changeResetPassword(@PathVariable String token, @RequestBody AccountDTO accountDTO,
                                             @PathVariable String captcha, @RequestHeader("lang") String language) throws AppBaseException {
         if(!captchaValidator.validateCaptcha(captcha))
             throw new CaptchaException();
         accountService.changeResetPassword(token, accountDTO);
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", language));
+    }
+
+    @PostMapping("/changePassword/{captcha}")
+    public ResponseEntity<?> changePassword(@RequestBody AccountDTO accountDTO, @PathVariable String captcha,
+                                            @RequestHeader("lang") String language) throws AppBaseException {
+        if(!captchaValidator.validateCaptcha(captcha))
+            throw new CaptchaException();
+        accountService.changePassword(accountDTO);
         return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", language));
     }
 }

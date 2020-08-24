@@ -1,0 +1,27 @@
+.userImage {
+    background-image: url("../assets/userBackgroundImage.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100%;
+}
+
+.userMenu {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 90%;
+}
+
+.userContent {
+    margin: 60px 10px 10px 40px;
+    padding: 40px 15px 40px 15px;
+    display: inline-block;
+    vertical-align: top;
+    border: 1px inset #FFFF00;
+    border-radius: 5px;
+    box-shadow: 2px 3px #A49A17;
+    width: 50%;
+    background-color: #FFFF00;
+    opacity: 0.94;
+}

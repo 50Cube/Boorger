@@ -19,6 +19,10 @@ public class AccountDTO {
     @Size(min = 8, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
     private String password;
+
+    @Size(min = 8, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
+    private String previousPassword;
     private boolean active;
     private boolean confirmed;
 

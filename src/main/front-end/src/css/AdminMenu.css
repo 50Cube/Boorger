@@ -26,18 +26,6 @@
     opacity: 0.94;
 }
 
-.menu {
-    margin-top: 60px;
-    padding: 4px 6px 4px 0;
-    display: inline-block;
-    vertical-align: top;
-    border: 1px inset #FFFF00;
-    border-radius: 5px;
-    box-shadow: 2px 3px #A49A17;
-    background-color: #FFFF00;
-    opacity: 0.94;
-}
-
 .tableLabels {
     font-weight: bold !important;
     font-size: 100% !important;

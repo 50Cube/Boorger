@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import {Button, FormGroup, FormControl, FormLabel} from 'react-bootstrap';
 import axios from 'axios';
-import Translate from "../i18n/Translate";
+import Translate from "../../i18n/Translate";
 import Swal from "sweetalert2";
-import {getHeader, getLanguage} from "../services/UserDataService";
-import ValidationMessage from "../i18n/ValidationMessage";
+import {getHeader, getLanguage} from "../../services/UserDataService";
+import ValidationMessage from "../../i18n/ValidationMessage";
 import { AiOutlineMail, RiLockPasswordLine, FiUserPlus, FiUser, FiUsers } from "react-icons/all";
 import Reaptcha from "reaptcha";
-import '../css/Register.css';
+import '../../css/Register.css';
 import Spinner from "react-bootstrap/Spinner";
 
 export default class Register extends Component {

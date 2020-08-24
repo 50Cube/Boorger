@@ -23,7 +23,6 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Log
 @Service
@@ -139,26 +138,37 @@ public class AccountService {
     public void changeResetPassword(String token, AccountDTO accountDTO) throws AppBaseException {
         ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
                 .orElseThrow(AppBaseException::new);
-
         if(forgotPasswordToken.getExpireDate().isBefore(LocalDateTime.now()))
             throw new TokenExpiredException();
-
         Account account = forgotPasswordToken.getAccount();
-        if(checkIfPasswordWasUsed(account, accountDTO.getPassword()))
-            throw new PasswordAlreadyUsedException();
-
-        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
-        PreviousPassword previousPassword = new PreviousPassword();
-        previousPassword.setAccount(account);
-        previousPassword.setPassword(accountDTO.getPassword());
-
-        account.getPreviousPasswords().add(previousPassword);
-        account.setPassword(accountDTO.getPassword());
+        addPreviousPassword(account, accountDTO);
         accountRepository.save(account);
         accountTokenRepository.delete(forgotPasswordToken);
     }
 
     private boolean checkIfPasswordWasUsed(Account account, String newPassword) {
         return account.getPreviousPasswords().stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getPassword()));
+    }
+
+    private void addPreviousPassword(Account account, AccountDTO accountDTO) throws AppBaseException {
+        if(checkIfPasswordWasUsed(account, accountDTO.getPassword()))
+            throw new PasswordAlreadyUsedException();
+        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+
+        PreviousPassword previousPassword = new PreviousPassword();
+        previousPassword.setAccount(account);
+        previousPassword.setPassword(accountDTO.getPassword());
+
+        account.getPreviousPasswords().add(previousPassword);
+        account.setPassword(accountDTO.getPassword());
+    }
+
+    public void changePassword(AccountDTO accountDTO) throws AppBaseException {
+        Account account = accountRepository.findByLogin(accountDTO.getLogin())
+                .orElseThrow(AccountNotFoundException::new);
+        if(!passwordEncoder.matches(accountDTO.getPreviousPassword(), account.getPassword()))
+            throw new IncorrectCurrentPasswordException();
+        addPreviousPassword(account, accountDTO);
+        accountRepository.save(account);
     }
 }

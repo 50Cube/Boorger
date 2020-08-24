@@ -24,7 +24,7 @@ import pl.lodz.p.it.boorger.security.services.UserDetailsServiceImpl;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register/**", "/boorger/confirm/**", "/boorger/reset/**",
-                                        "/boorger/changePassword/**"};
+                                        "/boorger/changeResetPassword/**"};
     private final String[] CLIENT_PATHS = new String[]{"/tmp"};
     private final String[] MANAGER_PATHS = new String[]{"/tmp"};
     private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**"};

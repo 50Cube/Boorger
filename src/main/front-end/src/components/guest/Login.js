@@ -3,11 +3,11 @@ import { Button, FormGroup, FormControl, FormLabel } from 'react-bootstrap';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from "universal-cookie/lib";
-import { getFirstAccessLevel, getHeader, hashString } from "../services/UserDataService";
-import Translate from "../i18n/Translate";
+import { getFirstAccessLevel, getHeader, hashString } from "../../services/UserDataService";
+import Translate from "../../i18n/Translate";
 import {Link} from "react-router-dom";
 import Spinner from "react-bootstrap/Spinner";
-import '../css/Login.css';
+import '../../css/Login.css';
 
 export default class Login extends Component {
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader} from "../services/UserDataService";
+import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 
 export default class Confirm extends Component {

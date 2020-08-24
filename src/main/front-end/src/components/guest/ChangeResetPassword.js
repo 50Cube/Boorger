@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader, getUser} from "../services/UserDataService";
+import {getHeader, getUser} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import {Button, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {RiLockPasswordLine} from "react-icons/all";
-import Translate from "../i18n/Translate";
-import ValidationMessage from "../i18n/ValidationMessage";
-import '../css/ChangePassword.css';
+import Translate from "../../i18n/Translate";
+import ValidationMessage from "../../i18n/ValidationMessage";
+import '../../css/ChangeResetPassword.css';
 import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
 
@@ -92,7 +92,7 @@ export default class ChangeResetPassword extends Component {
         this.setState({
             loading: true
         });
-        axios.post("/changePassword/" + this.state.token[1] + "/" + this.state.captcha,
+        axios.post("/changeResetPassword/" + this.state.token[1] + "/" + this.state.captcha,
             {
                 password: this.state.password
         }, { headers: getHeader() })
@@ -120,14 +120,14 @@ export default class ChangeResetPassword extends Component {
                     <form>
                         <FormGroup className="labels">
                             <RiLockPasswordLine className="icons"/>
-                            <FormLabel>{Translate('password')} *</FormLabel>
+                            <FormLabel>{Translate('newPassword')} *</FormLabel>
                             <FormControl type="password" value={this.state.password} onChange={event => this.updatePassword(event.target.value)} />
                             <ValidationMessage valid={this.state.passwordValid} message={this.state.errorMsg.password} />
                         </FormGroup>
 
                         <FormGroup className="labels">
                             <RiLockPasswordLine className="icons"/>
-                            <FormLabel>{Translate('password2')} *</FormLabel>
+                            <FormLabel>{Translate('repeatNewPassword')} *</FormLabel>
                             <FormControl type="password" value={this.state.confirmPassword} onChange={event => this.updateConfirmPassword(event.target.value)} />
                             <ValidationMessage valid={this.state.confirmPasswordValid} message={this.state.errorMsg.confirmPassword} />
                         </FormGroup>

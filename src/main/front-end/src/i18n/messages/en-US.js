@@ -48,9 +48,12 @@ export default {
         'adminPanelLabel2': 'From here you can manage user accounts.',
         'listAccounts': 'List accounts',
         'addAccount': 'Add new account',
-        'viewProfile': 'View profile',
+        'myProfile': 'My profile',
         'changePassword': 'Change password',
         'forgotPassword': 'Forgot password?',
+        'currentPassword': 'Current password',
+        'newPassword': 'New password',
+        'repeatNewPassword': 'Repeat new password',
         'provideMail': 'Enter your email address',
     }
 }
