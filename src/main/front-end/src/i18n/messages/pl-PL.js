@@ -62,6 +62,8 @@ export default {
         'editTooltip': 'Edytuj dane osobowe',
         'accessLevels': 'Poziomy dostępu',
         'save': 'Zapisz',
-        'cancel': 'Anuluj'
+        'cancel': 'Anuluj',
+        'accessDenied': 'Nie masz uprawnień żeby zobaczyć tę stronę',
+        'pageNotFound': 'Strona nie została znaleziona'
     }
 }

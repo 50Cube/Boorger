@@ -62,6 +62,8 @@ export default {
         'editTooltip': 'Edit personal data',
         'accessLevels': 'Access levels',
         'save': 'Save',
-        'cancel': 'Cancel'
+        'cancel': 'Cancel',
+        'accessDenied': 'You are not authorized to view this page',
+        'pageNotFound': 'Page not found'
     }
 }
