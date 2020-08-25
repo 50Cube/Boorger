@@ -38,13 +38,23 @@ public class AccountService {
     private Environment env;
 
     @ServiceReadOnlyTransaction
+    public Account getAccount(String login) throws AppBaseException {
+        try {
+            return accountRepository.findByLogin(login)
+                    .orElseThrow(AccountNotFoundException::new);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    @ServiceReadOnlyTransaction
     public Page<Account> getAccounts(int page) throws AppBaseException {
         try {
             return accountRepository.findAll(
                     PageRequest.of(page, Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.pageSize")))));
         } catch (DataAccessException e) {
-                throw new DatabaseException();
-            }
+            throw new DatabaseException();
+        }
     }
 
     @ServiceReadOnlyTransaction

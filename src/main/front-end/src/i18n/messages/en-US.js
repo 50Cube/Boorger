@@ -18,6 +18,10 @@ export default {
         'MANAGER': 'Manager',
         'client': 'Client',
         'CLIENT': 'Client',
+        'ADMIN,CLIENT,MANAGER': 'Admin, Client, Manager',
+        'ADMIN,CLIENT': 'Admin, Client',
+        'CLIENT,MANAGER': 'Client, Manager',
+        'ADMIN,MANAGER': 'Admin, Manager',
         'active': 'Active',
         'confirmed': 'Confirmed',
         'lastAuthIP': 'Last authentication IP address',
@@ -55,5 +59,7 @@ export default {
         'newPassword': 'New password',
         'repeatNewPassword': 'Repeat new password',
         'provideMail': 'Enter your email address',
+        'editTooltip': 'Edit personal data',
+        'accessLevels': 'Access levels'
     }
 }

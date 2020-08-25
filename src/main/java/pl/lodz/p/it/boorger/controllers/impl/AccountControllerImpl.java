@@ -38,6 +38,11 @@ public class AccountControllerImpl implements AccountController {
     private Environment env;
     private CaptchaValidator captchaValidator;
 
+    @GetMapping("/account/{login}")
+    public AccountDTO getAccount(@PathVariable String login) throws AppBaseException {
+        return AccountMapper.mapToDto(accountService.getAccount(login));
+    }
+
     @GetMapping("/accounts/{page}")
     public List<AccountDTO> getAccounts(@PathVariable int page) throws AppBaseException {
         return accountService.getAccounts(page).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());

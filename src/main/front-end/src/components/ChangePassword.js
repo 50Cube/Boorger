@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader, getUser} from "../services/UserDataService";
+import {getHeader, getLanguage, getUser} from "../services/UserDataService";
 import Swal from "sweetalert2";
 import {Button, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {RiLockPasswordLine} from "react-icons/all";
@@ -173,7 +173,8 @@ export default class ChangePassword extends Component {
                         <ValidationMessage valid={this.state.confirmPasswordValid} message={this.state.errorMsg.confirmPassword} />
                     </FormGroup>
                     <div className="bottom">
-                        <Reaptcha className="captcha" ref={e => (this.captcha = e)} sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
+                        <Reaptcha className="captcha" ref={e => (this.captcha = e)} hl={getLanguage()}
+                                  sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                     </div>
                     <div className="bottom">
                         <Button className="button" type="submit" onClick={this.change} disabled={!this.state.formValid}>

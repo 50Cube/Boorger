@@ -271,7 +271,8 @@ export default class Register extends Component {
                         </FormGroup>
 
                         <div className="bottom">
-                            <Reaptcha className="captcha" ref={e => (this.captcha = e)} sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
+                            <Reaptcha className="captcha" ref={e => (this.captcha = e)} hl={getLanguage()}
+                                      sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                         </div>
                         <div className="bottom">
                             <Button className="button" type="submit" onClick={this.register} disabled={!this.state.captchaValid}>

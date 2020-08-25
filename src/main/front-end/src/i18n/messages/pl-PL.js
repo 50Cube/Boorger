@@ -18,6 +18,10 @@ export default {
         'MANAGER': 'Menadżer',
         'client': 'Klient',
         'CLIENT': 'Klient',
+        'ADMIN,CLIENT,MANAGER': 'Administrator, Klient, Menadżer',
+        'ADMIN,CLIENT': 'Administrator, Klient',
+        'CLIENT,MANAGER': 'Klient, Menadżer',
+        'ADMIN,MANAGER': 'Administrator, Menadżer',
         'active': 'Aktywny',
         'confirmed': 'Potwierdzony',
         'lastAuthIP': 'Adres IP ostatniego uwierzytelnienia',
@@ -55,5 +59,7 @@ export default {
         'newPassword': 'Nowe hasło',
         'repeatNewPassword': 'Powtórz nowe hasło',
         'provideMail': 'Wprowadź swój adres email',
+        'editTooltip': 'Edytuj dane osobowe',
+        'accessLevels': 'Poziomy dostępu'
     }
 }

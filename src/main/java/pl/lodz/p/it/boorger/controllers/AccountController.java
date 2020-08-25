@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface AccountController {
 
+    AccountDTO getAccount(String login) throws AppBaseException;
     List<AccountDTO> getAccounts(int page) throws AppBaseException;
     int getAccountsPageAmount() throws AppBaseException;
     void changeLanguage(String login, String language) throws AppBaseException;

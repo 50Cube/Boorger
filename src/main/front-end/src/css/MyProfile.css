@@ -1,0 +1,31 @@
+.profileImage {
+    float: left;
+    display: inline-block;
+    font-size: 1000%;
+}
+
+.profileData {
+    float: left;
+    font-size: 150%;
+    margin-left: 40px;
+}
+
+.label {
+    font-size: 70%;
+    font-style: italic;
+    margin-bottom: 0;
+    font-weight: unset;
+}
+
+p {
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.editIcon {
+    float: right;
+    font-size: 200%;
+    margin-right: 20px;
+}
