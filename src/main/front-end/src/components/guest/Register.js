@@ -9,6 +9,7 @@ import { AiOutlineMail, RiLockPasswordLine, FiUserPlus, FiUser, FiUsers } from "
 import Reaptcha from "reaptcha";
 import '../../css/Register.css';
 import Spinner from "react-bootstrap/Spinner";
+import ValidationService from '../../services/ValidationService';
 
 export default class Register extends Component {
 
@@ -61,99 +62,19 @@ export default class Register extends Component {
     };
 
     updatePassword = (password) => {
-      this.setState({password}, this.validatePassword)
-    };
-
-    validatePassword = () => {
-      const { password } = this.state;
-      let passwordValid = true;
-      let errorMsg = {...this.state.errorMsg};
-
-      if(password.length < 1) {
-          passwordValid = false;
-          errorMsg.password = 'field-required'
-      }
-      else if(password.length < 8) {
-          passwordValid = false;
-          errorMsg.password = 'password-length'
-      }
-      else if(!/\d/.test(password)) {
-          passwordValid = false;
-          errorMsg.password = 'password-number'
-      }
-      else if(!/[!@#$%^&*]/.test(password)) {
-          passwordValid = false;
-          errorMsg.password = 'password-char'
-      }
-      else if(password.length > 32) {
-          passwordValid = false;
-          errorMsg.password = 'field-toolong'
-      }
-      this.setState({passwordValid, errorMsg}, this.validateForm)
+      this.setState({password}, ValidationService.validatePassword)
     };
 
     updateConfirmPassword = (confirmPassword) => {
-        this.setState({confirmPassword}, this.validateConfirmPassword)
-    };
-
-    validateConfirmPassword = () => {
-        const { confirmPassword } = this.state;
-        let confirmPasswordValid = true;
-        let errorMsg = {...this.state.errorMsg};
-
-        if(confirmPassword !== this.state.password) {
-            confirmPasswordValid = false;
-            errorMsg.confirmPassword = 'password-confirm';
-        }
-        this.setState({confirmPasswordValid, errorMsg}, this.validateForm)
+        this.setState({confirmPassword}, ValidationService.validateConfirmPassword)
     };
 
     updateFirstname = (firstname) => {
-      this.setState({firstname}, this.validateFirstname)
-    };
-
-    validateFirstname = () => {
-      const { firstname } = this.state;
-      let firstnameValid = true;
-      let errorMsg = {...this.state.errorMsg};
-
-      if(firstname.length < 1) {
-          firstnameValid = false;
-          errorMsg.firstname = 'field-required';
-      }
-      else if(!/^([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)$/.test(firstname)) {
-          firstnameValid = false;
-          errorMsg.firstname = 'field-pattern'
-      }
-      else if(firstname.length > 32) {
-          firstnameValid = false;
-          errorMsg.firstname = 'field-toolong'
-      }
-      this.setState({firstnameValid, errorMsg}, this.validateForm)
+      this.setState({firstname}, ValidationService.validateFirstname)
     };
 
     updateLastname = (lastname) => {
-        this.setState({lastname}, this.validateLastname)
-    };
-
-    validateLastname = () => {
-        const { lastname } = this.state;
-        let lastnameValid = true;
-        let errorMsg = {...this.state.errorMsg};
-
-        if(lastname.length < 1) {
-            lastnameValid = false;
-            errorMsg.lastname = 'field-required';
-        }
-        else if(!/^([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ`-]+)$/.test(lastname)) {
-            lastnameValid = false;
-            errorMsg.lastname = 'field-pattern'
-        }
-        else if(lastname.length > 32) {
-            lastnameValid = false;
-            errorMsg.lastname = 'field-toolong'
-        }
-        this.setState({lastnameValid, errorMsg}, this.validateForm)
+        this.setState({lastname}, ValidationService.validateLastname)
     };
 
     updateEmail = (email) => {

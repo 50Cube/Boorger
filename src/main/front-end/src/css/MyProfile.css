@@ -29,3 +29,26 @@ p {
     font-size: 200%;
     margin-right: 20px;
 }
+
+.editButtonConfirm {
+    margin-right: 10px;
+    background-color: green;
+}
+
+.editButtonConfirm:hover, .editButtonConfirm:disabled, .editButtonConfirm:focus {
+    background-color: darkgreen !important;
+}
+
+.editButtonCancel {
+    margin-left: 10px;
+    background-color: red;
+}
+
+.editButtonCancel:hover, .editButtonCancel:focus {
+    background-color: darkred !important;
+}
+
+.validationMessages {
+    text-align: left;
+    font-size: 80%;
+}

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceReadOnlyTransaction;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
-import pl.lodz.p.it.boorger.dto.AccountDTO;
 import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AccountRepository;
@@ -109,16 +108,20 @@ public class AccountService {
     }
 
     public void confirmAccount(String token) throws AppBaseException {
-        AccountConfirmToken accountConfirmToken = (AccountConfirmToken) accountTokenRepository.findByBusinessKey(token)
-                .orElseThrow(AppBaseException::new);
-        if(accountConfirmToken.getExpireDate().isBefore(LocalDateTime.now()))
-            throw new TokenExpiredException();
-        Account account = accountConfirmToken.getAccount();
-        if(account.isConfirmed())
-            throw new AccountAlreadyConfirmedException();
-        account.setConfirmed(true);
-        accountRepository.save(account);
-        accountTokenRepository.delete(accountConfirmToken);
+        try {
+            AccountConfirmToken accountConfirmToken = (AccountConfirmToken) accountTokenRepository.findByBusinessKey(token)
+                    .orElseThrow(AppBaseException::new);
+            if(accountConfirmToken.getExpireDate().isBefore(LocalDateTime.now()))
+                throw new TokenExpiredException();
+            Account account = accountConfirmToken.getAccount();
+            if(account.isConfirmed())
+                throw new AccountAlreadyConfirmedException();
+            account.setConfirmed(true);
+            accountRepository.save(account);
+            accountTokenRepository.delete(accountConfirmToken);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 
     public Account getAccountByEmail(String email) throws AppBaseException {
@@ -145,40 +148,60 @@ public class AccountService {
         }
     }
 
-    public void changeResetPassword(String token, AccountDTO accountDTO) throws AppBaseException {
-        ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
-                .orElseThrow(AppBaseException::new);
-        if(forgotPasswordToken.getExpireDate().isBefore(LocalDateTime.now()))
-            throw new TokenExpiredException();
-        Account account = forgotPasswordToken.getAccount();
-        addPreviousPassword(account, accountDTO);
-        accountRepository.save(account);
-        accountTokenRepository.delete(forgotPasswordToken);
+    public void changeResetPassword(String token, Account editedAccount) throws AppBaseException {
+        try {
+            ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
+                    .orElseThrow(AppBaseException::new);
+            if(forgotPasswordToken.getExpireDate().isBefore(LocalDateTime.now()))
+                throw new TokenExpiredException();
+            Account account = forgotPasswordToken.getAccount();
+            addPreviousPassword(account, editedAccount);
+            accountRepository.save(account);
+            accountTokenRepository.delete(forgotPasswordToken);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 
     private boolean checkIfPasswordWasUsed(Account account, String newPassword) {
         return account.getPreviousPasswords().stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getPassword()));
     }
 
-    private void addPreviousPassword(Account account, AccountDTO accountDTO) throws AppBaseException {
-        if(checkIfPasswordWasUsed(account, accountDTO.getPassword()))
+    private void addPreviousPassword(Account account, Account editedAccount) throws AppBaseException {
+        if(checkIfPasswordWasUsed(account, editedAccount.getPassword()))
             throw new PasswordAlreadyUsedException();
-        accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        editedAccount.setPassword(passwordEncoder.encode(editedAccount.getPassword()));
 
         PreviousPassword previousPassword = new PreviousPassword();
         previousPassword.setAccount(account);
-        previousPassword.setPassword(accountDTO.getPassword());
+        previousPassword.setPassword(editedAccount.getPassword());
 
         account.getPreviousPasswords().add(previousPassword);
-        account.setPassword(accountDTO.getPassword());
+        account.setPassword(editedAccount.getPassword());
     }
 
-    public void changePassword(AccountDTO accountDTO) throws AppBaseException {
-        Account account = accountRepository.findByLogin(accountDTO.getLogin())
-                .orElseThrow(AccountNotFoundException::new);
-        if(!passwordEncoder.matches(accountDTO.getPreviousPassword(), account.getPassword()))
-            throw new IncorrectCurrentPasswordException();
-        addPreviousPassword(account, accountDTO);
-        accountRepository.save(account);
+    public void changePassword(Account editedAccount, String previous) throws AppBaseException {
+        try {
+            Account account = accountRepository.findByLogin(editedAccount.getLogin())
+                    .orElseThrow(AccountNotFoundException::new);
+            if(!passwordEncoder.matches(previous, account.getPassword()))
+                throw new IncorrectCurrentPasswordException();
+            addPreviousPassword(account, editedAccount);
+            accountRepository.save(account);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void editPersonal(Account editedAccount) throws AppBaseException {
+        try {
+            Account account = accountRepository.findByLogin(editedAccount.getLogin())
+                    .orElseThrow(AccountNotFoundException::new);
+            account.setFirstname(editedAccount.getFirstname());
+            account.setLastname(editedAccount.getLastname());
+            accountRepository.save(account);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 }

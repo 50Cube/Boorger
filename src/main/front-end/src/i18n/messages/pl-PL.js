@@ -60,6 +60,8 @@ export default {
         'repeatNewPassword': 'Powtórz nowe hasło',
         'provideMail': 'Wprowadź swój adres email',
         'editTooltip': 'Edytuj dane osobowe',
-        'accessLevels': 'Poziomy dostępu'
+        'accessLevels': 'Poziomy dostępu',
+        'save': 'Zapisz',
+        'cancel': 'Anuluj'
     }
 }

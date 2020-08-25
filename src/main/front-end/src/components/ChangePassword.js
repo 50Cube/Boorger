@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader, getLanguage, getUser} from "../services/UserDataService";
+import {getHeader, getLanguage, getLanguageShortcut, getUser} from "../services/UserDataService";
 import Swal from "sweetalert2";
 import {Button, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {RiLockPasswordLine} from "react-icons/all";
 import Translate from "../i18n/Translate";
 import ValidationMessage from "../i18n/ValidationMessage";
-import '../css/ChangeResetPassword.css';
 import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
+import ValidationService from "../services/ValidationService";
+import '../css/ChangeResetPassword.css';
 import '../css/ChangePassword.css';
 
 export default class ChangePassword extends Component {
@@ -67,51 +68,11 @@ export default class ChangePassword extends Component {
     };
 
     updatePassword = (password) => {
-        this.setState({password}, this.validatePassword)
-    };
-
-    validatePassword = () => {
-        const { password } = this.state;
-        let passwordValid = true;
-        let errorMsg = {...this.state.errorMsg};
-
-        if(password.length < 1) {
-            passwordValid = false;
-            errorMsg.password = 'field-required'
-        }
-        else if(password.length < 8) {
-            passwordValid = false;
-            errorMsg.password = 'password-length'
-        }
-        else if(!/\d/.test(password)) {
-            passwordValid = false;
-            errorMsg.password = 'password-number'
-        }
-        else if(!/[!@#$%^&*]/.test(password)) {
-            passwordValid = false;
-            errorMsg.password = 'password-char'
-        }
-        else if(password.length > 32) {
-            passwordValid = false;
-            errorMsg.password = 'field-toolong'
-        }
-        this.setState({passwordValid, errorMsg}, this.validateForm)
+        this.setState({password}, ValidationService.validatePassword)
     };
 
     updateConfirmPassword = (confirmPassword) => {
-        this.setState({confirmPassword}, this.validateConfirmPassword)
-    };
-
-    validateConfirmPassword = () => {
-        const { confirmPassword } = this.state;
-        let confirmPasswordValid = true;
-        let errorMsg = {...this.state.errorMsg};
-
-        if(confirmPassword !== this.state.password) {
-            confirmPasswordValid = false;
-            errorMsg.confirmPassword = 'password-confirm';
-        }
-        this.setState({confirmPasswordValid, errorMsg}, this.validateForm)
+        this.setState({confirmPassword}, ValidationService.validateConfirmPassword)
     };
 
     onCaptchaVerify = (response) => {
@@ -130,7 +91,8 @@ export default class ChangePassword extends Component {
             {
                 login: this.state.login,
                 previousPassword: this.state.previousPassword,
-                password: this.state.password
+                password: this.state.password,
+                language: getLanguageShortcut()
             }, { headers: getHeader() })
             .then(response => {
                 Swal.fire({

@@ -94,19 +94,23 @@ public class AccountControllerImpl implements AccountController {
 
     @PostMapping("/changeResetPassword/{token}/{captcha}")
     public ResponseEntity<?> changeResetPassword(@PathVariable String token, @RequestBody AccountDTO accountDTO,
-                                            @PathVariable String captcha, @RequestHeader("lang") String language) throws AppBaseException {
+                                            @PathVariable String captcha) throws AppBaseException {
         if(!captchaValidator.validateCaptcha(captcha))
             throw new CaptchaException();
-        accountService.changeResetPassword(token, accountDTO);
-        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", language));
+        accountService.changeResetPassword(token, AccountMapper.mapFromDto(accountDTO));
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", accountDTO.getLanguage()));
     }
 
     @PostMapping("/changePassword/{captcha}")
-    public ResponseEntity<?> changePassword(@RequestBody AccountDTO accountDTO, @PathVariable String captcha,
-                                            @RequestHeader("lang") String language) throws AppBaseException {
+    public ResponseEntity<?> changePassword(@RequestBody AccountDTO accountDTO, @PathVariable String captcha) throws AppBaseException {
         if(!captchaValidator.validateCaptcha(captcha))
             throw new CaptchaException();
-        accountService.changePassword(accountDTO);
-        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", language));
+        accountService.changePassword(AccountMapper.mapFromDto(accountDTO), accountDTO.getPreviousPassword());
+        return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", accountDTO.getLanguage()));
+    }
+
+    @PutMapping("/editPersonal")
+    public void editAccount(@RequestBody AccountDTO accountDTO) throws AppBaseException {
+        accountService.editPersonal(AccountMapper.mapFromDto(accountDTO));
     }
 }

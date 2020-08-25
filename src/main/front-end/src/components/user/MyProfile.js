@@ -3,25 +3,26 @@ import axios from 'axios';
 import { FaUser, AiFillEdit } from "react-icons/all";
 import '../../css/MyProfile.css';
 import Translate from "../../i18n/Translate";
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import {getHeader, getUser} from "../../services/UserDataService";
+import {FormGroup, FormControl, OverlayTrigger, Tooltip, Button} from 'react-bootstrap';
+import {getHeader, getLanguageShortcut, getUser} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import Spinner from "react-bootstrap/Spinner";
+import ValidationMessage from "../../i18n/ValidationMessage";
+import ValidationService from "../../services/ValidationService";
 
 export default class MyProfile extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            user: {
-                login: "",
-                email: "",
-                creationDate: "",
-                firstname: "",
-                lastname: "",
-                accessLevels: ""
-            },
-            loaded: false,
+            login: "",
+            email: "",
+            creationDate: "",
+            firstname: "", firstnameCopy: "", firstnameValid: true,
+            lastname: "", lastnameCopy: "", lastnameValid: true,
+            accessLevels: "",
+            errorMsg: {},
+            loaded: false, buttonLoading: false,
             editable: false
         }
     }
@@ -29,9 +30,15 @@ export default class MyProfile extends Component {
     componentDidMount() {
         axios.get('/account/' + getUser(), { headers: getHeader() })
             .then(response => {
-                console.log(response.data)
                 this.setState({
-                    user: response.data,
+                    login: response.data.login,
+                    email: response.data.email,
+                    creationDate: response.data.creationDate,
+                    firstname: response.data.firstname,
+                    firstnameCopy: response.data.firstname,
+                    lastname: response.data.lastname,
+                    lastnameCopy: response.data.lastname,
+                    accessLevels: response.data.accessLevels,
                     loaded: true
                 })
             }).catch(error => {
@@ -42,6 +49,50 @@ export default class MyProfile extends Component {
         })
     }
 
+    updateFirstname = (firstname) => {
+        this.setState({firstname}, ValidationService.validateFirstname)
+    };
+
+    updateLastname = (lastname) => {
+        this.setState({lastname}, ValidationService.validateLastname)
+    };
+
+    handleEdit = (e) => {
+        e.preventDefault();
+        this.setState({
+            buttonLoading: true
+        });
+        axios.put('/editPersonal', {
+            login: getUser(),
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            language: getLanguageShortcut()
+        }, { headers: getHeader() })
+            .then(() => {
+                this.setState({
+                    firstnameCopy: this.state.firstname,
+                    lastnameCopy: this.state.lastname,
+                    editable: false,
+                    buttonLoading: false
+                });
+            }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            }).then(() => this.setState({ buttonLoading: false }))
+        })
+    };
+
+    cancelEdit = () => {
+      this.setState({
+          firstname: this.state.firstnameCopy,
+          lastname: this.state.lastnameCopy,
+          firstnameValid: true,
+          lastnameValid: true,
+          editable: false,
+          buttonLoading: false
+      })
+    };
 
     render() {
         if(!this.state.loaded) {
@@ -53,18 +104,39 @@ export default class MyProfile extends Component {
                 </div>
                 <div className="profileData">
                     <p className="label">{Translate('username')}</p>
-                    <p>{this.state.user.login}</p>
+                    <p>{this.state.login}</p>
                     <p className="label">{Translate('email')}</p>
-                    <p>{this.state.user.email}</p>
-                    { this.state.user.accessLevels.length > 1 ?
+                    <p>{this.state.email}</p>
+                    { this.state.accessLevels.length > 1 ?
                         <div style={{"margin-bottom": "20px"}}><p className="label">{Translate('accessLevels')}</p>
-                            <p>{Translate(this.state.user.accessLevels.toString())}</p></div> : null }
+                            <p>{Translate(this.state.accessLevels.toString())}</p></div> : null }
                     <p className="label">{Translate('creationDate')}</p>
-                    <p>{this.state.user.creationDate}</p>
+                    <p>{this.state.creationDate}</p>
                     <p className="label">{Translate('firstname')}</p>
-                    <p>{this.state.user.firstname}</p>
+
+                    { this.state.editable ?
+                        <FormGroup className="validationMessages">
+                            <FormControl size='lg' defaultValue={this.state.firstname} onChange={event => this.updateFirstname(event.target.value)}/>
+                            <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorMsg.firstname} />
+                        </FormGroup>
+                        : <p>{this.state.firstname}</p>}
                     <p className="label">{Translate('lastname')}</p>
-                    <p>{this.state.user.lastname}</p>
+
+                    { this.state.editable ?
+                        <FormGroup className="validationMessages">
+                            <FormControl size='lg' defaultValue={this.state.lastname} onChange={event => this.updateLastname(event.target.value)}/>
+                            <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorMsg.lastname} />
+                        </FormGroup>
+                    : <p>{this.state.lastname}</p> }
+
+                    { this.state.editable ?
+                        <div>
+                            <Button className="editButtonConfirm" onClick={this.handleEdit}
+                                    disabled={!this.state.firstnameValid || !this.state.lastnameValid}>
+                                { this.state.buttonLoading ? <Spinner className="spinner" animation="border" /> : Translate('save') } </Button>
+                            <Button className="editButtonCancel" onClick={this.cancelEdit}>{Translate('cancel')}</Button>
+                        </div> : null }
+
                 </div>
                 <div className="editIcon">
                     <OverlayTrigger placement="bottom" overlay={<Tooltip id="button-tooltip">{Translate('editTooltip')}</Tooltip>}>
