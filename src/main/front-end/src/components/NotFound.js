@@ -7,7 +7,7 @@ export default class NotFound extends Component {
     render() {
         return (
             <div className="div404">
-                <svg width="380px" height="500px" viewBox="0 0 837 1045" version="1.1"
+                <svg className="notFoundImg" width="380px" height="500px" viewBox="0 0 837 1045" version="1.1"
                      xmlns="http://www.w3.org/2000/svg">
                     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
                         <path

@@ -40,12 +40,17 @@ export default class Login extends Component {
             .then(response => {
                 if(response.data.token) {
                     this.cookies.set("jwt", response.data.token, { path: "/" });
-                    localStorage.setItem("swal1", response.data.messages[0]);
-                    localStorage.setItem("swal2", response.data.messages[1]);
                     localStorage.setItem("lang", response.data.language);
                     sessionStorage.setItem("role", hashString(getFirstAccessLevel()));
-                    this.props.history.push("/");
-                    window.location.reload();
+                    let messages = [response.data.messages[0], response.data.messages[1]];
+                    Swal.fire({
+                        icon: 'success',
+                        html: messages.join('<br>'),
+                        timer: 3000,
+                    }).then(() => {
+                        this.props.history.push("/");
+                        window.location.reload();
+                    });
                 }
             })
             .catch(error => {
