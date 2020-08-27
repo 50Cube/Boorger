@@ -99,35 +99,35 @@ export default class MyProfile extends Component {
             return (<Spinner animation="border"/>)
         } else return (
             <div>
-                <div className="profileImage">
+                <div className="myProfileImage">
                     <FaUser/>
                 </div>
-                <div className="profileData">
-                    <p className="label profileText">{Translate('username')}</p>
-                    <p className="profileText">{this.state.login}</p>
-                    <p className="label profileText">{Translate('email')}</p>
-                    <p className="profileText">{this.state.email}</p>
+                <div className="myProfileData">
+                    <p className="label myProfileText">{Translate('username')}</p>
+                    <p className="myProfileText">{this.state.login}</p>
+                    <p className="label myProfileText">{Translate('email')}</p>
+                    <p className="myProfileText">{this.state.email}</p>
                     { this.state.accessLevels.length > 1 ?
-                        <div style={{"margin-bottom": "20px"}}><p className="label profileText">{Translate('accessLevels')}</p>
-                            <p className="profileText">{Translate(this.state.accessLevels.toString())}</p></div> : null }
-                    <p className="label profileText">{Translate('creationDate')}</p>
-                    <p className="profileText">{this.state.creationDate}</p>
-                    <p className="label profileText">{Translate('firstname')}</p>
+                        <div style={{"margin-bottom": "20px"}}><p className="label myProfileText">{Translate('accessLevels')}</p>
+                            <p className="myProfileText">{Translate(this.state.accessLevels.toString())}</p></div> : null }
+                    <p className="label myProfileText">{Translate('creationDate')}</p>
+                    <p className="myProfileText">{this.state.creationDate}</p>
+                    <p className="label myProfileText">{Translate('firstname')}</p>
 
                     { this.state.editable ?
                         <FormGroup className="validationMessages">
                             <FormControl size='lg' defaultValue={this.state.firstname} onChange={event => this.updateFirstname(event.target.value)}/>
                             <ValidationMessage valid={this.state.firstnameValid} message={this.state.errorMsg.firstname} />
                         </FormGroup>
-                        : <p className="profileText">{this.state.firstname}</p>}
-                    <p className="label profileText">{Translate('lastname')}</p>
+                        : <p className="myProfileText">{this.state.firstname}</p>}
+                    <p className="label myProfileText">{Translate('lastname')}</p>
 
                     { this.state.editable ?
                         <FormGroup className="validationMessages">
                             <FormControl size='lg' defaultValue={this.state.lastname} onChange={event => this.updateLastname(event.target.value)}/>
                             <ValidationMessage valid={this.state.lastnameValid} message={this.state.errorMsg.lastname} />
                         </FormGroup>
-                    : <p className="profileText">{this.state.lastname}</p> }
+                    : <p className="myProfileText">{this.state.lastname}</p> }
 
                     { this.state.editable ?
                         <div>

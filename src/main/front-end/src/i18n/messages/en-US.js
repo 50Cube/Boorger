@@ -22,11 +22,11 @@ export default {
         'ADMIN,CLIENT': 'Admin, Client',
         'CLIENT,MANAGER': 'Client, Manager',
         'ADMIN,MANAGER': 'Admin, Manager',
-        'active': 'Active',
-        'confirmed': 'Confirmed',
+        'active': 'Account active',
+        'confirmed': 'Account confirmed',
         'lastAuthIP': 'Last authentication IP address',
         'lastAuthDate': 'Last authentication date',
-        'creationDate': 'Creation date',
+        'creationDate': 'Account creation date',
         'chooseLanguage': 'Choose language',
         'en-US': 'EN',
         'pl-PL': 'PL',
@@ -64,6 +64,13 @@ export default {
         'save': 'Save',
         'cancel': 'Cancel',
         'accessDenied': 'You are not authorized to view this page',
-        'pageNotFound': 'Page not found'
+        'pageNotFound': 'Page not found',
+        'viewProfile': 'View profile',
+        'accountActive': 'Account active',
+        'accountNotActive': 'Account blocked',
+        'accountConfirmed': 'Account confirmed',
+        'accountNotConfirmed': 'Account unconfirmed',
+        'edit': 'Edit',
+        'back': 'Back'
     }
 }

@@ -1,0 +1,85 @@
+.profileDiv {
+    letter-spacing: 2px;
+}
+
+.profileFirstDiv {
+    display: inline-block;
+    width: 33%;
+    vertical-align: top;
+    border-right: 1px inset black;
+}
+
+.profileSecondDiv {
+    display: inline-block;
+    width: 33%;
+    vertical-align: top;
+    border-right: 1px inset black;
+}
+
+.profileThirdDiv {
+    display: inline-block;
+    width: 33%;
+    vertical-align: top;
+}
+
+.profileLabels {
+    font-size: 95%;
+    font-style: italic;
+    margin-bottom: 2px;
+}
+
+.profileText {
+    font-size: 150%;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+
+.profileButton {
+    margin: 30px 20px 10px 20px;
+    background-color: black;
+    border-color: black;
+}
+
+.profileButton:hover, .profileButton:focus {
+    background-color: black !important;
+    color: yellow !important;
+    border-color: black !important;
+}
+
+.profileButtonIcon {
+    font-size: 130%;
+}
+
+.profileForms {
+    width: 75%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 17px;
+}
+
+.profileConfirmButton {
+    margin: 30px 20px 10px 20px;
+    background-color: green;
+    border-color: green;
+}
+
+.profileConfirmButton:hover, .profileConfirmButton:disabled, .profileConfirmButton:focus {
+    background-color: darkgreen !important;
+    border-color: darkgreen !important;
+}
+
+.profileCancelButton {
+    margin: 30px 20px 10px 20px;
+    background-color: red;
+    border-color: red;
+}
+
+.profileCancelButton:hover, .profileCancelButton:disabled, .profileCancelButton:focus {
+    background-color: darkred !important;
+    border-color: darkred !important;
+}
+
+.profileActiveSwitch {
+    margin: 10px 0 12px 0;
+}

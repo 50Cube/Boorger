@@ -1,12 +1,12 @@
-.profileImage {
+.myProfileImage {
     float: left;
     display: inline-block;
-    font-size: 1000%;
+    font-size: 730%;
 }
 
-.profileData {
+.myProfileData {
     float: left;
-    font-size: 150%;
+    font-size: 130%;
     margin-left: 40px;
 }
 
@@ -17,7 +17,7 @@
     font-weight: unset !important;
 }
 
-.profileText {
+.myProfileText {
     font-weight: bold;
     text-align: left;
     margin-bottom: 20px;
@@ -37,19 +37,23 @@
 .editButtonConfirm {
     margin-right: 10px;
     background-color: green;
+    border-color: green;
 }
 
 .editButtonConfirm:hover, .editButtonConfirm:disabled, .editButtonConfirm:focus {
     background-color: darkgreen !important;
+    border-color: darkgreen !important;
 }
 
 .editButtonCancel {
     margin-left: 10px;
     background-color: red;
+    border-color: red;
 }
 
 .editButtonCancel:hover, .editButtonCancel:focus {
     background-color: darkred !important;
+    border-color: darkred !important;
 }
 
 .validationMessages {

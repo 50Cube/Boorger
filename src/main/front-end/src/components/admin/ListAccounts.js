@@ -11,10 +11,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Spinner from "react-bootstrap/Spinner";
 import Paper from '@material-ui/core/Paper';
 import Translate from "../../i18n/Translate";
-import '../../css/AdminMenu.css'
-import {Pagination} from "react-bootstrap";
+import {Pagination, Button} from "react-bootstrap";
 import Swal from "sweetalert2";
-
+import Profile from './Profile';
+import '../../css/AdminMenu.css'
 
 
 export default class ListAccounts extends Component {
@@ -29,13 +29,13 @@ export default class ListAccounts extends Component {
                 lastname: "",
                 active: "",
                 confirmed: "",
-                lastAuthIp: "",
-                lastSuccessfulAuth: "",
-                creationDate: ""
+                lastSuccessfulAuth: ""
             }],
             loaded: false,
             pageAmount: 1,
-            page: 0
+            page: 0,
+            showProfile: props.showProfile ? props.showProfile : false,
+            profileLogin: ''
         })
     }
 
@@ -70,8 +70,8 @@ export default class ListAccounts extends Component {
         this.getAccounts();
     }
 
-    createData = (login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate ) => {
-        return { login, email, firstname, lastname, active, confirmed, lastAuthIp, lastSuccessfulAuth, creationDate };
+    createData = (login, email, firstname, lastname, active, confirmed, lastSuccessfulAuth ) => {
+        return { login, email, firstname, lastname, active, confirmed, lastSuccessfulAuth };
     };
 
 
@@ -86,6 +86,10 @@ export default class ListAccounts extends Component {
         }
     };
 
+    handleBackButtonClick = () => {
+        this.setState({ showProfile: false })
+    };
+
     render() {
         const classes = makeStyles({
             table: {
@@ -97,7 +101,7 @@ export default class ListAccounts extends Component {
         for(let i=0; i<this.state.users.length; i++) {
             rows.push(this.createData(this.state.users[i].login, this.state.users[i].email, this.state.users[i].firstname,
                 this.state.users[i].lastname, this.state.users[i].active.toString(), this.state.users[i].confirmed.toString(),
-                this.state.users[i].lastAuthIp, this.state.users[i].lastSuccessfulAuth, this.state.users[i].creationDate))
+                this.state.users[i].lastSuccessfulAuth))
         }
 
         const pages = [];
@@ -109,48 +113,64 @@ export default class ListAccounts extends Component {
 
         if(!this.state.loaded) {
             return ( <Spinner animation="border" /> )
-        } else return (
-            <div>
-                <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell className="tableLabels" align="center">{Translate('username')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('email')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('firstname')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('lastname')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('active')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('confirmed')}</TableCell>
-                                <TableCell className="tableLongLabels" align="center">{Translate('lastAuthIP')}</TableCell>
-                                <TableCell className="tableLongLabels" align="center">{Translate('lastAuthDate')}</TableCell>
-                                <TableCell className="tableLabels" align="center">{Translate('creationDate')}</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.login}>
-                                    <TableCell align="center">{row.login}</TableCell>
-                                    <TableCell align="center">{row.email}</TableCell>
-                                    <TableCell align="center">{row.firstname}</TableCell>
-                                    <TableCell align="center">{row.lastname}</TableCell>
-                                    <TableCell align="center">{Translate(row.active)}</TableCell>
-                                    <TableCell align="center">{Translate(row.confirmed)}</TableCell>
-                                    <TableCell align="center">{row.lastAuthIp}</TableCell>
-                                    <TableCell align="center">{row.lastSuccessfulAuth}</TableCell>
-                                    <TableCell align="center">{row.creationDate}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <div className="paginationDiv">
-                    <Pagination>
-                        <Pagination.First />
-                        <Pagination onClick={this.handlePageChange} >{pages}</Pagination>
-                        <Pagination.Last />
-                    </Pagination>
-                </div>
-            </div>
-        );
+        } else {
+            if(!this.state.showProfile) {
+                return (
+                    <div>
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table} aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell/>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('username')}</TableCell>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('email')}</TableCell>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('firstname')}</TableCell>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('lastname')}</TableCell>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('active')}</TableCell>
+                                        <TableCell className="tableLabels"
+                                                   align="center">{Translate('confirmed')}</TableCell>
+                                        <TableCell className="tableLongLabels"
+                                                   align="center">{Translate('lastAuthDate')}</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {rows.map((row) => (
+                                        <TableRow key={row.login}>
+                                            <TableCell align="center">
+                                                <Button className="viewProfileButton"
+                                                        onClick={() =>
+                                                            this.setState({showProfile: true, profileLogin: row.login })}
+                                                >{Translate('viewProfile')}</Button>
+                                            </TableCell>
+                                            <TableCell align="center">{row.login}</TableCell>
+                                            <TableCell align="center">{row.email}</TableCell>
+                                            <TableCell align="center">{row.firstname}</TableCell>
+                                            <TableCell align="center">{row.lastname}</TableCell>
+                                            <TableCell align="center">{Translate(row.active)}</TableCell>
+                                            <TableCell align="center">{Translate(row.confirmed)}</TableCell>
+                                            <TableCell align="center">{row.lastSuccessfulAuth}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <div className="paginationDiv">
+                            <Pagination>
+                                <Pagination.First/>
+                                <Pagination onClick={this.handlePageChange}>{pages}</Pagination>
+                                <Pagination.Last/>
+                            </Pagination>
+                        </div>
+                    </div>
+                );
+            } else return (
+                <Profile profileLogin={this.state.profileLogin} handleBackButtonClick={this.handleBackButtonClick}/>
+            )
+        }
     }
 }

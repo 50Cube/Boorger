@@ -22,11 +22,11 @@ export default {
         'ADMIN,CLIENT': 'Administrator, Klient',
         'CLIENT,MANAGER': 'Klient, Menadżer',
         'ADMIN,MANAGER': 'Administrator, Menadżer',
-        'active': 'Aktywny',
-        'confirmed': 'Potwierdzony',
+        'active': 'Konto aktywne',
+        'confirmed': 'Konto potwierdzone',
         'lastAuthIP': 'Adres IP ostatniego uwierzytelnienia',
         'lastAuthDate': 'Data ostatniego uwierzytelnienia',
-        'creationDate': 'Data utworzenia',
+        'creationDate': 'Data utworzenia konta',
         'chooseLanguage': 'Wybierz język',
         'en-US': 'EN',
         'pl-PL': 'PL',
@@ -64,6 +64,13 @@ export default {
         'save': 'Zapisz',
         'cancel': 'Anuluj',
         'accessDenied': 'Nie masz uprawnień żeby zobaczyć tę stronę',
-        'pageNotFound': 'Strona nie została znaleziona'
+        'pageNotFound': 'Strona nie została znaleziona',
+        'viewProfile': 'Zobacz profil',
+        'accountActive': 'Konto aktywne',
+        'accountNotActive': 'Konto zablokowane',
+        'accountConfirmed': 'Konto potwierdzone',
+        'accountNotConfirmed': 'Konto niepotwierdzone',
+        'edit': 'Edytuj',
+        'back': 'Wróć'
     }
 }

@@ -18,11 +18,11 @@
     padding: 30px 15px 15px 15px;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset #FFFF00;
+    border: 1px inset yellow;
     border-radius: 5px;
     box-shadow: 2px 3px #A49A17;
-    width: 80%;
-    background-color: #FFFF00;
+    width: 75%;
+    background-color: yellow;
     opacity: 0.94;
 }
 
@@ -41,4 +41,18 @@
     float: right;
     font-size: 160%;
     margin-bottom: 0;
+}
+
+.viewProfileButton {
+    background-color: white;
+    color: black;
+    font-size: 85%;
+    border: 1px inset yellow;
+    padding: 0;
+}
+
+.viewProfileButton:hover, .viewProfileButton:focus {
+    background-color: yellow !important;
+    color: black !important;
+    border: 1px inset yellow !important;
 }
