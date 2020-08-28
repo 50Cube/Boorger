@@ -32,6 +32,7 @@
 
 .editIcon:hover {
     font-size: 220%;
+    cursor: pointer;
 }
 
 .editButtonConfirm {

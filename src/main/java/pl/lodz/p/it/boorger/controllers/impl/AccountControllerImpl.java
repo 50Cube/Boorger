@@ -113,4 +113,15 @@ public class AccountControllerImpl implements AccountController {
     public void editAccount(@RequestBody AccountDTO accountDTO) throws AppBaseException {
         accountService.editPersonal(AccountMapper.mapFromDto(accountDTO));
     }
+
+    @PostMapping("/resendEmail")
+    public void resendConfirmationEmail(@RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
+        String token = accountService.resendConfirmationEmail(AccountMapper.mapFromDto(accountDTO));
+        try {
+            emailService.sendConfirmationEmail(accountDTO.getEmail(), accountDTO.getLanguage(), token,
+                    request.getRequestURL().toString(), request.getServletPath());
+        } catch (MessagingException e) {
+            log.severe("An error occurred while sending email");
+        }
+    }
 }

@@ -22,6 +22,7 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Log
 @Service
@@ -68,8 +69,8 @@ public class AccountService {
 
     public void register(@Valid Account account, @Valid AccountConfirmToken token) throws AppBaseException {
         try {
-            accountRepository.save(account);
-            accountTokenRepository.save(token);
+            accountRepository.saveAndFlush(account);
+            accountTokenRepository.saveAndFlush(token);
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("account_login_data_login_uindex"))
                 throw new LoginAlreadyExistsException();
@@ -82,7 +83,7 @@ public class AccountService {
 
     public void editAccount(@Valid Account account) throws AppBaseException {
         try {
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -93,7 +94,7 @@ public class AccountService {
             Account account = accountRepository.findByLogin(login)
                     .orElseThrow(AccountNotFoundException::new);
             account.setLanguage(language);
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -101,7 +102,7 @@ public class AccountService {
 
     public void editAuthData(@Valid AuthData authData) throws AppBaseException {
         try {
-            authDataRepository.save(authData);
+            authDataRepository.saveAndFlush(authData);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -117,7 +118,7 @@ public class AccountService {
             if(account.isConfirmed())
                 throw new AccountAlreadyConfirmedException();
             account.setConfirmed(true);
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
             accountTokenRepository.delete(accountConfirmToken);
         } catch (DataAccessException e) {
             throw new DatabaseException();
@@ -142,7 +143,7 @@ public class AccountService {
                 accountTokenRepository.delete(token);
                 accountTokenRepository.flush();
             }
-            accountTokenRepository.save(newToken);
+            accountTokenRepository.saveAndFlush(newToken);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -156,7 +157,7 @@ public class AccountService {
                 throw new TokenExpiredException();
             Account account = forgotPasswordToken.getAccount();
             addPreviousPassword(account, editedAccount);
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
             accountTokenRepository.delete(forgotPasswordToken);
         } catch (DataAccessException e) {
             throw new DatabaseException();
@@ -187,7 +188,7 @@ public class AccountService {
             if(!passwordEncoder.matches(previous, account.getPassword()))
                 throw new IncorrectCurrentPasswordException();
             addPreviousPassword(account, editedAccount);
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -199,9 +200,27 @@ public class AccountService {
                     .orElseThrow(AccountNotFoundException::new);
             account.setFirstname(editedAccount.getFirstname());
             account.setLastname(editedAccount.getLastname());
-            accountRepository.save(account);
+            accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+    }
+
+    public String resendConfirmationEmail(Account accountParam) throws AppBaseException {
+        Account account = accountRepository.findByEmail(accountParam.getEmail())
+                .orElseThrow(AccountNotFoundException::new);
+
+        if(account.getAccountTokens().stream().anyMatch(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken")))) {
+            accountTokenRepository.deleteAll(account.getAccountTokens().stream().filter(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken"))).collect(Collectors.toList()));
+        }
+        AccountConfirmToken token = new AccountConfirmToken();
+        token.setAccount(account);
+        token.setTokenType(env.getProperty("boorger.confirmToken"));
+        token.setExpireDate(LocalDateTime.now()
+                .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
+        account.getAccountTokens().add(token);
+        accountRepository.saveAndFlush(account);
+        accountTokenRepository.saveAndFlush(token);
+        return token.getBusinessKey();
     }
 }

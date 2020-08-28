@@ -71,6 +71,7 @@ export default {
         'accountConfirmed': 'Konto potwierdzone',
         'accountNotConfirmed': 'Konto niepotwierdzone',
         'edit': 'Edytuj',
-        'back': 'Wróć'
+        'back': 'Wróć',
+        'confirmMail': 'Wyślij ponownie maila aktywacyjnego '
     }
 }

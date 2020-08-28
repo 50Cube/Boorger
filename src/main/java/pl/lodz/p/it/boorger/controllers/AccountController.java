@@ -17,4 +17,5 @@ public interface AccountController {
     ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha) throws AppBaseException;
     ResponseEntity<?> changePassword(AccountDTO accountDTO, String captcha) throws AppBaseException;
     void editAccount(AccountDTO accountDTO) throws AppBaseException;
+    void resendConfirmationEmail(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
 }

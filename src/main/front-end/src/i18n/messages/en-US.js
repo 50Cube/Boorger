@@ -71,6 +71,7 @@ export default {
         'accountConfirmed': 'Account confirmed',
         'accountNotConfirmed': 'Account unconfirmed',
         'edit': 'Edit',
-        'back': 'Back'
+        'back': 'Back',
+        'confirmMail': 'Send activation mail again '
     }
 }

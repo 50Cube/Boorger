@@ -35,7 +35,7 @@
 }
 
 .profileButton {
-    margin: 30px 20px 10px 20px;
+    margin: 40px 20px 10px 20px;
     background-color: black;
     border-color: black;
 }
@@ -59,7 +59,7 @@
 }
 
 .profileConfirmButton {
-    margin: 30px 20px 10px 20px;
+    margin: 40px 20px 10px 20px;
     background-color: green;
     border-color: green;
 }
@@ -82,4 +82,14 @@
 
 .profileActiveSwitch {
     margin: 10px 0 12px 0;
+}
+
+.profileEmailSend {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profileEmailSend:hover {
+    cursor: pointer;
 }

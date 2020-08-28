@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Spinner, Button, FormGroup, FormControl } from "react-bootstrap";
+import {Spinner, Button, FormGroup, FormControl, Tooltip} from "react-bootstrap";
 import axios from 'axios';
 import Translate from '../../i18n/Translate';
 import Swal from "sweetalert2";
-import {getHeader} from "../../services/UserDataService";
-import { FcApproval, FcCancel, AiFillEdit, TiArrowBack } from "react-icons/all";
+import {getHeader, getLanguageShortcut} from "../../services/UserDataService";
+import { FcApproval, FcCancel, AiFillEdit, TiArrowBack, IoMdArrowDropdown, RiMailSendLine } from "react-icons/all";
 import ValidationMessage from "../../i18n/ValidationMessage";
 import ValidationService from "../../services/ValidationService";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
 import '../../css/Profile.css';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 
 export default class Profile extends Component {
 
@@ -24,8 +25,9 @@ export default class Profile extends Component {
             accessLevels: "",
             lastSuccessfulAuth: '-',
             lastAuthIp: '-',
+            language: '',
             errorMsg: {},
-            loaded: false, buttonLoading: false,
+            loaded: false, buttonLoading: false, emailButtonLoading: false,
             editable: false,
         }
     }
@@ -43,6 +45,7 @@ export default class Profile extends Component {
                     accessLevels: response.data.accessLevels,
                     lastSuccessfulAuth: response.data.lastSuccessfulAuth,
                     lastAuthIp: response.data.lastAuthIp,
+                    language: response.data.language,
                     loaded: true
                 })
             }).catch(error => {
@@ -79,6 +82,23 @@ export default class Profile extends Component {
             buttonLoading: true
         });
     };
+
+    resendEmail = (e) => {
+        e.preventDefault();
+        this.setState({ emailButtonLoading: true });
+        axios.post('/resendEmail', {
+            email: this.state.email,
+            language: this.state.language
+        }, {headers: getHeader()})
+          .then(() => {
+            this.setState({ emailButtonLoading: false })
+        }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            })
+        })
+     };
 
     render() {
         if(!this.state.loaded) {
@@ -120,11 +140,22 @@ export default class Profile extends Component {
                         <p className="profileText"> { this.state.active ? <FcApproval/> : <FcCancel/> } </p> }
 
                     <p className="profileLabels">{Translate('confirmed')}</p>
-                    { <p className="profileText"> { this.state.confirmed ? <FcApproval/> : <FcCancel/> } </p> }
+                    { <p className="profileText profileEmailSend"> { this.state.confirmed ? <FcApproval/> : <div>
+                        { this.state.emailButtonLoading ? <div><Spinner className="spinner" animation="border" /></div>
+                            : <OverlayTrigger trigger="click" placement="bottom" overlay={
+                                <Tooltip className="profileEmailSend" onClick={this.resendEmail} id="mail-tooltip">
+                                    <div>{Translate('confirmMail')}<RiMailSendLine/></div>
+                                </Tooltip>}>
+                                <div><FcCancel/><IoMdArrowDropdown/></div>
+                            </OverlayTrigger> }
+                        </div>
+                    } </p> }
                 </div>
                 <div className="profileThirdDiv">
                     <p className="profileLabels">{Translate('accessLevels')}</p>
-                    <p className="profileText">{Translate(this.state.accessLevels)}</p>
+                    { this.state.editable ?
+                    null :
+                        <p className="profileText">{Translate(this.state.accessLevels)}</p> }
                 </div>
                 <div>
                     { this.state.editable ?
