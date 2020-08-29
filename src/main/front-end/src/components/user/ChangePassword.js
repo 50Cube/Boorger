@@ -1,23 +1,23 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader, getLanguage, getLanguageShortcut, getUser} from "../services/UserDataService";
+import {getHeader, getLanguage, getLanguageShortcut, getUser} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import {Button, FormControl, FormGroup, FormLabel} from "react-bootstrap";
 import {RiLockPasswordLine} from "react-icons/all";
-import Translate from "../i18n/Translate";
-import ValidationMessage from "../i18n/ValidationMessage";
+import Translate from "../../i18n/Translate";
+import ValidationMessage from "../../i18n/ValidationMessage";
 import Spinner from "react-bootstrap/Spinner";
 import Reaptcha from "reaptcha";
-import ValidationService from "../services/ValidationService";
-import '../css/ChangeResetPassword.css';
-import '../css/ChangePassword.css';
+import ValidationService from "../../services/ValidationService";
+import '../../css/ChangeResetPassword.css';
+import '../../css/ChangePassword.css';
 
 export default class ChangePassword extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            login: getUser(), // TODO pass login as parameter
+            login: getUser(),
             previousPassword: '', previousPasswordValid: false,
             password: '', passwordValid: false,
             confirmPassword: '', confirmPasswordValid: false,

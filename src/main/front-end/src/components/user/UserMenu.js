@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import { Menu } from 'semantic-ui-react';
 import Translate from '../../i18n/Translate';
 import MyProfile from "./MyProfile";
-import ChangePassword from "../ChangePassword";
+import ChangePassword from "./ChangePassword";
 import '../../css/UserMenu.css';
 import '../../css/Menu.css';
 

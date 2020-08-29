@@ -72,6 +72,7 @@ export default {
         'accountNotConfirmed': 'Account unconfirmed',
         'edit': 'Edit',
         'back': 'Back',
-        'confirmMail': 'Send activation mail again '
+        'confirmMail': 'Send activation mail again ',
+        'emptyRoles': 'Account must have at least one access level'
     }
 }

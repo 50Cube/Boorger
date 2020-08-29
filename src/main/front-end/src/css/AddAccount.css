@@ -1,0 +1,34 @@
+.addAccountFirstDiv {
+    display: inline-block;
+    float: left;
+    width: 35%;
+    vertical-align: top;
+    margin: 20px 0 20px 10%;
+}
+
+.addAccountSecondDiv {
+    display: inline-block;
+    float: right;
+    width: 35%;
+    vertical-align: top;
+    margin: 40px 7% 20px 0;
+}
+
+.addAccountLabels {
+    text-align: left;
+    font-style: italic;
+}
+
+.addAccountActive {
+    margin-bottom: 70px;
+    font-style: italic;
+}
+
+.addAccountCheckbox {
+    margin-bottom: 25px;
+}
+
+.addAccountButtons {
+    width: 100%;
+    display: inline-block;
+}

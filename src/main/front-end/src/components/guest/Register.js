@@ -38,27 +38,7 @@ export default class Register extends Component {
     };
 
     updateLogin = (login) => {
-        this.setState({login}, this.validateLogin)
-    };
-
-    validateLogin = () => {
-      const { login } = this.state;
-      let loginValid = true;
-      let errorMsg = {...this.state.errorMsg};
-
-      if(login.length < 1) {
-          loginValid = false;
-          errorMsg.login = 'field-required'
-      }
-      else if(!/^([a-zA-Z0-9!@#$%^&*]+)$/.test(login)) {
-          loginValid = false;
-          errorMsg.login = 'field-pattern'
-      }
-      else if(login.length > 32) {
-            loginValid = false;
-            errorMsg.login = 'field-toolong'
-        }
-      this.setState({loginValid, errorMsg}, this.validateForm)
+        this.setState({login}, ValidationService.validateLogin)
     };
 
     updatePassword = (password) => {
@@ -78,26 +58,7 @@ export default class Register extends Component {
     };
 
     updateEmail = (email) => {
-      this.setState({email}, this.validateEmail)
-    };
-
-    validateEmail = () => {
-        const { email } = this.state;
-        let emailValid = true;
-        let errorMsg = {...this.state.errorMsg};
-
-        if(email.length < 1) {
-            emailValid = false;
-            errorMsg.email = 'field-required';
-        } else if(!/^([a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,})$/.test(email)) {
-            emailValid = false;
-            errorMsg.email = 'email-pattern';
-        }
-        else if(email.length > 32) {
-            emailValid = false;
-            errorMsg.email = 'field-toolong'
-        }
-        this.setState({emailValid, errorMsg}, this.validateForm)
+      this.setState({email}, ValidationService.validateEmail)
     };
 
     register = (e) => {
@@ -109,7 +70,6 @@ export default class Register extends Component {
             axios.post("/register/" + this.state.captcha, {
                 login: this.state.login,
                 password: this.state.password,
-                confirmPassword: this.state.confirmPassword,
                 firstname: this.state.firstname,
                 lastname: this.state.lastname,
                 email: this.state.email,

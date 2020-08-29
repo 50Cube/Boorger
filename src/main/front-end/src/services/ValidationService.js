@@ -1,4 +1,25 @@
 const validationFunctions = {
+    validateLogin() {
+        const { login } = this.state;
+        let loginValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(login.length < 1) {
+            loginValid = false;
+            errorMsg.login = 'field-required'
+        }
+        else if(!/^([a-zA-Z0-9!@#$%^&*]+)$/.test(login)) {
+            loginValid = false;
+            errorMsg.login = 'field-pattern'
+        }
+        else if(login.length > 32) {
+            loginValid = false;
+            errorMsg.login = 'field-toolong'
+        }
+        this.setState({loginValid, errorMsg}, this.validateForm)
+    },
+
+
     validatePassword() {
         const {password} = this.state;
         let passwordValid = true;
@@ -73,6 +94,40 @@ const validationFunctions = {
             errorMsg.lastname = 'field-toolong'
         }
         this.setState({lastnameValid, errorMsg}, this.validateForm)
+    },
+
+    validateEmail() {
+        const { email } = this.state;
+        let emailValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(email.length < 1) {
+            emailValid = false;
+            errorMsg.email = 'field-required';
+        } else if(!/^([a-zA-Z0-9-_]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,})$/.test(email)) {
+            emailValid = false;
+            errorMsg.email = 'email-pattern';
+        }
+        else if(email.length > 32) {
+            emailValid = false;
+            errorMsg.email = 'field-toolong'
+        }
+        this.setState({emailValid, errorMsg}, this.validateForm)
+    },
+
+
+    validateAccessLevels() {
+        const { adminChecked } = this.state;
+        const { managerChecked } = this.state;
+        const { clientChecked } = this.state;
+        let accessLevelsValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(!adminChecked && !managerChecked && !clientChecked) {
+            accessLevelsValid = false;
+            errorMsg.accessLevels = 'emptyRoles'
+        }
+        this.setState({accessLevelsValid, errorMsg});
     }
 };
 

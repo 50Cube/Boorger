@@ -2,6 +2,7 @@ import React, {Component, Fragment} from "react";
 import { Menu } from 'semantic-ui-react';
 import Translate from '../../i18n/Translate';
 import ListAccounts from "./ListAccounts";
+import AddAccount from "./AddAccount";
 
 export default class AdminMenu extends Component {
 
@@ -36,6 +37,10 @@ export default class AdminMenu extends Component {
                         <div className="adminContent">
                             <ListAccounts />
                         </div> : null }
+                        { activeItem === 'addAccount' ?
+                        <div className='adminContent'>
+                            <AddAccount />
+                        </div> : null}
                     </div>
                 </div>
             </Fragment>

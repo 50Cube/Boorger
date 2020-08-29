@@ -27,8 +27,9 @@ export default class Profile extends Component {
             adminChecked: false, adminCheckedCopy: false,
             managerChecked: false, managerCheckedCopy: false,
             clientChecked: false, clientCheckedCopy: false,
-            lastSuccessfulAuth: '-',
-            lastAuthIp: '-',
+            accessLevelsValid: true,
+            lastSuccessfulAuth: '',
+            lastAuthIp: '',
             language: '',
             errorMsg: {},
             loaded: false, buttonLoading: false, emailButtonLoading: false,
@@ -85,7 +86,8 @@ export default class Profile extends Component {
             buttonLoading: false,
             adminChecked: this.state.adminCheckedCopy,
             managerChecked: this.state.managerCheckedCopy,
-            clientChecked: this.state.clientCheckedCopy
+            clientChecked: this.state.clientCheckedCopy,
+            accessLevelsValid: true
         })
     };
 
@@ -198,28 +200,30 @@ export default class Profile extends Component {
                 <div className="profileThirdDiv">
                     <p className="profileLabels">{Translate('accessLevels')}</p>
                     { this.state.editable ?
-                        <div className="profileRoleCheckbox">
-                            <div className="profileCheckbox">
-                                <Checkbox checked={ this.state.adminChecked }
-                                          onChange={() => this.setState({ adminChecked: !this.state.adminChecked }) } />
-                                <p>{Translate(process.env.REACT_APP_ADMIN_ROLE)}</p>
-                            </div>
-                            <div className="profileCheckbox">
-                                <Checkbox checked={ this.state.managerChecked }
-                                          onChange={() => this.setState({ managerChecked: !this.state.managerChecked }) } />
-                                <p>{Translate(process.env.REACT_APP_MANAGER_ROLE)}</p>
-                            </div>
-                            <div className="profileCheckbox">
-                                <Checkbox checked={ this.state.clientChecked }
-                                          onChange={() => this.setState({ clientChecked: !this.state.clientChecked }) }/>
-                                <p>{Translate(process.env.REACT_APP_CLIENT_ROLE)}</p>
-                            </div>
+                    <div className="profileRoleCheckbox">
+                        <div className="profileCheckbox">
+                            <Checkbox checked={ this.state.adminChecked }
+                                onChange={() => this.setState({ adminChecked: !this.state.adminChecked }, ValidationService.validateAccessLevels) }/>
+                            <p>{Translate(process.env.REACT_APP_ADMIN_ROLE)}</p>
                         </div>
+                        <div className="profileCheckbox">
+                            <Checkbox checked={ this.state.managerChecked }
+                                onChange={() => this.setState({ managerChecked: !this.state.managerChecked }, ValidationService.validateAccessLevels) } />
+                            <p>{Translate(process.env.REACT_APP_MANAGER_ROLE)}</p>
+                        </div>
+                        <div className="profileCheckbox">
+                            <Checkbox checked={ this.state.clientChecked }
+                                onChange={() => this.setState({ clientChecked: !this.state.clientChecked }, ValidationService.validateAccessLevels) }/>
+                            <p>{Translate(process.env.REACT_APP_CLIENT_ROLE)}</p>
+                        </div>
+                        <ValidationMessage valid={this.state.accessLevelsValid} message={this.state.errorMsg.accessLevels} />
+                    </div>
                         : <p className="profileText">{Translate(this.state.accessLevels)}</p> }
                 </div>
                 <div>
                     { this.state.editable ?
-                        <Button className="profileConfirmButton" onClick={this.handleEdit}>
+                        <Button className="profileConfirmButton" onClick={this.handleEdit}
+                                disabled={!this.state.firstnameValid || !this.state.lastnameValid || !this.state.accessLevelsValid}>
                             { this.state.buttonLoading ? <Spinner className="spinner" animation="border" /> : Translate('save') }
                         </Button> :
                         <Button className="profileButton" onClick={() => this.setState({ editable: true})}>

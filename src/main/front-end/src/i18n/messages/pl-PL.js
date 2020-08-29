@@ -72,6 +72,7 @@ export default {
         'accountNotConfirmed': 'Konto niepotwierdzone',
         'edit': 'Edytuj',
         'back': 'Wróć',
-        'confirmMail': 'Wyślij ponownie maila aktywacyjnego '
+        'confirmMail': 'Wyślij ponownie maila aktywacyjnego ',
+        'emptyRoles': 'Konto musi mieć przynajmniej jeden poziom dostępu'
     }
 }
