@@ -124,4 +124,9 @@ public class AccountControllerImpl implements AccountController {
             log.severe("An error occurred while sending email");
         }
     }
+
+    @PutMapping("/editOtherAccount")
+    public void editOtherAccount(@RequestBody AccountDTO accountDTO) throws AppBaseException {
+        accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels());
+    }
 }

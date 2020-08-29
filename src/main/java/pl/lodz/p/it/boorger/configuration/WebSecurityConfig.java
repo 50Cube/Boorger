@@ -27,7 +27,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                         "/boorger/changeResetPassword/**"};
     private final String[] CLIENT_PATHS = new String[]{"/tmp"};
     private final String[] MANAGER_PATHS = new String[]{"/tmp"};
-    private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**", "/boorger/resendEmail"};
+    private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**", "/boorger/resendEmail", "/boorger/editOtherAccount"};
 
     private AuthEntryPointJwt authEntryPointJwt;
     private UserDetailsServiceImpl userDetailsService;

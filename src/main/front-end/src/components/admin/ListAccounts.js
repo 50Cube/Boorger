@@ -87,7 +87,8 @@ export default class ListAccounts extends Component {
     };
 
     handleBackButtonClick = () => {
-        this.setState({ showProfile: false })
+        this.setState({ showProfile: false, loaded: false })
+        this.getAccounts();
     };
 
     render() {

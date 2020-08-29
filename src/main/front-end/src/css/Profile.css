@@ -70,7 +70,7 @@
 }
 
 .profileCancelButton {
-    margin: 30px 20px 10px 20px;
+    margin: 40px 20px 10px 20px;
     background-color: red;
     border-color: red;
 }
@@ -92,4 +92,15 @@
 
 .profileEmailSend:hover {
     cursor: pointer;
+}
+
+.profileRoleCheckbox {
+    margin-top: 30px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.profileCheckbox {
+    margin-bottom: 20px;
 }

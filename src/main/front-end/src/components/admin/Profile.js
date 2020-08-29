@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Spinner, Button, FormGroup, FormControl, Tooltip} from "react-bootstrap";
+import {Spinner, Button, FormGroup, FormControl, Tooltip, InputGroup} from "react-bootstrap";
 import axios from 'axios';
 import Translate from '../../i18n/Translate';
 import Swal from "sweetalert2";
@@ -8,8 +8,9 @@ import { FcApproval, FcCancel, AiFillEdit, TiArrowBack, IoMdArrowDropdown, RiMai
 import ValidationMessage from "../../i18n/ValidationMessage";
 import ValidationService from "../../services/ValidationService";
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
-import '../../css/Profile.css';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import { Checkbox } from "@material-ui/core";
+import '../../css/Profile.css';
 
 export default class Profile extends Component {
 
@@ -22,7 +23,10 @@ export default class Profile extends Component {
             lastname: "", lastnameCopy: "", lastnameValid: true,
             active: '', activeCopy: "",
             confirmed: '',
-            accessLevels: "",
+            accessLevels: {},
+            adminChecked: false, adminCheckedCopy: false,
+            managerChecked: false, managerCheckedCopy: false,
+            clientChecked: false, clientCheckedCopy: false,
             lastSuccessfulAuth: '-',
             lastAuthIp: '-',
             language: '',
@@ -43,6 +47,12 @@ export default class Profile extends Component {
                     active: response.data.active, activeCopy: response.data.active,
                     confirmed: response.data.confirmed,
                     accessLevels: response.data.accessLevels,
+                    adminChecked: response.data.accessLevels.includes(process.env.REACT_APP_ADMIN_ROLE),
+                    adminCheckedCopy: response.data.accessLevels.includes(process.env.REACT_APP_ADMIN_ROLE),
+                    managerChecked: response.data.accessLevels.includes(process.env.REACT_APP_MANAGER_ROLE),
+                    managerCheckedCopy: response.data.accessLevels.includes(process.env.REACT_APP_MANAGER_ROLE),
+                    clientChecked: response.data.accessLevels.includes(process.env.REACT_APP_CLIENT_ROLE),
+                    clientCheckedCopy: response.data.accessLevels.includes(process.env.REACT_APP_CLIENT_ROLE),
                     lastSuccessfulAuth: response.data.lastSuccessfulAuth,
                     lastAuthIp: response.data.lastAuthIp,
                     language: response.data.language,
@@ -72,15 +82,49 @@ export default class Profile extends Component {
             firstnameValid: true,
             lastnameValid: true,
             editable: false,
-            buttonLoading: false
+            buttonLoading: false,
+            adminChecked: this.state.adminCheckedCopy,
+            managerChecked: this.state.managerCheckedCopy,
+            clientChecked: this.state.clientCheckedCopy
         })
     };
 
     handleEdit = (e) => {
         e.preventDefault();
+        let roles = [];
+        if(this.state.adminChecked) roles.push(process.env.REACT_APP_ADMIN_ROLE);
+        if(this.state.clientChecked) roles.push(process.env.REACT_APP_CLIENT_ROLE);
+        if(this.state.managerChecked) roles.push(process.env.REACT_APP_MANAGER_ROLE);
         this.setState({
-            buttonLoading: true
+            buttonLoading: true,
+            accessLevels: roles
         });
+        axios.put('/editOtherAccount', {
+            login: this.state.login,
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            active: this.state.active,
+            accessLevels: roles,
+            language: getLanguageShortcut()
+        }, { headers: getHeader()})
+            .then(() => {
+                this.setState({
+                    firstnameCopy: this.state.firstname,
+                    lastnameCopy: this.state.lastname,
+                    activeCopy: this.state.active,
+                    adminCheckedCopy: this.state.adminChecked,
+                    managerCheckedCopy: this.state.managerChecked,
+                    clientCheckedCopy: this.state.clientChecked,
+                    editable: false,
+                    buttonLoading: false
+                })
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                })
+            })
     };
 
     resendEmail = (e) => {
@@ -154,8 +198,24 @@ export default class Profile extends Component {
                 <div className="profileThirdDiv">
                     <p className="profileLabels">{Translate('accessLevels')}</p>
                     { this.state.editable ?
-                    null :
-                        <p className="profileText">{Translate(this.state.accessLevels)}</p> }
+                        <div className="profileRoleCheckbox">
+                            <div className="profileCheckbox">
+                                <Checkbox checked={ this.state.adminChecked }
+                                          onChange={() => this.setState({ adminChecked: !this.state.adminChecked }) } />
+                                <p>{Translate(process.env.REACT_APP_ADMIN_ROLE)}</p>
+                            </div>
+                            <div className="profileCheckbox">
+                                <Checkbox checked={ this.state.managerChecked }
+                                          onChange={() => this.setState({ managerChecked: !this.state.managerChecked }) } />
+                                <p>{Translate(process.env.REACT_APP_MANAGER_ROLE)}</p>
+                            </div>
+                            <div className="profileCheckbox">
+                                <Checkbox checked={ this.state.clientChecked }
+                                          onChange={() => this.setState({ clientChecked: !this.state.clientChecked }) }/>
+                                <p>{Translate(process.env.REACT_APP_CLIENT_ROLE)}</p>
+                            </div>
+                        </div>
+                        : <p className="profileText">{Translate(this.state.accessLevels)}</p> }
                 </div>
                 <div>
                     { this.state.editable ?

@@ -21,6 +21,7 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -207,20 +208,43 @@ public class AccountService {
     }
 
     public String resendConfirmationEmail(Account accountParam) throws AppBaseException {
-        Account account = accountRepository.findByEmail(accountParam.getEmail())
-                .orElseThrow(AccountNotFoundException::new);
+        try {
+            Account account = accountRepository.findByEmail(accountParam.getEmail())
+                    .orElseThrow(AccountNotFoundException::new);
 
-        if(account.getAccountTokens().stream().anyMatch(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken")))) {
-            accountTokenRepository.deleteAll(account.getAccountTokens().stream().filter(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken"))).collect(Collectors.toList()));
+            if (account.getAccountTokens().stream().anyMatch(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken")))) {
+                accountTokenRepository.deleteAll(account.getAccountTokens().stream().filter(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken"))).collect(Collectors.toList()));
+            }
+            AccountConfirmToken token = new AccountConfirmToken();
+            token.setAccount(account);
+            token.setTokenType(env.getProperty("boorger.confirmToken"));
+            token.setExpireDate(LocalDateTime.now()
+                    .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
+            account.getAccountTokens().add(token);
+            accountRepository.saveAndFlush(account);
+            accountTokenRepository.saveAndFlush(token);
+            return token.getBusinessKey();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
         }
-        AccountConfirmToken token = new AccountConfirmToken();
-        token.setAccount(account);
-        token.setTokenType(env.getProperty("boorger.confirmToken"));
-        token.setExpireDate(LocalDateTime.now()
-                .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
-        account.getAccountTokens().add(token);
-        accountRepository.saveAndFlush(account);
-        accountTokenRepository.saveAndFlush(token);
-        return token.getBusinessKey();
+    }
+
+    public void editOtherAccount(Account editedAccount, Collection<String> accessLevels) throws AppBaseException {
+        try {
+            Account account = accountRepository.findByLogin(editedAccount.getLogin())
+                    .orElseThrow(AccountNotFoundException::new);
+            account.setFirstname(editedAccount.getFirstname());
+            account.setLastname(editedAccount.getLastname());
+            account.setActive(editedAccount.isActive());
+
+            for(AccessLevel a : account.getAccessLevels())
+                if(accessLevels.contains(a.getAccessLevel()))
+                    a.setActive(true);
+                else a.setActive(false);
+
+            accountRepository.saveAndFlush(account);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
     }
 }
