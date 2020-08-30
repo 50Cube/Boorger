@@ -17,10 +17,9 @@
     margin: 60px 10px 10px 50px;
     padding: 32px 15px 25px 15px;
     display: inline-block;
-    border: 1px inset #FFFF00;
+    border: 2px inset grey;
     border-radius: 5px;
-    box-shadow: 2px 3px #A49A17;
     width: 48%;
-    background-color: #FFFF00;
+    background-color: gainsboro;
     opacity: 0.94;
 }

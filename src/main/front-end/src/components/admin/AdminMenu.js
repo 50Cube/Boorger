@@ -25,7 +25,6 @@ export default class AdminMenu extends Component {
                             <Menu pointing secondary vertical>
                                 <Menu.Item name="accountList" active={activeItem === 'accountList'} onClick={this.handleItemClick}>{Translate('listAccounts')}</Menu.Item>
                                 <Menu.Item name="addAccount"  active={activeItem === 'addAccount'} onClick={this.handleItemClick}>{Translate('addAccount')}</Menu.Item>
-                                <Menu.Item name="placeholder"  active={activeItem === 'placeholder'} onClick={this.handleItemClick}>PLACEHOLDER</Menu.Item>
                             </Menu>
                         </div>
                         { activeItem === '' ?

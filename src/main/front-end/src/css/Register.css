@@ -14,7 +14,7 @@
     margin-left: auto;
     padding: 20px;
     border: 1px inset white;
-    border-radius: 25px;
+    border-radius: 20px;
     background-color: #DADADA;
     opacity: 0.9;
     box-shadow: 2px 4px #888888;
@@ -36,9 +36,14 @@
 
 .button {
     margin-top: 20px;
-    color: black !important;
-    background-color: yellow !important;
-    border: 1px inset black !important;
+    color: white;
+    background-color: black !important;
+    border: 1px inset black;
+    letter-spacing: 1px;
+}
+
+.button:hover {
+    color: gold;
 }
 
 .captcha {

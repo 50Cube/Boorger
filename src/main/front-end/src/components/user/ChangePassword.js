@@ -139,7 +139,7 @@ export default class ChangePassword extends Component {
                                   sitekey="6LdHkr8ZAAAAANbDVayO9qNn7iHVA5GvPlSnXxYE" onVerify={this.onCaptchaVerify}/>
                     </div>
                     <div className="bottom">
-                        <Button className="button" type="submit" onClick={this.change} disabled={!this.state.formValid}>
+                        <Button className="buttons button" type="submit" onClick={this.change} disabled={!this.state.formValid}>
                             { this.state.loading ? <Spinner className="spinner" animation="border" /> : Translate('confirm') } </Button>
                     </div>
                 </form>

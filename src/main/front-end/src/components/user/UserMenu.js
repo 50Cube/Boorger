@@ -27,7 +27,6 @@ export default class UserMenu extends Component {
                             <Menu pointing secondary vertical>
                                 <Menu.Item name="myProfile" active={activeItem === 'myProfile'} onClick={this.handleItemClick}>{Translate('myProfile')}</Menu.Item>
                                 <Menu.Item name="changePassword"  active={activeItem === 'changePassword'} onClick={this.handleItemClick}>{Translate('changePassword')}</Menu.Item>
-                                <Menu.Item name="placeholder"  active={activeItem === 'placeholder'} onClick={this.handleItemClick}>PLACEHOLDER</Menu.Item>
                             </Menu>
                         </div>
                         { activeItem === 'myProfile' ?

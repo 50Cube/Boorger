@@ -3,10 +3,9 @@
     padding: 4px 6px 4px 0;
     display: inline-block;
     vertical-align: top;
-    border: 1px inset yellow;
+    border: 2px inset grey;
     border-radius: 5px;
-    box-shadow: 2px 3px #A49A17;
-    background-color: yellow;
+    background-color: gainsboro;
     opacity: 0.94;
     letter-spacing: 1px;
 }

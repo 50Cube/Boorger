@@ -143,24 +143,24 @@ export default class AddAccount extends Component {
                     </div>
                     <p className="addAccountCheckbox" style={{"font-style": "italic"}}>{Translate('accessLevels')} *</p>
                     <div className="addAccountCheckbox">
-                        <Checkbox checked={ this.state.clientChecked }
+                        <Checkbox color="primary" checked={ this.state.clientChecked }
                                   onChange={() => this.setState({ clientChecked: !this.state.clientChecked }, ValidationService.validateAccessLevels) } />
                         <p>{Translate(process.env.REACT_APP_CLIENT_ROLE)}</p>
                     </div>
                     <div className="addAccountCheckbox">
-                        <Checkbox checked={ this.state.managerChecked }
+                        <Checkbox color="primary" checked={ this.state.managerChecked }
                                   onChange={() => this.setState({ managerChecked: !this.state.managerChecked }, ValidationService.validateAccessLevels) } />
                         <p>{Translate(process.env.REACT_APP_MANAGER_ROLE)}</p>
                     </div>
                     <div className="addAccountCheckbox">
-                        <Checkbox checked={ this.state.adminChecked }
+                        <Checkbox color="primary" checked={ this.state.adminChecked }
                                   onChange={() => this.setState({ adminChecked: !this.state.adminChecked }, ValidationService.validateAccessLevels) } />
                         <p>{Translate(process.env.REACT_APP_ADMIN_ROLE)}</p>
                     </div>
                     <ValidationMessage valid={this.state.accessLevelsValid} message={this.state.errorMsg.accessLevels} />
                 </div>
                 <div className="addAccountButtons">
-                    <Button onClick={this.addAccount} disabled={!this.state.formValid}>{Translate('confirm')}</Button>
+                    <Button className="buttons" onClick={this.addAccount} disabled={!this.state.formValid}>{Translate('confirm')}</Button>
                 </div>
             </div>
         )

@@ -1,9 +1,9 @@
 .addAccountFirstDiv {
     display: inline-block;
     float: left;
-    width: 35%;
+    width: 40%;
     vertical-align: top;
-    margin: 20px 0 20px 10%;
+    margin: 20px 0 20px 6%;
 }
 
 .addAccountSecondDiv {
@@ -11,10 +11,13 @@
     float: right;
     width: 35%;
     vertical-align: top;
-    margin: 40px 7% 20px 0;
+    margin: 30px 6% 20px 0;
+    font-size: 120%;
 }
 
 .addAccountLabels {
+    letter-spacing: 1px;
+    font-size: 120%;
     text-align: left;
     font-style: italic;
 }

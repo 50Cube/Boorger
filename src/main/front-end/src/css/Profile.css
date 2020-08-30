@@ -42,7 +42,7 @@
 
 .profileButton:hover, .profileButton:focus {
     background-color: black !important;
-    color: yellow !important;
+    color: gold !important;
     border-color: black !important;
 }
 

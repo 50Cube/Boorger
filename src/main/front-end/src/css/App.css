@@ -11,9 +11,17 @@
 }
 
 .buttons {
-  color: black;
-  background-color: yellow !important;
+  color: white;
+  background-color: black !important;
   border: 1px inset black;
+  letter-spacing: 1px;
+}
+
+.buttons:hover {
+  color: gold;
+  background-color: black !important;
+  border: 1px inset black;
+  letter-spacing: 1px;
 }
 
 .spinner {
