@@ -19,4 +19,5 @@ public interface AccountController {
     void editAccount(AccountDTO accountDTO) throws AppBaseException;
     void resendConfirmationEmail(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
     void editOtherAccount(AccountDTO accountDTO) throws AppBaseException;
+    ResponseEntity<?> addAccount(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
 }

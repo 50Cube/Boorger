@@ -127,7 +127,7 @@ const validationFunctions = {
             accessLevelsValid = false;
             errorMsg.accessLevels = 'emptyRoles'
         }
-        this.setState({accessLevelsValid, errorMsg});
+        this.setState({accessLevelsValid, errorMsg}, this.validateForm);
     }
 };
 

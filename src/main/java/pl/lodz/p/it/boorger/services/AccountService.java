@@ -21,7 +21,9 @@ import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -68,10 +70,27 @@ public class AccountService {
         }
     }
 
-    public void register(@Valid Account account, @Valid AccountConfirmToken token) throws AppBaseException {
+    public String register(@Valid Account account) throws AppBaseException {
         try {
+            account.setAccessLevels(generateAccessLevels(account));
+            account.setConfirmed(false);
+            account.setActive(true);
+            account.getAuthData().setAccount(account);
+
+            AccountConfirmToken token = generateConfirmToken(account);
+            account.setAccountTokens(new ArrayList<>());
+            account.getAccountTokens().add(token);
+
+            PreviousPassword previousPassword = new PreviousPassword();
+            previousPassword.setAccount(account);
+            previousPassword.setPassword(account.getPassword());
+            account.setPreviousPasswords(new ArrayList<>());
+            account.getPreviousPasswords().add(previousPassword);
+
             accountRepository.saveAndFlush(account);
             accountTokenRepository.saveAndFlush(token);
+
+            return token.getBusinessKey();
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("account_login_data_login_uindex"))
                 throw new LoginAlreadyExistsException();
@@ -80,6 +99,40 @@ public class AccountService {
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+        return "";
+    }
+
+    private List<AccessLevel> generateAccessLevels(Account account) {
+        List<AccessLevel> list = new ArrayList<>();
+
+        Client client = new Client();
+        client.setAccount(account);
+        client.setActive(true);
+        client.setAccessLevel(env.getProperty("boorger.roleClient"));
+        list.add(client);
+
+        Manager manager = new Manager();
+        manager.setAccount(account);
+        manager.setActive(false);
+        manager.setAccessLevel(env.getProperty("boorger.roleManager"));
+        list.add(manager);
+
+        Admin admin = new Admin();
+        admin.setAccount(account);
+        admin.setActive(false);
+        admin.setAccessLevel(env.getProperty("boorger.roleAdmin"));
+        list.add(admin);
+
+        return list;
+    }
+
+    private AccountConfirmToken generateConfirmToken(Account account) {
+        AccountConfirmToken token = new AccountConfirmToken();
+        token.setAccount(account);
+        token.setTokenType(env.getProperty("boorger.confirmToken"));
+        token.setExpireDate(LocalDateTime.now()
+                .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
+        return token;
     }
 
     public void editAccount(@Valid Account account) throws AppBaseException {
@@ -138,7 +191,7 @@ public class AccountService {
         }
     }
 
-    public void resetPassword(ForgotPasswordToken token, ForgotPasswordToken newToken) throws AppBaseException {
+    public void resetPassword(@Valid ForgotPasswordToken token, @Valid  ForgotPasswordToken newToken) throws AppBaseException {
         try {
             if(token != null) {
                 accountTokenRepository.delete(token);
@@ -150,7 +203,7 @@ public class AccountService {
         }
     }
 
-    public void changeResetPassword(String token, Account editedAccount) throws AppBaseException {
+    public void changeResetPassword(String token, @Valid  Account editedAccount) throws AppBaseException {
         try {
             ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
                     .orElseThrow(AppBaseException::new);
@@ -165,11 +218,11 @@ public class AccountService {
         }
     }
 
-    private boolean checkIfPasswordWasUsed(Account account, String newPassword) {
+    private boolean checkIfPasswordWasUsed(@Valid Account account, String newPassword) {
         return account.getPreviousPasswords().stream().anyMatch(p -> passwordEncoder.matches(newPassword, p.getPassword()));
     }
 
-    private void addPreviousPassword(Account account, Account editedAccount) throws AppBaseException {
+    private void addPreviousPassword(@Valid Account account, @Valid Account editedAccount) throws AppBaseException {
         if(checkIfPasswordWasUsed(account, editedAccount.getPassword()))
             throw new PasswordAlreadyUsedException();
         editedAccount.setPassword(passwordEncoder.encode(editedAccount.getPassword()));
@@ -182,7 +235,7 @@ public class AccountService {
         account.setPassword(editedAccount.getPassword());
     }
 
-    public void changePassword(Account editedAccount, String previous) throws AppBaseException {
+    public void changePassword(@Valid Account editedAccount, String previous) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
@@ -195,7 +248,7 @@ public class AccountService {
         }
     }
 
-    public void editPersonal(Account editedAccount) throws AppBaseException {
+    public void editPersonal(@Valid Account editedAccount) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
@@ -207,7 +260,7 @@ public class AccountService {
         }
     }
 
-    public String resendConfirmationEmail(Account accountParam) throws AppBaseException {
+    public String resendConfirmationEmail(@Valid Account accountParam) throws AppBaseException {
         try {
             Account account = accountRepository.findByEmail(accountParam.getEmail())
                     .orElseThrow(AccountNotFoundException::new);
@@ -215,11 +268,8 @@ public class AccountService {
             if (account.getAccountTokens().stream().anyMatch(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken")))) {
                 accountTokenRepository.deleteAll(account.getAccountTokens().stream().filter(t -> t.getTokenType().equals(env.getProperty("boorger.confirmToken"))).collect(Collectors.toList()));
             }
-            AccountConfirmToken token = new AccountConfirmToken();
-            token.setAccount(account);
-            token.setTokenType(env.getProperty("boorger.confirmToken"));
-            token.setExpireDate(LocalDateTime.now()
-                    .plusMinutes(Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.confirmTokenExpirationTime")))));
+
+            AccountConfirmToken token = generateConfirmToken(account);
             account.getAccountTokens().add(token);
             accountRepository.saveAndFlush(account);
             accountTokenRepository.saveAndFlush(token);
@@ -229,7 +279,7 @@ public class AccountService {
         }
     }
 
-    public void editOtherAccount(Account editedAccount, Collection<String> accessLevels) throws AppBaseException {
+    public void editOtherAccount(@Valid Account editedAccount, Collection<String> accessLevels) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
@@ -246,5 +296,38 @@ public class AccountService {
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+    }
+
+    public String addAccount(@Valid Account account, Collection<String> accessLevels) throws AppBaseException {
+        try {
+            account.setAccessLevels(generateAccessLevels(account));
+
+            for (AccessLevel level : account.getAccessLevels()) {
+                if (level instanceof Client)
+                    level.setActive(accessLevels.contains(env.getProperty("boorger.roleClient")));
+                if (level instanceof Manager)
+                    level.setActive(accessLevels.contains(env.getProperty("boorger.roleManager")));
+                if (level instanceof Admin)
+                    level.setActive(accessLevels.contains(env.getProperty("boorger.roleAdmin")));
+            }
+
+            account.getAuthData().setAccount(account);
+            AccountConfirmToken token = generateConfirmToken(account);
+            account.setAccountTokens(new ArrayList<>());
+            account.getAccountTokens().add(token);
+            account.setPreviousPasswords(new ArrayList<>());
+
+            accountRepository.saveAndFlush(account);
+            accountTokenRepository.saveAndFlush(token);
+            return token.getBusinessKey();
+        } catch (DataIntegrityViolationException e) {
+            if(Objects.requireNonNull(e.getMessage()).contains("account_login_data_login_uindex"))
+                throw new LoginAlreadyExistsException();
+            if(Objects.requireNonNull(e.getMessage()).contains("account_personal_data_email_uindex"))
+                throw new EmailAlreadyExistsException();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+        return "";
     }
 }

@@ -7,7 +7,7 @@ import ValidationMessage from "../../i18n/ValidationMessage";
 import { Checkbox } from "@material-ui/core";
 import '../../css/AddAccount.css';
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
-import {getHeader} from "../../services/UserDataService";
+import {getHeader, getLanguageShortcut} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 
 export default class AddAccount extends Component {
@@ -64,16 +64,26 @@ export default class AddAccount extends Component {
 
     addAccount = (e) => {
         e.preventDefault();
-        axios.post('/', {
+        let roles = [];
+        if(this.state.adminChecked) roles.push(process.env.REACT_APP_ADMIN_ROLE);
+        if(this.state.clientChecked) roles.push(process.env.REACT_APP_CLIENT_ROLE);
+        if(this.state.managerChecked) roles.push(process.env.REACT_APP_MANAGER_ROLE);
+        axios.post('/addAccount', {
             login: this.state.login,
             password: this.state.password,
             firstname: this.state.firstname,
             lastname: this.state.lastname,
             email: this.state.email,
-            active: this.state.active
-
+            active: this.state.active,
+            accessLevels: roles,
+            language: getLanguageShortcut()
         }, { headers: getHeader()})
-            .then()
+            .then(response => {
+                Swal.fire({
+                    icon: "success",
+                    title: response.data
+                }).then(() => window.location.reload());
+            })
             .catch(error => {
                 Swal.fire({
                     icon: "error",
@@ -150,7 +160,7 @@ export default class AddAccount extends Component {
                     <ValidationMessage valid={this.state.accessLevelsValid} message={this.state.errorMsg.accessLevels} />
                 </div>
                 <div className="addAccountButtons">
-                    <Button onClick={this.addAccount}>{Translate('confirm')}</Button>
+                    <Button onClick={this.addAccount} disabled={!this.state.formValid}>{Translate('confirm')}</Button>
                 </div>
             </div>
         )
