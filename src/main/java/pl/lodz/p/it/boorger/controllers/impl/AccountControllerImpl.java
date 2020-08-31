@@ -56,6 +56,16 @@ public class AccountControllerImpl implements AccountController {
         return accountService.getAccounts(0).getTotalPages();
     }
 
+    @GetMapping("/accounts/{page}/{filter}")
+    public List<AccountDTO> getAccounts(@PathVariable int page, @PathVariable String filter) throws AppBaseException {
+        return accountService.getFilteredAccounts(page, filter).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/accounts/pageAmount/{filter}")
+    public int getFilteredAccountsPageAmount(@PathVariable String filter) throws AppBaseException {
+        return accountService.getFilteredAccounts(0, filter).getTotalPages();
+    }
+
     @PutMapping("language/{login}")
     public void changeLanguage(@PathVariable String login, @RequestHeader("lang") String language) throws AppBaseException {
         accountService.editLanguage(login, language);

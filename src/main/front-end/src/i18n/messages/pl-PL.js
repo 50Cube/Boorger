@@ -78,6 +78,7 @@ export default {
         'edit': 'Edytuj',
         'back': 'Wróć',
         'confirmMail': 'Wyślij ponownie maila aktywacyjnego ',
-        'emptyRoles': 'Konto musi mieć przynajmniej jeden poziom dostępu'
+        'emptyRoles': 'Konto musi mieć przynajmniej jeden poziom dostępu',
+        'filterUsers': 'Szukaj użytkownika'
     }
 }

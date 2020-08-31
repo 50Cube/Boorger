@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Spinner, Button, FormGroup, FormControl, Tooltip, InputGroup} from "react-bootstrap";
+import {Spinner, Button, FormGroup, FormControl, Tooltip} from "react-bootstrap";
 import axios from 'axios';
 import Translate from '../../i18n/Translate';
 import Swal from "sweetalert2";

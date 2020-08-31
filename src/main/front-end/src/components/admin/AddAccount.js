@@ -9,6 +9,7 @@ import '../../css/AddAccount.css';
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import {getHeader, getLanguageShortcut} from "../../services/UserDataService";
 import Swal from "sweetalert2";
+import Spinner from "react-bootstrap/Spinner";
 
 export default class AddAccount extends Component {
 
@@ -28,6 +29,7 @@ export default class AddAccount extends Component {
             adminChecked: false,
             formValid: false,
             errorMsg: {},
+            buttonLoading: false
         }
     }
 
@@ -64,6 +66,7 @@ export default class AddAccount extends Component {
 
     addAccount = (e) => {
         e.preventDefault();
+        this.setState({ buttonLoading: true });
         let roles = [];
         if(this.state.adminChecked) roles.push(process.env.REACT_APP_ADMIN_ROLE);
         if(this.state.clientChecked) roles.push(process.env.REACT_APP_CLIENT_ROLE);
@@ -82,13 +85,13 @@ export default class AddAccount extends Component {
                 Swal.fire({
                     icon: "success",
                     title: response.data
-                }).then(() => window.location.reload());
+                }).then(() => window.location.replace("/"));
             })
             .catch(error => {
                 Swal.fire({
                     icon: "error",
                     title: error.response.data
-                })
+                }).then(() => this.setState({ buttonLoading: false }))
             })
     };
 
@@ -160,7 +163,8 @@ export default class AddAccount extends Component {
                     <ValidationMessage valid={this.state.accessLevelsValid} message={this.state.errorMsg.accessLevels} />
                 </div>
                 <div className="addAccountButtons">
-                    <Button className="buttons" onClick={this.addAccount} disabled={!this.state.formValid}>{Translate('confirm')}</Button>
+                    <Button className="buttons" onClick={this.addAccount} disabled={!this.state.formValid}>
+                        { this.state.buttonLoading ? <Spinner className="spinner" animation="border" /> : Translate('confirm') }</Button>
                 </div>
             </div>
         )

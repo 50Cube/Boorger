@@ -6,6 +6,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,6 +56,23 @@ public class AccountService {
         try {
             return accountRepository.findAll(
                     PageRequest.of(page, Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.pageSize")))));
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    @ServiceReadOnlyTransaction
+    public Page<Account> getFilteredAccounts(int page, String filter) throws AppBaseException {
+        try {
+            List<Account> list = accountRepository.findAll() .stream().filter
+                    (a -> a.getLogin().toLowerCase().contains(filter.toLowerCase()) || a.getEmail().toLowerCase().contains(filter.toLowerCase())
+                    || a.getFirstname().toLowerCase().contains(filter.toLowerCase()) || a.getLastname().contains(filter.toLowerCase()))
+                    .collect(Collectors.toList());
+            int size = Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.pageSize")));
+            int start = (int) PageRequest.of(page, size).getOffset();
+            int end = Math.min((start + PageRequest.of(page, size).getPageSize()), list.size());
+
+            return new PageImpl<>(list.subList(start, end), PageRequest.of(page, size), list.size());
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

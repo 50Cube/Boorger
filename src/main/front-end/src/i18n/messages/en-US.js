@@ -78,6 +78,7 @@ export default {
         'edit': 'Edit',
         'back': 'Back',
         'confirmMail': 'Send activation mail again ',
-        'emptyRoles': 'Account must have at least one access level'
+        'emptyRoles': 'Account must have at least one access level',
+        'filterUsers': 'Search for user'
     }
 }

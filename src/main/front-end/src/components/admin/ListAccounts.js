@@ -11,10 +11,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Spinner from "react-bootstrap/Spinner";
 import Paper from '@material-ui/core/Paper';
 import Translate from "../../i18n/Translate";
-import {Pagination, Button} from "react-bootstrap";
+import {Pagination, Button, InputGroup, Form} from "react-bootstrap";
 import Swal from "sweetalert2";
 import Profile from './Profile';
 import '../../css/AdminMenu.css'
+import {BsSearch} from "react-icons/all";
 
 
 export default class ListAccounts extends Component {
@@ -35,7 +36,8 @@ export default class ListAccounts extends Component {
             pageAmount: 1,
             page: 0,
             showProfile: props.showProfile ? props.showProfile : false,
-            profileLogin: ''
+            profileLogin: '',
+            tableLoading: false,
         })
     }
 
@@ -61,12 +63,11 @@ export default class ListAccounts extends Component {
                     pageAmount: response.data
                 })
             }).catch(error => {
-            Swal.fire({
-                icon: "error",
-                title: error.response.data
-            })
-        });
-
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                })
+            });
         this.getAccounts();
     }
 
@@ -87,8 +88,38 @@ export default class ListAccounts extends Component {
     };
 
     handleBackButtonClick = () => {
-        this.setState({ showProfile: false, loaded: false })
+        this.setState({ showProfile: false, loaded: false });
         this.getAccounts();
+    };
+
+    handleSearch = (e) => {
+        if (/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ`\-!@#$%^&*]+)$/.test(e) || e === '') {
+            console.log(e)
+            axios.get("/accounts/pageAmount/" + e, { headers: getHeader() })
+                .then(response => {
+                    this.setState({
+                        pageAmount: response.data,
+                        tableLoading: true
+                    })
+                }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                })
+            }).then(() => axios.get("/accounts/" + this.state.page + "/" + e, { headers: getHeader() } )
+                .then(response => {
+                    this.setState({
+                        users: response.data,
+                        loaded: true,
+                        tableLoading: false
+                    })
+                }).catch(error => {
+                    Swal.fire({
+                        icon: "error",
+                        title: error.response.data
+                    })
+                }))
+        }
     };
 
     render() {
@@ -118,6 +149,18 @@ export default class ListAccounts extends Component {
             if(!this.state.showProfile) {
                 return (
                     <div>
+                        <p className="filterUsers">{Translate('filterUsers')}</p>
+                        <InputGroup className="mb-3">
+                            <InputGroup.Prepend>
+                                <InputGroup.Text>
+                                    <BsSearch/>
+                                </InputGroup.Text>
+                            </InputGroup.Prepend>
+                            <Form.Control type="text" onChange={(e) => this.handleSearch(e.target.value)}/>
+                            {/*<Button className="buttons" type="button" onClick={this.handleSearchButtonClick}>{Translate('search')}</Button>*/}
+                        </InputGroup>
+
+                        { this.state.tableLoading ? <Spinner animation="border" /> :
                         <TableContainer component={Paper}>
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
@@ -159,11 +202,11 @@ export default class ListAccounts extends Component {
                                     ))}
                                 </TableBody>
                             </Table>
-                        </TableContainer>
+                        </TableContainer> }
                         <div className="paginationDiv">
-                            <Pagination>
-                                <Pagination.First/>
-                                <Pagination onClick={this.handlePageChange}>{pages}</Pagination>
+                            <Pagination className="herb">
+                                <Pagination.First className="herb"/>
+                                <Pagination className="herb" onClick={this.handlePageChange}>{pages}</Pagination>
                                 <Pagination.Last/>
                             </Pagination>
                         </div>

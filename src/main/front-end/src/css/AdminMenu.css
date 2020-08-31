@@ -15,7 +15,7 @@
 
 .adminContent {
     margin: 60px 10px 10px 20px;
-    padding: 30px 25px 15px 25px;
+    padding: 20px 25px 15px 20px;
     display: inline-block;
     vertical-align: top;
     border: 2px inset grey;
@@ -38,7 +38,7 @@
 .paginationDiv {
     padding-top: 10px;
     float: right;
-    font-size: 160%;
+    font-size: 150%;
     margin-bottom: 0;
 }
 
@@ -47,7 +47,7 @@
     color: black;
     font-size: 85%;
     border: 1px inset gainsboro;
-    padding: 0;
+    padding: 2px;
 }
 
 .viewProfileButton:hover, .viewProfileButton:focus {
@@ -55,3 +55,19 @@
     color: black !important;
     border: 1px inset black !important;
 }
+
+.filterUsers {
+    text-align: left;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.page-link, .page-link:hover {
+    color: white;
+    background-color: black !important;
+}
+
+.page-link {
+    color: gold;
+}
+

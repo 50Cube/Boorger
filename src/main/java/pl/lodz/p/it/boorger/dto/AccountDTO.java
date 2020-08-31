@@ -30,11 +30,11 @@ public class AccountDTO {
     private String language;
 
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9]+")
+    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+")
     private String firstname;
 
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9`-]+")
+    @Pattern(regexp = "[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ`-]+")
     private String lastname;
 
     @Email
