@@ -24,6 +24,7 @@ public class RestResponseExceptionHandler {
 
     @ExceptionHandler(value = {AppBaseException.class})
     public ResponseEntity<String> handleException(AppBaseException e, WebRequest request) {
+        log.severe("Error occurred " +  e.getClass());
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText(e.getMessage(),
                 Objects.requireNonNull(request.getHeader("lang"))));
     }
@@ -37,13 +38,13 @@ public class RestResponseExceptionHandler {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        log.warning("Validation exception occurred: " + errors);
+        log.severe("Validation exception occurred: " + errors);
         return errors;
     }
 
     @ExceptionHandler(value = {TransactionException.class, ExhaustedRetryException.class})
         public ResponseEntity<String> handleTransactionException(TransactionException e, WebRequest request) {
-        log.warning("TransactionException occurred: " + e.getClass());
+        log.severe("TransactionException occurred: " + e.getClass());
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
                 Objects.requireNonNull(request.getHeader("lang"))));
     }

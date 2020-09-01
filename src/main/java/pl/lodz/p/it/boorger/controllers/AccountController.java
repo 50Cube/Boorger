@@ -10,8 +10,10 @@ import java.util.List;
 public interface AccountController {
 
     AccountDTO getAccount(String login) throws AppBaseException;
-    List<AccountDTO> getAccounts(int page, String filter) throws AppBaseException;
+    List<AccountDTO> getAccounts(int page) throws AppBaseException;
     int getAccountsPageAmount() throws AppBaseException;
+    List<AccountDTO> getFilteredAccounts(int page, String filter) throws AppBaseException;
+    int getFilteredAccountsPageAmount(String filter) throws AppBaseException;
     void changeLanguage(String login, String language) throws AppBaseException;
     ResponseEntity<?> resetPassword(String email, String language, HttpServletRequest request) throws AppBaseException;
     ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha) throws AppBaseException;

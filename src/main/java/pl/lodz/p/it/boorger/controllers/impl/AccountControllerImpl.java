@@ -57,7 +57,7 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @GetMapping("/accounts/{page}/{filter}")
-    public List<AccountDTO> getAccounts(@PathVariable int page, @PathVariable String filter) throws AppBaseException {
+    public List<AccountDTO> getFilteredAccounts(@PathVariable int page, @PathVariable String filter) throws AppBaseException {
         return accountService.getFilteredAccounts(page, filter).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
     }
 
