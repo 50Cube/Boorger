@@ -55,6 +55,7 @@ export default {
         'managerPanel': 'Panel menadżera',
         'adminPanelLabel1': 'Witaj w panelu administratora!',
         'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.',
+        'managerPanelLabel': 'Witaj w panelu menadżera!',
         'listAccounts': 'Lista kont',
         'addAccount': 'Dodaj nowe konto',
         'myProfile': 'Mój profil',

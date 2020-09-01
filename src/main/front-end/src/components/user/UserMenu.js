@@ -3,6 +3,8 @@ import { Menu } from 'semantic-ui-react';
 import Translate from '../../i18n/Translate';
 import MyProfile from "./MyProfile";
 import ChangePassword from "./ChangePassword";
+import {Breadcrumb} from "react-bootstrap";
+import '../../css/UserBreadcrumbs.css';
 import '../../css/UserMenu.css';
 import '../../css/Menu.css';
 
@@ -23,6 +25,12 @@ export default class UserMenu extends Component {
             <Fragment>
                 <div className="userImage">
                     <div className="userMenu">
+                        <div className="userBreadcrumbs">
+                            <Breadcrumb>
+                                <Breadcrumb.Item active>{Translate('myProfile')}</Breadcrumb.Item>
+                                { activeItem === 'changePassword' ? <Breadcrumb.Item active>{Translate('changePassword')}</Breadcrumb.Item> : null }
+                            </Breadcrumb>
+                        </div>
                         <div className="menu">
                             <Menu pointing secondary vertical>
                                 <Menu.Item name="myProfile" active={activeItem === 'myProfile'} onClick={this.handleItemClick}>{Translate('myProfile')}</Menu.Item>

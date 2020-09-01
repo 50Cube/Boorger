@@ -3,14 +3,16 @@ import { Menu } from 'semantic-ui-react';
 import Translate from '../../i18n/Translate';
 import ListAccounts from "./ListAccounts";
 import AddAccount from "./AddAccount";
+import Breadcrumb from "react-bootstrap/Breadcrumb";
+import '../../css/AdminBreadcrumbs.css';
 
 export default class AdminMenu extends Component {
 
     constructor(props) {
         super(props);
-        this.state = ({
+        this.state = {
             activeItem: ''
-        })
+        }
     }
 
     handleItemClick = (e, { name }) => this.setState({ activeItem: name });
@@ -21,6 +23,13 @@ export default class AdminMenu extends Component {
             <Fragment>
                 <div className="adminImage">
                     <div className="adminMenu">
+                        <div className="adminBreadcrumbs">
+                            <Breadcrumb>
+                                <Breadcrumb.Item active>{Translate('adminPanel')}</Breadcrumb.Item>
+                                { activeItem === 'accountList' ? <Breadcrumb.Item active>{Translate('listAccounts')}</Breadcrumb.Item> : null }
+                                { activeItem === 'addAccount' ? <Breadcrumb.Item active>{Translate('addAccount')}</Breadcrumb.Item> : null }
+                            </Breadcrumb>
+                        </div>
                         <div className="menu">
                             <Menu pointing secondary vertical>
                                 <Menu.Item name="accountList" active={activeItem === 'accountList'} onClick={this.handleItemClick}>{Translate('listAccounts')}</Menu.Item>

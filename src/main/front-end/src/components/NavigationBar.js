@@ -3,7 +3,7 @@ import { Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import "../css/NavigationBar.css";
 import {getAccessLevels, getHeader, getLanguage, getUser, hashString} from "../services/UserDataService";
 import Cookies from "universal-cookie/lib";
-import { BsFillPeopleFill, BsFillPersonFill, BsPencilSquare, BsBriefcaseFill } from "react-icons/bs";
+import { BsFillPeopleFill, BsFillPersonFill, BsPencilSquare, BsBriefcaseFill, BsReverseLayoutTextWindowReverse } from "react-icons/bs";
 import { FaRegFlag, FiLogIn, FiLogOut } from "react-icons/all";
 import Translate from '../i18n/Translate';
 import RoleContext from "../services/RoleContext";
@@ -38,24 +38,12 @@ export default class NavigationBar extends Component {
         }
     };
 
-    clientNavbar = (role) => {
-        if(role === process.env.REACT_APP_CLIENT_ROLE) {
-            return (
-                <Nav className="ml-auto">
-                    <Nav.Item>
-                        <Nav.Link>client page</Nav.Link>
-                    </Nav.Item>
-                </Nav>
-            )
-        }
-    };
-
     managerNavbar = (role) => {
         if(role === process.env.REACT_APP_MANAGER_ROLE) {
             return (
                 <Nav className="ml-auto">
                     <Nav.Item>
-                        <Nav.Link>{Translate('managerPanel')}</Nav.Link>
+                        <Nav.Link as={Link} to="/managerMenu"><BsReverseLayoutTextWindowReverse className="navIcons" />{Translate('managerPanel')}</Nav.Link>
                     </Nav.Item>
                 </Nav>
             )
@@ -154,7 +142,6 @@ export default class NavigationBar extends Component {
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
-                            {this.clientNavbar(role)}
                             {this.managerNavbar(role)}
                             {this.adminNavbar(role)}
                             {this.accessLevelNavbar(role)}

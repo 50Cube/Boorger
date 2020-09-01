@@ -157,7 +157,6 @@ export default class ListAccounts extends Component {
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
                             <Form.Control type="text" onChange={(e) => this.handleSearch(e.target.value)}/>
-                            {/*<Button className="buttons" type="button" onClick={this.handleSearchButtonClick}>{Translate('search')}</Button>*/}
                         </InputGroup>
 
                         { this.state.tableLoading ? <Spinner animation="border" /> :
@@ -165,7 +164,7 @@ export default class ListAccounts extends Component {
                             <Table className={classes.table} aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell/>
+                                        <TableCell className="emptyLabel"/>
                                         <TableCell className="tableLabels"
                                                    align="center">{Translate('username')}</TableCell>
                                         <TableCell className="tableLabels"

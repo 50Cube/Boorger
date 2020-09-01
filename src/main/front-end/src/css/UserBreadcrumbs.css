@@ -1,0 +1,13 @@
+.userBreadcrumbs {
+    padding-top: 25px;
+    width: 68.5%;
+    margin-right: auto;
+    margin-left: auto;
+    padding-right: 10px;
+}
+
+.breadcrumb {
+    background-color: gainsboro;
+    border: 2px inset grey;
+    border-radius: 5px;
+}

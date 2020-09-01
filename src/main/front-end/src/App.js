@@ -17,6 +17,7 @@ import AdminMenu from "./components/admin/AdminMenu";
 import ResetPassword from "./components/guest/ResetPassword";
 import ChangeResetPassword from "./components/guest/ChangeResetPassword";
 import UserMenu from "./components/user/UserMenu";
+import ManagerMenu from "./components/manager/ManagerMenu";
 import './css/App.css';
 
 
@@ -52,6 +53,7 @@ export default class App extends Component {
                                     <Route path="/changeResetPassword" component={ChangeResetPassword} />
 
                                     <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
+                                    <PrivateRoute path="/managerMenu" component={ManagerMenu} accessLevels={[process.env.REACT_APP_MANAGER_ROLE]} />
                                     <PrivateRoute path="/userMenu" component={UserMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
                                                                     process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
 

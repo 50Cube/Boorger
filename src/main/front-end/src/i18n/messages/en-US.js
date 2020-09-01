@@ -55,6 +55,7 @@ export default {
         'managerPanel': 'Manager panel',
         'adminPanelLabel1': 'Welcome to the admin panel!',
         'adminPanelLabel2': 'From here you can manage user accounts.',
+        'managerPanelLabel': 'Welcome to the manager panel!',
         'listAccounts': 'List accounts',
         'addAccount': 'Add new account',
         'myProfile': 'My profile',
