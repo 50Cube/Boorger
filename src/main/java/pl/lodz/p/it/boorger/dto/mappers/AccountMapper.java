@@ -9,8 +9,10 @@ import pl.lodz.p.it.boorger.utils.DateFormatter;
 import java.util.stream.Collectors;
 
 public class AccountMapper {
+
     public static AccountDTO mapToDto(Account account) {
         return AccountDTO.builder()
+                .version(account.getVersion())
                 .login(account.getLogin())
                 .password(account.getPassword())
                 .active(account.isActive())

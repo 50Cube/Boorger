@@ -10,7 +10,8 @@ import java.util.Collection;
 @Builder
 public class AccountDTO {
 
-    protected String creationDate;
+    private long version;
+    private String creationDate;
 
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")

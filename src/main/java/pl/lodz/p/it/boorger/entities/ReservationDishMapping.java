@@ -9,7 +9,7 @@
 //    private long reservationId;
 //    private long menuId;
 //    private Reservation reservationByReservationId;
-//    private Menu menuByMenuId;
+//    private Dish menuByMenuId;
 //
 //    @Id
 //    @Column(name = "id")
@@ -75,11 +75,11 @@
 //
 //    @ManyToOne
 //    @JoinColumn(name = "menu_id", referencedColumnName = "id", nullable = false)
-//    public Menu getMenuByMenuId() {
+//    public Dish getMenuByMenuId() {
 //        return menuByMenuId;
 //    }
 //
-//    public void setMenuByMenuId(Menu menuByMenuId) {
+//    public void setMenuByMenuId(Dish menuByMenuId) {
 //        this.menuByMenuId = menuByMenuId;
 //    }
 //}

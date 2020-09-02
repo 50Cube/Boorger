@@ -1,20 +1,17 @@
 package pl.lodz.p.it.boorger.entities;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class Restaurant extends AbstractEntity {
+public class Dish extends AbstractEntity {
 
     @Id
     @Setter(lombok.AccessLevel.NONE)
@@ -22,53 +19,38 @@ public class Restaurant extends AbstractEntity {
     private Long id;
 
     @NotBlank
-    @Size(min = 1, max = 32)
+    @Size(min = 1, max = 64)
     @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
     private String name;
 
+    @NotNull
+    @Digits(integer = 5, fraction = 2)
+    private double price;
+
     @NotBlank
     @Size(min = 1, max = 255)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
     private String description;
 
     @NotNull
-    @Digits(integer = 2, fraction = 0)
-    private int installment;
-
-    @NotNull
     private boolean active;
-    private byte[] photo;
 
     @NotNull
-    @ManyToOne
-    private Address address;
-
-//    @NotNull
-//    @OneToOne(mappedBy = "restaurant")
-//    private Dish dish;
-
-//    @ManyToOne
-//    private Hours hours;
+    @OneToOne
+    private Restaurant restaurant;
 
 //    @OneToMany
-//    private Collection<Tables> tables;
-
-//    @OneToMany
-//    private Collection<ClientRestaurants> clientRestaurants;
-//
-//    @OneToMany
-//    private Collection<Opinion> opinions;
+//    private Collection<ReservationMenuMapping> reservationMenuMappings;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Restaurant that = (Restaurant) o;
+        Dish that = (Dish) o;
 
         if (!id.equals(that.id)) return false;
         if (version != that.version) return false;
-        if (installment != that.installment) return false;
+        if (Double.compare(that.price, price) != 0) return false;
         if (active != that.active) return false;
         if (!Objects.equals(businessKey, that.businessKey)) return false;
         if (!Objects.equals(createdBy, that.createdBy)) return false;
@@ -76,13 +58,14 @@ public class Restaurant extends AbstractEntity {
         if (!Objects.equals(modifiedBy, that.modifiedBy)) return false;
         if (!Objects.equals(modificationDate, that.modificationDate)) return false;
         if (!Objects.equals(name, that.name)) return false;
-        if (!Objects.equals(description, that.description)) return false;
-        return (!Arrays.equals(photo, that.photo));
+        return Objects.equals(description, that.description);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (id ^ (id >>> 32));
+        int result;
+        long temp;
+        result = (int) (id ^ (id >>> 32));
         result = 31 * result + (businessKey != null ? businessKey.hashCode() : 0);
         result = 31 * result + (createdBy != null ? createdBy.hashCode() : 0);
         result = 31 * result + (creationDate != null ? creationDate.hashCode() : 0);
@@ -90,10 +73,10 @@ public class Restaurant extends AbstractEntity {
         result = 31 * result + (modificationDate != null ? modificationDate.hashCode() : 0);
         result = 31 * result + (int) (version ^ (version >>> 32));
         result = 31 * result + (name != null ? name.hashCode() : 0);
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + installment;
         result = 31 * result + (active ? 1 : 0);
-        result = 31 * result + Arrays.hashCode(photo);
         return result;
     }
 }

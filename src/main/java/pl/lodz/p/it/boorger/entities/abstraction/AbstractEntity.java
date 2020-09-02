@@ -34,7 +34,6 @@ public abstract class AbstractEntity implements Serializable {
 
     @Version
     @NotNull
-    @Getter(lombok.AccessLevel.NONE)
     @Setter(lombok.AccessLevel.NONE)
     protected long version;
 
