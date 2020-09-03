@@ -1,7 +1,6 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +16,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Log
 @CrossOrigin
 @RestController
 @AllArgsConstructor

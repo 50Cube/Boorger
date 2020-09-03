@@ -4,7 +4,7 @@
 //
 //@Entity
 //@Table(name = "reservation_menu_mapping", schema = "public", catalog = "d8vb0t26u3m4bd")
-//public class ReservationMenuMapping {
+//public class ReservationDishMapping {
 //    private long id;
 //    private long reservationId;
 //    private long menuId;

@@ -1,8 +1,8 @@
 package pl.lodz.p.it.boorger.services;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
@@ -10,13 +10,14 @@ import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Restaurant;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.exceptions.DatabaseException;
+import pl.lodz.p.it.boorger.exceptions.RestaurantAlreadyExistsException;
 import pl.lodz.p.it.boorger.repositories.AddressRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
-@Log
 @Service
 @AllArgsConstructor
 @ServiceTransaction
@@ -38,6 +39,9 @@ public class RestaurantService {
         try {
             addressRepository.saveAndFlush(restaurant.getAddress());
             restaurantRepository.saveAndFlush(restaurant);
+        } catch (DataIntegrityViolationException e) {
+            if(Objects.requireNonNull(e.getMessage()).contains("restaurant_name_uindex"))
+                throw new RestaurantAlreadyExistsException();
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

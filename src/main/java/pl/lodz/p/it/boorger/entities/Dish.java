@@ -35,11 +35,11 @@ public class Dish extends AbstractEntity {
     private boolean active;
 
     @NotNull
-    @OneToOne
+    @ManyToOne
     private Restaurant restaurant;
 
 //    @OneToMany
-//    private Collection<ReservationMenuMapping> reservationMenuMappings;
+//    private Collection<ReservationDishMapping> reservationDishMappings;
 
     @Override
     public boolean equals(Object o) {

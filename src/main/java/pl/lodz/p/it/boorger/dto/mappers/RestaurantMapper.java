@@ -14,7 +14,7 @@ public class RestaurantMapper {
                 .description(restaurant.getDescription())
                 .active(restaurant.isActive())
                 .installment(restaurant.getInstallment())
-                .photo(new String(Base64Utils.encode(restaurant.getPhoto())))
+                .photo(restaurant.getPhoto() != null ? new String(Base64Utils.encode(restaurant.getPhoto())) : "")
                 .creationDate(DateFormatter.dateToString(restaurant.getCreationDate()))
                 .addressDTO(AddressMapper.mapToDto(restaurant.getAddress()))
                 .build();

@@ -13,7 +13,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "password_history")
+@javax.persistence.Table(name = "password_history")
 public class PreviousPassword extends AbstractEntity {
 
     @Id
