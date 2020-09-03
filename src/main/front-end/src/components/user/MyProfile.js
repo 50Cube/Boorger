@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { FaUser, AiFillEdit } from "react-icons/all";
-import '../../css/MyProfile.css';
 import Translate from "../../i18n/Translate";
 import {FormGroup, FormControl, OverlayTrigger, Tooltip, Button} from 'react-bootstrap';
 import {getHeader, getLanguageShortcut, getUser} from "../../services/UserDataService";
@@ -9,6 +8,7 @@ import Swal from "sweetalert2";
 import Spinner from "react-bootstrap/Spinner";
 import ValidationMessage from "../../i18n/ValidationMessage";
 import ValidationService from "../../services/ValidationService";
+import '../../css/MyProfile.css';
 
 export default class MyProfile extends Component {
 

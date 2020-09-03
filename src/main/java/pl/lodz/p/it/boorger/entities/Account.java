@@ -15,7 +15,7 @@ import java.util.Objects;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "account_login_data", schema = "public")
+@javax.persistence.Table(name = "account_login_data", schema = "public")
 @SecondaryTable(name = "account_personal_data", schema = "public", pkJoinColumns = @PrimaryKeyJoinColumn(name = "id"))
 public class Account extends AbstractEntity {
 

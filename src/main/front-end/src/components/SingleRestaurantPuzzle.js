@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { FiMap } from "react-icons/all";
+import defaultImage from '../assets/noImage.png';
 
 export default class SingleRestaurantPuzzle extends Component {
 
@@ -8,7 +9,8 @@ export default class SingleRestaurantPuzzle extends Component {
         return (
             <div>
                 <div className="puzzleImageDiv">
-                    <img className="puzzleImage" src={image}  alt="loading"/>
+                    { this.props.photo ? <img className="puzzleImage" src={image}  alt="loading"/> :
+                        <img className="puzzleImage" src={defaultImage} alt="loading" /> }
                 </div>
                 <div className="puzzleContent">
                     <p className="puzzleName">{this.props.name}</p>
