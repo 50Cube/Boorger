@@ -25,6 +25,6 @@ public class RestaurantDTO {
     @Digits(integer = 2, fraction = 0)
     private int installment;
     private boolean active;
-    private byte[] photo;
+    private String photo;
     private AddressDTO addressDTO;
 }

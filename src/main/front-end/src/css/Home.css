@@ -53,12 +53,24 @@
 .homeListItem {
     margin-bottom: 3%;
     min-height: 230px;
+    box-shadow: 2px 2px grey;
 }
 
-.puzzleImage {
+.homeListItem:hover {
+    cursor: pointer;
+}
+
+.puzzleImageDiv {
     vertical-align: top;
     width: 35%;
     display: inline-block;
+}
+
+.puzzleImage {
+    max-height: 230px;
+    max-width: 185px;
+    width: 100%;
+    height: 100%;
 }
 
 .puzzleContent {
@@ -72,6 +84,7 @@
 .puzzleName {
     font-weight: bold;
     font-size: 160%;
+    max-height: 40px;
 }
 
 .puzzleDescription {
@@ -82,6 +95,7 @@
 .puzzleAddress {
     font-weight: bold;
     font-size: 120%;
+    max-height: 40px;
 }
 
 .puzzleIcon {

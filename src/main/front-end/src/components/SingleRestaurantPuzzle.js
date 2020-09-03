@@ -4,10 +4,11 @@ import { FiMap } from "react-icons/all";
 export default class SingleRestaurantPuzzle extends Component {
 
     render() {
+        const image = "data:image/png;base64," + this.props.photo;
         return (
             <div>
-                <div className="puzzleImage">
-                    <p>zdjecie</p>
+                <div className="puzzleImageDiv">
+                    <img className="puzzleImage" src={image}  alt="loading"/>
                 </div>
                 <div className="puzzleContent">
                     <p className="puzzleName">{this.props.name}</p>

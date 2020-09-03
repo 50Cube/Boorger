@@ -14,8 +14,8 @@ import Translate from "../../i18n/Translate";
 import {Pagination, Button, InputGroup, Form} from "react-bootstrap";
 import Swal from "sweetalert2";
 import Profile from './Profile';
-import '../../css/AdminMenu.css'
 import {BsSearch} from "react-icons/all";
+import '../../css/AdminMenu.css'
 
 
 export default class ListAccounts extends Component {

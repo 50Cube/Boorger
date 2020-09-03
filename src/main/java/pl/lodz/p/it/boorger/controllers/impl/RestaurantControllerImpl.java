@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.RestaurantController;
 import pl.lodz.p.it.boorger.dto.RestaurantDTO;
 import pl.lodz.p.it.boorger.dto.mappers.RestaurantMapper;
-import pl.lodz.p.it.boorger.entities.Restaurant;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.RestaurantService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
