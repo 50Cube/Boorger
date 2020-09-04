@@ -38,7 +38,11 @@ public class RestaurantService {
     public void addRestaurant(@Valid Restaurant restaurant) throws AppBaseException {
         try {
             restaurant.getHours().setRestaurant(restaurant);
-            addressRepository.saveAndFlush(restaurant.getAddress());
+            if(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
+                    restaurant.getAddress().getStreet(), restaurant.getAddress().getStreetNo()).isPresent())
+                restaurant.setAddress(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
+                        restaurant.getAddress().getStreet(), restaurant.getAddress().getStreetNo()).get());
+            else addressRepository.saveAndFlush(restaurant.getAddress());
             restaurantRepository.saveAndFlush(restaurant);
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("restaurant_name_uindex"))
