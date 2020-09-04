@@ -28,6 +28,7 @@ public class RestaurantMapper {
                 .installment(restaurantDTO.getInstallment())
 //                .photo(restaurantDTO.getPhoto())
                 .address(AddressMapper.mapFromDto(restaurantDTO.getAddressDTO()))
+                .hours(HoursMapper.mapFromDto(restaurantDTO.getHoursDTO()))
                 .build();
     }
 }

@@ -22,9 +22,10 @@ public class RestaurantDTO {
     @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
     private String description;
 
-    @Digits(integer = 2, fraction = 0)
+    @Digits(integer = 3, fraction = 0)
     private int installment;
     private boolean active;
     private String photo;
     private AddressDTO addressDTO;
+    private HoursDTO hoursDTO;
 }

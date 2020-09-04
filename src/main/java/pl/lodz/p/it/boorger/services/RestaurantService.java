@@ -37,6 +37,7 @@ public class RestaurantService {
 
     public void addRestaurant(@Valid Restaurant restaurant) throws AppBaseException {
         try {
+            restaurant.getHours().setRestaurant(restaurant);
             addressRepository.saveAndFlush(restaurant.getAddress());
             restaurantRepository.saveAndFlush(restaurant);
         } catch (DataIntegrityViolationException e) {

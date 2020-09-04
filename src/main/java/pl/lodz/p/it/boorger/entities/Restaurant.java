@@ -34,7 +34,7 @@ public class Restaurant extends AbstractEntity {
     private String description;
 
     @NotNull
-    @Digits(integer = 2, fraction = 0)
+    @Digits(integer = 3, fraction = 0)
     private int installment;
 
     @NotNull
@@ -45,12 +45,13 @@ public class Restaurant extends AbstractEntity {
     @ManyToOne
     private Address address;
 
+    @NotNull
+    @OneToOne(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
+    private Hours hours;
+
     @Builder.Default
     @OneToMany(mappedBy = "restaurant")
     private Collection<Dish> dishes = new ArrayList<>();
-
-//    @ManyToOne
-//    private Hours hours;
 
     @Builder.Default
     @OneToMany(mappedBy = "restaurant")
