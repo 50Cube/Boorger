@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import { Menu } from 'semantic-ui-react';
 import Translate from "../../i18n/Translate";
+import AddRestaurant from "./AddRestaurant";
 import '../../css/ManagerBreadcrumbs.css';
 import '../../css/ManagerMenu.css';
 
@@ -25,16 +26,23 @@ export default class ManagerMenu extends Component {
                         <div className="managerBreadcrumbs">
                             <Breadcrumb>
                                 <Breadcrumb.Item active>{Translate('managerPanel')}</Breadcrumb.Item>
+                                { activeItem === 'addRestaurant' ? <Breadcrumb.Item active>{Translate('addRestaurant')}</Breadcrumb.Item> : null }
                             </Breadcrumb>
                         </div>
                         <div className="menu">
                             <Menu pointing secondary vertical>
-
+                                <Menu.Item name="addRestaurant" active={activeItem === 'addRestaurant'} onClick={this.handleItemClick}>
+                                    {Translate('addRestaurant')}
+                                </Menu.Item>
                             </Menu>
                         </div>
                         { activeItem === '' ?
                             <div className="managerContent">
                                 <h1>{Translate('managerPanelLabel')}</h1>
+                            </div> : null }
+                        { activeItem === 'addRestaurant' ?
+                            <div className="managerContent">
+                                <AddRestaurant />
                             </div> : null }
                     </div>
                 </div>

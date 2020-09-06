@@ -80,6 +80,23 @@ export default {
         'back': 'Back',
         'confirmMail': 'Send activation mail again ',
         'emptyRoles': 'Account must have at least one access level',
-        'filterUsers': 'Search for user'
+        'filterUsers': 'Search for user',
+        'addRestaurant': 'Add restaurant',
+        'name': 'Name',
+        'description': 'Description',
+        'installment': 'Advance payment required',
+        'chooseImage': 'Choose image',
+        'imageDetails': 'Max file size: 5MB',
+        'wrongExtension': 'is not supported file extension',
+        'wrongSize': 'file size is too big',
+        'step1': 'First step',
+        'step2': 'Last step',
+        'previous': 'Previous',
+        'next': 'Next',
+        'chooseAddress': 'Choose address',
+        'addNewAddress': 'Add new address',
+        'city': 'City',
+        'street': 'Street',
+        'streetNo': 'Street number'
     }
 }

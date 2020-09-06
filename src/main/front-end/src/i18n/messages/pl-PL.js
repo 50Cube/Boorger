@@ -80,6 +80,23 @@ export default {
         'back': 'Wróć',
         'confirmMail': 'Wyślij ponownie maila aktywacyjnego ',
         'emptyRoles': 'Konto musi mieć przynajmniej jeden poziom dostępu',
-        'filterUsers': 'Szukaj użytkownika'
+        'filterUsers': 'Szukaj użytkownika',
+        'addRestaurant': 'Dodaj restaurację',
+        'name': 'Nazwa',
+        'description': 'Opis',
+        'installment': 'Wymagana zaliczka',
+        'chooseImage': 'Wybierz zdjęcie',
+        'imageDetails': 'Maksymalny rozmiar pliku: 5MB',
+        'wrongExtension': 'ma nieodpowiednie rozszerzenie pliku',
+        'wrongSize': 'plik ma zbyt duży rozmiar',
+        'step1': 'Pierwszy krok',
+        'step2': 'Ostatni krok',
+        'previous': 'Wstecz',
+        'next': 'Dalej',
+        'chooseAddress': 'Wybierz adres',
+        'addNewAddress': 'Dodaj nowy adres',
+        'city': 'Miasto',
+        'street': 'Ulica',
+        'streetNo': 'Numer'
     }
 }

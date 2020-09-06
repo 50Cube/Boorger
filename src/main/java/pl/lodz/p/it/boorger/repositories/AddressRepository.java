@@ -5,10 +5,14 @@ import pl.lodz.p.it.boorger.configuration.transactions.RepositoryReadOnlyTransac
 import pl.lodz.p.it.boorger.configuration.transactions.RepositoryTransaction;
 import pl.lodz.p.it.boorger.entities.Address;
 
+import java.util.List;
 import java.util.Optional;
 
 @RepositoryTransaction
 public interface AddressRepository extends JpaRepository<Address, Long> {
+
+    @RepositoryReadOnlyTransaction
+    List<Address> findAll();
 
     @RepositoryReadOnlyTransaction
     Optional<Address> findByCityAndStreetAndStreetNo(String city, String street, int streetNo);

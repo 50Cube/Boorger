@@ -128,6 +128,99 @@ const validationFunctions = {
             errorMsg.accessLevels = 'emptyRoles'
         }
         this.setState({accessLevelsValid, errorMsg}, this.validateForm);
+    },
+
+    validateRestaurantName() {
+        const { name } = this.state;
+        let nameValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(name.length < 1) {
+            nameValid = false;
+            errorMsg.name = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+)$/.test(name)) {
+            nameValid = false;
+            errorMsg.name = 'field-pattern'
+        }
+        else if(name.length > 32) {
+            nameValid = false;
+            errorMsg.name = 'field-toolong'
+        }
+        this.setState({nameValid, errorMsg}, this.validateForm)
+    },
+
+    validateDescription() {
+        const { description } = this.state;
+        let descriptionValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(description.length < 1) {
+            descriptionValid = false;
+            errorMsg.description = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+)$/.test(description)) {
+            descriptionValid = false;
+            errorMsg.description = 'field-pattern'
+        }
+        this.setState({descriptionValid, errorMsg}, this.validateForm)
+    },
+
+    validateCity() {
+        const { city } = this.state;
+        let cityValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(city.length < 1) {
+            cityValid = false;
+            errorMsg.city = 'field-required';
+        }
+        else if(!/^([a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ -]+)$/.test(city)) {
+            cityValid = false;
+            errorMsg.city = 'field-pattern'
+        }
+        else if(city.length > 64) {
+            cityValid = false;
+            errorMsg.city = 'field-toolong'
+        }
+        this.setState({cityValid, errorMsg}, this.validateForm)
+    },
+
+    validateStreet() {
+        const { street } = this.state;
+        let streetValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(street.length < 1) {
+            streetValid = false;
+            errorMsg.street = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ -]+)$/.test(street)) {
+            streetValid = false;
+            errorMsg.street = 'field-pattern'
+        }
+        else if(street.length > 64) {
+            streetValid = false;
+            errorMsg.street = 'field-toolong'
+        }
+        this.setState({streetValid, errorMsg}, this.validateForm)
+    },
+
+    validateStreetNo() {
+        const { streetNo } = this.state;
+        let streetNoValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(streetNo.length < 1) {
+            streetNoValid = false;
+            errorMsg.streetNo = 'field-required';
+        }
+        else if(!/^([0-9]+)$/.test(streetNo)) {
+            streetNoValid = false;
+            errorMsg.streetNo = 'field-pattern'
+        }
+
+        this.setState({streetNoValid, errorMsg}, this.validateForm)
     }
 };
 
