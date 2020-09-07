@@ -90,13 +90,23 @@ export default {
         'wrongExtension': 'is not supported file extension',
         'wrongSize': 'file size is too big',
         'step1': 'First step',
-        'step2': 'Last step',
+        'step2': 'Second step',
+        'step3': 'Last step',
         'previous': 'Previous',
         'next': 'Next',
         'chooseAddress': 'Choose address',
         'addNewAddress': 'Add new address',
         'city': 'City',
         'street': 'Street',
-        'streetNo': 'Street number'
+        'streetNo': 'Street number',
+        'openingHours': 'Opening hours',
+        'monday': 'Monday',
+        'tuesday': 'Tuesday',
+        'wednesday': 'Wednesday',
+        'thursday': 'Thursday',
+        'friday': 'Friday',
+        'saturday': 'Saturday',
+        'sunday': 'Sunday',
+        'wholeWeek': 'The same opening hours all week'
     }
 }

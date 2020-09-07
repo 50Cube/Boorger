@@ -11,8 +11,9 @@ import { Stepper, Step, StepLabel } from '@material-ui/core';
 import { getHeader } from "../../services/UserDataService";
 import { FcPlus } from "react-icons/all";
 import Swal from "sweetalert2";
+import TimeInput from "react-time-input";
+import { Checkbox } from "@material-ui/core";
 import '../../css/AddRestaurant.css';
-
 
 export default class AddRestaurant extends Component {
 
@@ -37,7 +38,15 @@ export default class AddRestaurant extends Component {
             city: "", cityValid: false,
             street: "", streetValid: false,
             streetNo: "", streetNoValid: false,
-            addressSaveButtonLoading: false
+            addressSaveButtonLoading: false,
+            wholeWeek: true,
+            mondayStart: "00:00", mondayEnd: "23:59",
+            tuesdayStart: "00:00", tuesdayEnd: "23:59",
+            wednesdayStart: "00:00", wednesdayEnd: "23:59",
+            thursdayStart: "00:00", thursdayEnd: "23:59",
+            fridayStart: "00:00", fridayEnd: "23:59",
+            saturdayStart: "00:00", saturdayEnd: "23:59",
+            sundayStart: "00:00", sundayEnd: "23:59",
         }
     }
 
@@ -123,6 +132,30 @@ export default class AddRestaurant extends Component {
             })
     };
 
+    handleStartHoursChange = (value) => {
+        this.setState({
+            mondayStart: value,
+            tuesdayStart: value,
+            wednesdayStart: value,
+            thursdayStart: value,
+            fridayStart: value,
+            saturdayStart: value,
+            sundayStart: value
+        })
+    };
+
+    handleEndHoursChange = (value) => {
+        this.setState({
+            mondayEnd: value,
+            tuesdayEnd: value,
+            wednesdayEnd: value,
+            thursdayEnd: value,
+            fridayEnd: value,
+            saturdayEnd: value,
+            sundayEnd: value
+        })
+    };
+
     handleSubmit = (e) => {
         e.preventDefault();
       console.log(this.state)
@@ -153,6 +186,7 @@ export default class AddRestaurant extends Component {
                 <Stepper className="addRestaurantSteps" alternativeLabel activeStep={this.state.step}>
                     <Step> <StepLabel>{Translate('step1')}</StepLabel> </Step>
                     <Step> <StepLabel>{Translate('step2')}</StepLabel> </Step>
+                    <Step> <StepLabel>{Translate('step3')}</StepLabel> </Step>
                 </Stepper>
                 { this.state.step === 0 ?
                     <div>
@@ -183,68 +217,127 @@ export default class AddRestaurant extends Component {
                                             onChange={(e) => this.handleImageUpload(e)}/>
                         </div>
                     </div>
-                 : <div>
+                 : null }
+
+                { this.state.step === 1 ?
+                    <div>
                         <div className="addRestaurantFirstDiv">
                             { this.state.newAddress ?
-                            <div>
-                                <form>
-                                    <FormGroup className="addRestaurantFormLabels newAddressForm">
-                                        <FormLabel>{Translate('city')} *</FormLabel>
-                                        <FormControl autoFocus value={this.state.city} onChange={event => this.updateCity(event.target.value)} />
-                                        <ValidationMessage valid={this.state.cityValid} message={this.state.errorMsg.city}/>
-                                    </FormGroup>
+                                <div>
+                                    <form>
+                                        <FormGroup className="addRestaurantFormLabels newAddressForm">
+                                            <FormLabel>{Translate('city')} *</FormLabel>
+                                            <FormControl autoFocus value={this.state.city} onChange={event => this.updateCity(event.target.value)} />
+                                            <ValidationMessage valid={this.state.cityValid} message={this.state.errorMsg.city}/>
+                                        </FormGroup>
 
-                                    <FormGroup className="addRestaurantFormLabels newAddressForm">
-                                        <FormLabel>{Translate('street')} *</FormLabel>
-                                        <FormControl value={this.state.street} onChange={event => this.updateStreet(event.target.value)} />
-                                        <ValidationMessage valid={this.state.streetValid} message={this.state.errorMsg.street}/>
-                                    </FormGroup>
+                                        <FormGroup className="addRestaurantFormLabels newAddressForm">
+                                            <FormLabel>{Translate('street')} *</FormLabel>
+                                            <FormControl value={this.state.street} onChange={event => this.updateStreet(event.target.value)} />
+                                            <ValidationMessage valid={this.state.streetValid} message={this.state.errorMsg.street}/>
+                                        </FormGroup>
 
-                                    <FormGroup className="addRestaurantFormLabels newAddressForm">
-                                        <FormLabel>{Translate('streetNo')} *</FormLabel>
-                                        <FormControl maxLength={4} value={this.state.streetNo} onChange={event => this.updateStreetNo(event.target.value)} />
-                                        <ValidationMessage valid={this.state.streetNoValid} message={this.state.errorMsg.streetNo}/>
-                                    </FormGroup>
-                                </form>
-                                <div className="newAddressButtons">
-                                    <Button className="newAddressConfirmButton" disabled={!this.state.cityValid || !this.state.streetValid
-                                    || !this.state.streetNoValid} onClick={this.handleNewAddress}>
-                                        { this.state.addressSaveButtonLoading ? <Spinner className="spinner" animation="border" /> : Translate('save')}</Button>
-                                    <Button className="newAddressCancelButton" onClick={() => this.setState({
-                                        newAddress: false, cityValid: false, streetValid: false, streetNoValid: false, errorMsg: {} })}>{Translate('cancel')}</Button>
-                                </div>
-                            </div> :
-                            <div>
-                                <p className="addRestaurantFormLabels">{Translate('chooseAddress')}
-                                    <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip">{Translate('addNewAddress')}</Tooltip>}>
-                                        <FcPlus className="addRestaurantIcon" onClick={() => this.setState({
-                                            newAddress: true, city: "", street: "", streetNo: ""})}/>
-                                    </OverlayTrigger>
-                                </p>
-                                <ListGroup className="addRestaurantAddressList">
-                                    { addressTable.map(address => (
-                                        <ListGroupItem action onClick={() => this.setState({
-                                            city: address.city,
-                                            street: address.street,
-                                            streetNo: address.streetNo
-                                        }, this.validateForm)}>
-                                            {address.city}, {address.street} {address.streetNo}
-                                        </ListGroupItem>
-                                    ))}
-                                </ListGroup>
-                            </div> }
+                                        <FormGroup className="addRestaurantFormLabels newAddressForm">
+                                            <FormLabel>{Translate('streetNo')} *</FormLabel>
+                                            <FormControl maxLength={4} value={this.state.streetNo} onChange={event => this.updateStreetNo(event.target.value)} />
+                                            <ValidationMessage valid={this.state.streetNoValid} message={this.state.errorMsg.streetNo}/>
+                                        </FormGroup>
+                                    </form>
+                                    <div className="newAddressButtons">
+                                        <Button className="newAddressConfirmButton" disabled={!this.state.cityValid || !this.state.streetValid
+                                        || !this.state.streetNoValid} onClick={this.handleNewAddress}>
+                                            { this.state.addressSaveButtonLoading ? <Spinner className="spinner" animation="border" /> : Translate('save')}</Button>
+                                        <Button className="newAddressCancelButton" onClick={() => this.setState({
+                                            newAddress: false, cityValid: false, streetValid: false, streetNoValid: false, errorMsg: {} })}>{Translate('cancel')}</Button>
+                                    </div>
+                                </div> :
+                                <div>
+                                    <p className="addRestaurantFormLabels">{Translate('chooseAddress')}
+                                        <OverlayTrigger placement="top" overlay={<Tooltip id="button-tooltip">{Translate('addNewAddress')}</Tooltip>}>
+                                            <FcPlus className="addRestaurantIcon" onClick={() => this.setState({
+                                                newAddress: true, city: "", street: "", streetNo: ""})}/>
+                                        </OverlayTrigger>
+                                    </p>
+                                    <ListGroup className="addRestaurantAddressList">
+                                        { addressTable.map(address => (
+                                            <ListGroupItem action onClick={() => this.setState({
+                                                city: address.city,
+                                                street: address.street,
+                                                streetNo: address.streetNo
+                                            }, this.validateForm)}>
+                                                {address.city}, {address.street} {address.streetNo}
+                                            </ListGroupItem>
+                                        ))}
+                                    </ListGroup>
+                                </div> }
                         </div>
                         <div className="addRestaurantSecondDiv">
-                            <h1>hours</h1>
+                            <p className="addRestaurantFormLabels">{Translate('openingHours')}</p>
+                            <p className="allWeekLabel"><Checkbox checked={this.state.wholeWeek}
+                                                                  onChange={() => this.setState({ wholeWeek: !this.state.wholeWeek })} />{Translate('wholeWeek')}</p>
+                            {this.state.wholeWeek ? <p><TimeInput initTime={this.state.mondayStart}
+                                                                  onTimeChange={(value) => this.handleStartHoursChange(value)}/> - <TimeInput initTime={this.state.mondayEnd}
+                                                                                                                                              onTimeChange={(value) => this.handleEndHoursChange(value)}/></p> :
+                                <div className="hoursDiv">
+                                    <p className="dayLabel dayRow">{Translate('monday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.mondayStart}
+                                               onTimeChange={(value) => this.setState({mondayStart: value})}/> - <TimeInput
+                                    initTime={this.state.mondayEnd}
+                                    onTimeChange={(value) => this.setState({mondayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('tuesday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.tuesdayStart}
+                                               onTimeChange={(value) => this.setState({tuesdayStart: value})}/> - <TimeInput
+                                    initTime={this.state.tuesdayEnd}
+                                    onTimeChange={(value) => this.setState({tuesdayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('wednesday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.wednesdayStart}
+                                               onTimeChange={(value) => this.setState({wednesdayStart: value})}/> - <TimeInput
+                                    initTime={this.state.wednesdayEnd}
+                                    onTimeChange={(value) => this.setState({wednesdayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('thursday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.thursdayStart}
+                                               onTimeChange={(value) => this.setState({thursdayStart: value})}/> - <TimeInput
+                                    initTime={this.state.thursdayEnd}
+                                    onTimeChange={(value) => this.setState({thursdayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('friday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.fridayStart}
+                                               onTimeChange={(value) => this.setState({fridayStart: value})}/> - <TimeInput
+                                    initTime={this.state.fridayEnd}
+                                    onTimeChange={(value) => this.setState({fridayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('saturday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.saturdayStart}
+                                               onTimeChange={(value) => this.setState({saturdayStart: value})}/> - <TimeInput
+                                    initTime={this.state.saturdayEnd}
+                                    onTimeChange={(value) => this.setState({saturdayEnd: value})}/></p>
+                                    <p className="dayLabel dayRow">{Translate('sunday')}</p><p className="dayRow">
+                                    <TimeInput initTime={this.state.sundayStart}
+                                               onTimeChange={(value) => this.setState({sundayStart: value})}/> - <TimeInput
+                                    initTime={this.state.sundayEnd}
+                                    onTimeChange={(value) => this.setState({sundayEnd: value})}/></p>
+                                </div>
+                            }
                         </div>
-                    </div> }
+                    </div> : null }
+
+                { this.state.step === 2 ?
+                <div>
+                    <h1>tables</h1>
+                </div> : null }
+
                 <div>
                     { this.state.step === 0 ? <Button className="buttons" onClick={() => this.setState({ step: 1 })}>{Translate('next')}</Button>
-                        : <div>
+                        : null }
+                    { this.state.step === 1 ?
+                        <div>
                             <Button className="buttons addRestaurantButton" onClick={() => this.setState({ step: 0 })}>{Translate('previous')}</Button>
+                            <Button className="buttons addRestaurantButton" onClick={() => this.setState({ step: 2 })}>{Translate('next')}</Button>
+                        </div> : null }
+                    { this.state.step === 2 ?
+                        <div>
+                            <Button className="buttons addRestaurantButton" onClick={() => this.setState({ step: 1 })}>{Translate('previous')}</Button>
                             <Button className="buttons addRestaurantButton" disabled={!this.state.formValid} onClick={this.handleSubmit}>
                                 { this.state.buttonLoading ? <Spinner className="spinner" animation="border" /> : Translate('confirm') }</Button>
-                        </div> }
+                        </div> : null }
                 </div>
             </div>
         )

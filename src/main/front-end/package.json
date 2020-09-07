@@ -19,6 +19,7 @@
     "react-picker": "^1.2.16",
     "react-scripts": "3.4.1",
     "react-textarea-counter": "^1.0.0",
+    "react-time-input": "0.0.19",
     "reaptcha": "^1.7.2",
     "semantic-ui-css": "^2.4.1",
     "string-hash": "^1.1.3",

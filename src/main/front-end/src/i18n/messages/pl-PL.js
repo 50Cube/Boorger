@@ -90,13 +90,23 @@ export default {
         'wrongExtension': 'ma nieodpowiednie rozszerzenie pliku',
         'wrongSize': 'plik ma zbyt duży rozmiar',
         'step1': 'Pierwszy krok',
-        'step2': 'Ostatni krok',
+        'step2': 'Drugi krok',
+        'step3': 'Ostatni krok',
         'previous': 'Wstecz',
         'next': 'Dalej',
         'chooseAddress': 'Wybierz adres',
         'addNewAddress': 'Dodaj nowy adres',
         'city': 'Miasto',
         'street': 'Ulica',
-        'streetNo': 'Numer'
+        'streetNo': 'Numer',
+        'openingHours': 'Godziny otwarcia',
+        'monday': 'Poniedziałek',
+        'tuesday': 'Wtorek',
+        'wednesday': 'Środa',
+        'thursday': 'Czwartek',
+        'friday': 'Piątek',
+        'saturday': 'Sobota',
+        'sunday': 'Niedziela',
+        'wholeWeek': 'Takie same godziny otwarcia przez cały tydzień'
     }
 }
