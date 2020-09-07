@@ -25,7 +25,7 @@ public class Table extends AbstractEntity {
     private int number;
 
     @NotNull
-    @Digits(integer = 2, fraction = 0)
+    @Digits(integer = 1, fraction = 0)
     private int capacity;
 
     @NotNull

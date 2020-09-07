@@ -1,6 +1,7 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log
 @CrossOrigin
 @RestController
 @AllArgsConstructor
@@ -31,7 +33,8 @@ public class RestaurantControllerImpl implements RestaurantController {
 
     @PostMapping("/restaurant")
     public ResponseEntity<?> addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        restaurantService.addRestaurant(RestaurantMapper.mapFromDto(restaurantDTO));
+        log.info(restaurantDTO.toString());
+        //        restaurantService.addRestaurant(RestaurantMapper.mapFromDto(restaurantDTO));
         return ResponseEntity.ok(MessageProvider.getTranslatedText("restaurant.addnew", language));
     }
 }

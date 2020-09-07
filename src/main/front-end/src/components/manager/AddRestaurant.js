@@ -13,6 +13,8 @@ import { FcPlus } from "react-icons/all";
 import Swal from "sweetalert2";
 import TimeInput from "react-time-input";
 import { Checkbox } from "@material-ui/core";
+import NumericInput from 'react-numeric-input';
+import { BsExclamationOctagon } from "react-icons/all";
 import '../../css/AddRestaurant.css';
 
 export default class AddRestaurant extends Component {
@@ -47,6 +49,7 @@ export default class AddRestaurant extends Component {
             fridayStart: "00:00", fridayEnd: "23:59",
             saturdayStart: "00:00", saturdayEnd: "23:59",
             sundayStart: "00:00", sundayEnd: "23:59",
+            table2: 0, table3: 0, table4: 0
         }
     }
 
@@ -158,7 +161,38 @@ export default class AddRestaurant extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-      console.log(this.state)
+        this.setState({ buttonLoading: true });
+        axios.post("/restaurant", {
+            name: this.state.name,
+            description: this.state.description,
+            installment: this.state.installment,
+            photo: this.state.image,
+            addressDTO: {
+                city: this.state.city,
+                street: this.state.street,
+                streetNo: this.state.streetNo
+            },
+            hoursDTO: {
+                mondayStart: this.state.mondayStart, mondayEnd: this.state.mondayEnd,
+                tuesdayStart: this.state.tuesdayStart, tuesdayEnd: this.state.tuesdayEnd,
+                wednesdayStart: this.state.wednesdayStart, wednesdayEnd: this.state.wednesdayEnd,
+                thursdayStart: this.state.thursdayStart, thursdayEnd: this.state.thursdayEnd,
+                fridayStart: this.state.fridayStart, fridayEnd: this.state.fridayEnd,
+                saturdayStart: this.state.saturdayStart, saturdayEnd: this.state.saturdayEnd,
+                sundayStart: this.state.sundayStart, sundayEnd: this.state.sundayEnd
+            }
+        }, {headers: getHeader()})
+            .then(response => {
+                Swal.fire({
+                    icon: "success",
+                    title: response.data
+                }).then(() => window.location.replace("/"));
+            }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            }).then(() => this.setState({ buttonLoading: false }))
+        })
     };
 
     render() {
@@ -214,7 +248,7 @@ export default class AddRestaurant extends Component {
                             <p className="addRestaurantFormLabels addRestaurantLabels">Logo</p>
                             <ImageUploader singleImage label={Translate('imageDetails')} buttonText={Translate('chooseImage')} withPreview
                                            fileTypeError={Translate('wrongExtension')} fileSizeError={Translate('wrongSize')}
-                                            onChange={(e) => this.handleImageUpload(e)}/>
+                                           onChange={(e) => this.handleImageUpload(e)}/>
                         </div>
                     </div>
                  : null }
@@ -321,7 +355,28 @@ export default class AddRestaurant extends Component {
 
                 { this.state.step === 2 ?
                 <div>
-                    <h1>tables</h1>
+                    <div className="addRestaurantFirstDiv">
+                        <p className="addRestaurantFormLabels">{Translate('inputTables')}</p>
+                        <div>
+                            <p className="tableInput tableLabel">{Translate('2table')}</p>
+                            <NumericInput className="tableInput" value={this.state.table2} min={0} max={99} precision={0} step={1}
+                                          onChange={(value) => this.setState({ table2: value})}/>
+                        </div>
+                        <div>
+                            <p className="tableInput tableLabel">{Translate('3table')}</p>
+                            <NumericInput className="tableInput" value={this.state.table3} min={0} max={99} precision={0} step={1}
+                                          onChange={(value) => this.setState({ table3: value})}/>
+                        </div>
+                        <div>
+                            <p className="tableInput tableLabel">{Translate('4table')}</p>
+                            <NumericInput className="tableInput" value={this.state.table4} min={0} max={99} precision={0} step={1}
+                                          onChange={(value) => this.setState({ table4: value})}/>
+                        </div>
+                    </div>
+                    <div className="addRestaurantSecondDiv addRestaurantText">
+                        <p className="rememberLabel"><BsExclamationOctagon  className="rememberIcon"/> {Translate('remember')}</p>
+                        <p>{Translate('addRestaurantText')}</p>
+                    </div>
                 </div> : null }
 
                 <div>

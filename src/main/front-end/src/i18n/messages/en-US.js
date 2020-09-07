@@ -107,6 +107,12 @@ export default {
         'friday': 'Friday',
         'saturday': 'Saturday',
         'sunday': 'Sunday',
-        'wholeWeek': 'The same opening hours all week'
+        'wholeWeek': 'The same opening hours all week',
+        'inputTables': 'Amount of tables in the restaurant',
+        '2table': 'Double table',
+        '3table': 'Three-person table',
+        '4table': 'Four-person table',
+        'addRestaurantText': 'The newly created restaurant is inactive. Do not forget to complete its menu before activating it.',
+        'remember': 'Remember'
     }
 }

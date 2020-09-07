@@ -26,7 +26,7 @@ public class RestaurantMapper {
                 .description(restaurantDTO.getDescription())
                 .active(restaurantDTO.isActive())
                 .installment(restaurantDTO.getInstallment())
-//                .photo(restaurantDTO.getPhoto())
+                .photo(Base64Utils.decode(restaurantDTO.getPhoto().getBytes()))
                 .address(AddressMapper.mapFromDto(restaurantDTO.getAddressDTO()))
                 .hours(HoursMapper.mapFromDto(restaurantDTO.getHoursDTO()))
                 .build();

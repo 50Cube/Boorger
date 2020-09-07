@@ -105,3 +105,27 @@ input {
 .dayLabel {
     width: 80px;
 }
+
+.tableInput {
+    display: inline-block;
+}
+
+.tableLabel {
+    width: 140px;
+}
+
+.addRestaurantText {
+    width: 40%;
+    font-size: 110%;
+}
+
+.rememberIcon {
+    font-size: 130%;
+    margin-right: 5px;
+}
+
+.rememberLabel {
+    color: darkred;
+    font-size: 120%;
+    margin-bottom: 10px;
+}

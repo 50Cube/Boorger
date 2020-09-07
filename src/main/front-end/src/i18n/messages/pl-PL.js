@@ -107,6 +107,12 @@ export default {
         'friday': 'Piątek',
         'saturday': 'Sobota',
         'sunday': 'Niedziela',
-        'wholeWeek': 'Takie same godziny otwarcia przez cały tydzień'
+        'wholeWeek': 'Takie same godziny otwarcia przez cały tydzień',
+        'inputTables': 'Liczba stolików w restauracji',
+        '2table': 'Dwuosobowe',
+        '3table': 'Trzyosobowe',
+        '4table': 'Czteroosobowe',
+        'addRestaurantText': 'Nowo utworzona restauracja jest nieaktywna. Nie zapomnij uzupełnić jej menu przed aktywowaniem.',
+        'remember': 'Pamiętaj'
     }
 }
