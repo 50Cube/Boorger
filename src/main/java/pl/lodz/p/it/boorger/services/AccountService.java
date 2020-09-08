@@ -64,7 +64,7 @@ public class AccountService {
     @ServiceReadOnlyTransaction
     public Page<Account> getFilteredAccounts(int page, String filter) throws AppBaseException {
         try {
-            List<Account> list = accountRepository.findAll() .stream().filter
+            List<Account> list = accountRepository.findAll().stream().filter
                     (a -> a.getLogin().toLowerCase().contains(filter.toLowerCase()) || a.getEmail().toLowerCase().contains(filter.toLowerCase())
                     || a.getFirstname().toLowerCase().contains(filter.toLowerCase()) || a.getLastname().contains(filter.toLowerCase()))
                     .collect(Collectors.toList());

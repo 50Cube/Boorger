@@ -113,6 +113,7 @@ export default {
         '3table': 'Trzyosobowe',
         '4table': 'Czteroosobowe',
         'addRestaurantText': 'Nowo utworzona restauracja jest nieaktywna. Nie zapomnij uzupełnić jej menu przed aktywowaniem.',
-        'remember': 'Pamiętaj'
+        'remember': 'Pamiętaj',
+        'inactive': 'Restauracja jest nieaktywna'
     }
 }

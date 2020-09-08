@@ -113,6 +113,7 @@ export default {
         '3table': 'Three-person table',
         '4table': 'Four-person table',
         'addRestaurantText': 'The newly created restaurant is inactive. Do not forget to complete its menu before activating it.',
-        'remember': 'Remember'
+        'remember': 'Remember',
+        'inactive': 'Restaurant is inactive'
     }
 }

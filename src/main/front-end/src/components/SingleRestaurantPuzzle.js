@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { FiMap } from "react-icons/all";
+import Translate from '../i18n/Translate';
 import defaultImage from '../assets/noImage.png';
 
 export default class SingleRestaurantPuzzle extends Component {
@@ -8,6 +9,7 @@ export default class SingleRestaurantPuzzle extends Component {
         const image = "data:image/png;base64," + this.props.photo;
         return (
             <div>
+                { this.props.active ? null : <div className="background">{Translate('inactive')}</div> }
                 <div className="puzzleImageDiv">
                     { this.props.photo ? <img className="puzzleImage" src={image}  alt="loading"/> :
                         <img className="puzzleImage" src={defaultImage} alt="loading" /> }
