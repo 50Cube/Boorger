@@ -1,7 +1,6 @@
 package pl.lodz.p.it.boorger.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
@@ -12,6 +11,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @javax.persistence.Table(name = "tables")
 public class Table extends AbstractEntity {
 

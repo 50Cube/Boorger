@@ -5,6 +5,8 @@ import pl.lodz.p.it.boorger.dto.RestaurantDTO;
 import pl.lodz.p.it.boorger.entities.Restaurant;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
+import java.util.stream.Collectors;
+
 public class RestaurantMapper {
 
     public static RestaurantDTO mapToDto(Restaurant restaurant) {
@@ -29,6 +31,7 @@ public class RestaurantMapper {
                 .photo(Base64Utils.decode(restaurantDTO.getPhoto().getBytes()))
                 .address(AddressMapper.mapFromDto(restaurantDTO.getAddressDTO()))
                 .hours(HoursMapper.mapFromDto(restaurantDTO.getHoursDTO()))
+                .tables(restaurantDTO.getTableDTOs().stream().map(TableMapper::mapFromDto).collect(Collectors.toList()))
                 .build();
     }
 }

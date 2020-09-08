@@ -162,11 +162,39 @@ export default class AddRestaurant extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.setState({ buttonLoading: true });
+
+        const tables = [];
+        let counter = 1;
+        for(let i=0; i<this.state.table2; i++){
+            tables.push({
+                number: counter,
+                capacity: 2,
+                active: true
+            });
+            counter++;
+        }
+        for(let i=0; i<this.state.table3; i++){
+            tables.push({
+                number: counter,
+                capacity: 3,
+                active: true
+            });
+            counter++;
+        }
+        for(let i=0; i<this.state.table4; i++){
+            tables.push({
+                number: counter,
+                capacity: 4,
+                active: true
+            });
+            counter++;
+        }
+
         axios.post("/restaurant", {
             name: this.state.name,
             description: this.state.description,
             installment: this.state.installment,
-            photo: this.state.image,
+            photo: this.state.image.substring("data:image/png;base64,".length),
             addressDTO: {
                 city: this.state.city,
                 street: this.state.street,
@@ -180,7 +208,8 @@ export default class AddRestaurant extends Component {
                 fridayStart: this.state.fridayStart, fridayEnd: this.state.fridayEnd,
                 saturdayStart: this.state.saturdayStart, saturdayEnd: this.state.saturdayEnd,
                 sundayStart: this.state.sundayStart, sundayEnd: this.state.sundayEnd
-            }
+            },
+            tableDTOs: tables
         }, {headers: getHeader()})
             .then(response => {
                 Swal.fire({

@@ -33,14 +33,13 @@ export default class Home extends Component {
     componentDidMount() {
         axios.get('/restaurants', { headers: getHeader()})
             .then(response => {
-                console.log(response.data[0].photo)
                 this.setState({
                     restaurants: response.data,
                     loaded: true
                 })
             })
             .catch(error => {
-
+                console.log(error.response.data)
             })
     }
 
@@ -55,7 +54,7 @@ export default class Home extends Component {
             let data = this.createData(this.state.restaurants[i].name, this.state.restaurants[i].description, this.state.restaurants[i].active,
                 this.state.restaurants[i].photo, this.state.restaurants[i].addressDTO.city, this.state.restaurants[i].addressDTO.street,
                 this.state.restaurants[i].addressDTO.streetNo);
-            if(this.state.restaurants[i].active === true)
+            // if(this.state.restaurants[i].active === true)
                 { i%2===0 ? firstColumn.push(data) : secondColumn.push(data) }
         }
 

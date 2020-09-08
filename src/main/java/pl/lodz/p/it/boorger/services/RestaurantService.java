@@ -38,6 +38,7 @@ public class RestaurantService {
     public void addRestaurant(@Valid Restaurant restaurant) throws AppBaseException {
         try {
             restaurant.getHours().setRestaurant(restaurant);
+            restaurant.getTables().forEach(table -> table.setRestaurant(restaurant));
             if(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
                     restaurant.getAddress().getStreet(), restaurant.getAddress().getStreetNo()).isPresent())
                 restaurant.setAddress(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
