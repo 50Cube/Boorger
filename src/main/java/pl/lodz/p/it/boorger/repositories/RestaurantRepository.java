@@ -6,10 +6,17 @@ import pl.lodz.p.it.boorger.configuration.transactions.RepositoryTransaction;
 import pl.lodz.p.it.boorger.entities.Restaurant;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryTransaction
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @RepositoryReadOnlyTransaction
     List<Restaurant> findAll();
+
+    @RepositoryReadOnlyTransaction
+    List<Restaurant> findAllByNameIgnoreCaseContaining(String filter);
+
+    @RepositoryReadOnlyTransaction
+    Optional<Restaurant> findByName(String name);
 }

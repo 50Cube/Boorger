@@ -139,7 +139,7 @@ const validationFunctions = {
             nameValid = false;
             errorMsg.name = 'field-required';
         }
-        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+)$/.test(name)) {
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@*,. -]+)$/.test(name)) {
             nameValid = false;
             errorMsg.name = 'field-pattern'
         }

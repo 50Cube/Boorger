@@ -16,7 +16,7 @@ public class RestaurantDTO {
     private String creationDate;
 
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@*,. -]+")
     private String name;
 
     @Size(min = 1, max = 255)

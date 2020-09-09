@@ -25,7 +25,7 @@ public class Restaurant extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@*,. -]+")
     private String name;
 
     @NotBlank

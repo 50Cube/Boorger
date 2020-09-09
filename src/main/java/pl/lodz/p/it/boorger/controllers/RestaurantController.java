@@ -9,5 +9,7 @@ import java.util.List;
 public interface RestaurantController {
 
     List<RestaurantDTO> getRestaurants() throws AppBaseException;
+    List<RestaurantDTO> getFilteredRestaurants(String filter) throws AppBaseException;
     ResponseEntity<?> addRestaurant(RestaurantDTO restaurantDTO, String language) throws AppBaseException;
+    RestaurantDTO getRestaurant(String name) throws AppBaseException;
 }

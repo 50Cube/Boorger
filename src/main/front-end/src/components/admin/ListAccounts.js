@@ -94,7 +94,6 @@ export default class ListAccounts extends Component {
 
     handleSearch = (e) => {
         if (/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ`\-!@#$%^&*]+)$/.test(e) || e === '') {
-            console.log(e)
             axios.get("/accounts/pageAmount/" + e, { headers: getHeader() })
                 .then(response => {
                     this.setState({

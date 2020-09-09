@@ -7,6 +7,8 @@ import { Jumbotron } from "../components/Jumbotron";
 import {InputGroup, Form, Button, ListGroup, Spinner} from "react-bootstrap";
 import {getHeader} from "../services/UserDataService";
 import SingleRestaurantPuzzle from "./SingleRestaurantPuzzle";
+import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 import '../css/Home.css';
 import '../css/App.css';
 
@@ -47,6 +49,24 @@ export default class Home extends Component {
         return { name, description, active, photo, city, street, streetNo };
     };
 
+    handleSearch = (e) => {
+        this.setState({ loaded: false });
+        if (/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+)$/.test(e) || e === '') {
+            axios.get("/restaurants/" + e, { headers: getHeader()})
+                .then(response => {
+                    this.setState({
+                        restaurants: response.data,
+                        loaded: true
+                    })
+                }).catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                })
+            })
+        }
+    };
+
     render() {
         const firstColumn = [];
         const secondColumn = [];
@@ -85,8 +105,7 @@ export default class Home extends Component {
                                     <BsSearch/>
                                 </InputGroup.Text>
                             </InputGroup.Prepend>
-                            <Form.Control type="text"/>
-                            <Button className="buttons" type="button" >{Translate('search')}</Button>
+                            <Form.Control type="text" onChange={(e) => this.handleSearch(e.target.value)}/>
                         </InputGroup>
                     </div>
 
@@ -95,7 +114,8 @@ export default class Home extends Component {
                         <div className="restaurantsFirstColumn">
                             <ListGroup>
                             { firstColumn.map((element) => (
-                                <ListGroup.Item className="homeListItem">
+                                <ListGroup.Item className="homeListItem" as={Link} to="/restaurant" onClick={
+                                    () => sessionStorage.setItem("restaurantName", element.name) }>
                                     <SingleRestaurantPuzzle
                                         name={element.name}
                                         description={element.description}
@@ -112,7 +132,8 @@ export default class Home extends Component {
                         <div className="restaurantsSecondColumn">
                             <ListGroup>
                                 { secondColumn.map((element) => (
-                                    <ListGroup.Item className="homeListItem">
+                                    <ListGroup.Item className="homeListItem" as={Link} to={"/restaurant"} onClick={
+                                        () => sessionStorage.setItem("restaurantName", element.name) }>
                                         <SingleRestaurantPuzzle
                                             name={element.name}
                                             description={element.description}

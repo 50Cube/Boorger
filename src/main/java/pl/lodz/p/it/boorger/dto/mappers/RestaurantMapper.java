@@ -19,6 +19,8 @@ public class RestaurantMapper {
                 .photo(restaurant.getPhoto() != null ? new String(Base64Utils.encode(restaurant.getPhoto())) : "")
                 .creationDate(DateFormatter.dateToString(restaurant.getCreationDate()))
                 .addressDTO(AddressMapper.mapToDto(restaurant.getAddress()))
+                .hoursDTO(HoursMapper.mapToDto(restaurant.getHours()))
+                .tableDTOs(restaurant.getTables().stream().map(TableMapper::mapToDto).collect(Collectors.toList()))
                 .build();
     }
 
