@@ -1,0 +1,88 @@
+.restaurantInactive {
+    margin-bottom: 50px;
+    color: darkred;
+}
+
+.sadIcon {
+    font-size: 130%;
+    margin: 0 15px 0 15px;
+}
+
+.restaurantInfo {
+    width: 70%;
+    margin: 50px auto 0 auto;
+}
+
+.infoFirstDiv {
+    width: 55%;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+    font-style: italic;
+}
+
+.infoSecondDiv {
+    width: 35%;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 10%;
+}
+
+.restaurantNameLabel {
+    font-size: 300%;
+    letter-spacing: 2px;
+}
+
+.restaurantDescriptionLabel {
+    font-size: 130%;
+    margin-top: 30px;
+}
+
+.restaurantAddressLabel {
+    font-weight: bold;
+    font-size: 140%;
+    margin-top: 30px;
+}
+
+.restaurantHoursLabel {
+    font-size: 140%;
+    font-weight: bold;
+}
+
+.restaurantDays {
+    display: inline-block;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.restaurantHours {
+    display: inline-block;
+}
+
+.restaurantReserve {
+    text-align: left;
+    margin-top: 30px;
+}
+
+.reserveButton, .reserveButton:disabled {
+    background-color: unset;
+    letter-spacing: 1px;
+    font-size: 210%;
+    font-weight: bold;
+    -webkit-text-stroke-color: #202020;
+    -webkit-text-stroke-width: 2px;
+    border: 0;
+    padding: 0;
+}
+
+.reserveButton:hover, .reserveButton:focus {
+    background-color: unset;
+    border: 0;
+    -webkit-text-stroke-width: 1px;
+}
+
+.restaurantMenuLabel {
+    font-size: 230%;
+    margin-top: 80px;
+    text-align: left;
+}

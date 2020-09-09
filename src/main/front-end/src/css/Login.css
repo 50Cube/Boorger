@@ -25,7 +25,8 @@
     text-align: left !important;
 }
 
-.forgot {
+.forgot, .forgot:hover {
     float: left;
     margin-top: 7px;
+    color: #4183c4;
 }

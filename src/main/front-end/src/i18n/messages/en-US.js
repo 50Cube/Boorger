@@ -55,7 +55,8 @@ export default {
         'managerPanel': 'Manager panel',
         'adminPanelLabel1': 'Welcome to the admin panel!',
         'adminPanelLabel2': 'From here you can manage user accounts.',
-        'managerPanelLabel': 'Welcome to the manager panel!',
+        'managerPanelLabel1': 'Welcome to the manager panel!',
+        'managerPanelLabel2': 'From here you can manage restaurants and reservations.',
         'listAccounts': 'List accounts',
         'addAccount': 'Add new account',
         'myProfile': 'My profile',
@@ -114,6 +115,8 @@ export default {
         '4table': 'Four-person table',
         'addRestaurantText': 'The newly created restaurant is inactive. Do not forget to complete its menu before activating it.',
         'remember': 'Remember',
-        'inactive': 'Restaurant is inactive'
+        'inactive': 'Restaurant is unavailable',
+        'inactiveMsg': 'The selected restaurant is currently unavailable. We are sorry for the inconvenience.',
+        'listRestaurants': 'List restaurants'
     }
 }

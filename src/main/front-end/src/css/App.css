@@ -27,3 +27,12 @@
 .spinner {
   color: white;
 }
+
+.swal2-styled.swal2-confirm {
+  background-color: black;
+  color: gold;
+}
+
+.MuiStepIcon-root.MuiStepIcon-completed, .MuiStepIcon-root.MuiStepIcon-active, .MuiCheckbox-colorSecondary.Mui-checked {
+  color: black !important;
+}

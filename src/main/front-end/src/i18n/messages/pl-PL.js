@@ -55,7 +55,8 @@ export default {
         'managerPanel': 'Panel menadżera',
         'adminPanelLabel1': 'Witaj w panelu administratora!',
         'adminPanelLabel2': 'Z tego poziomu możesz zarządzać kontami użytkowników.',
-        'managerPanelLabel': 'Witaj w panelu menadżera!',
+        'managerPanelLabel1': 'Witaj w panelu menadżera!',
+        'managerPanelLabel2': 'Z tego poziomu możesz zarządzać restauracjami oraz rezerwacjami.',
         'listAccounts': 'Lista kont',
         'addAccount': 'Dodaj nowe konto',
         'myProfile': 'Mój profil',
@@ -114,6 +115,8 @@ export default {
         '4table': 'Czteroosobowe',
         'addRestaurantText': 'Nowo utworzona restauracja jest nieaktywna. Nie zapomnij uzupełnić jej menu przed aktywowaniem.',
         'remember': 'Pamiętaj',
-        'inactive': 'Restauracja jest nieaktywna'
+        'inactive': 'Restauracja jest niedostępna',
+        'inactiveMsg': 'Wybrana restauracja jest obecnie niedostępna. Przepraszamy za utrudnienia.',
+        'listRestaurants': 'Lista restauracji'
     }
 }

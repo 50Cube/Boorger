@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import axios from 'axios';
 import {getHeader} from "../services/UserDataService";
 import Swal from "sweetalert2";
+import {Jumbotron} from "./Jumbotron";
+import Translate from '../i18n/Translate';
+import { IoMdSad } from "react-icons/all";
+import {Button} from "react-bootstrap";
+import '../css/Restaurant.css';
 
 export default class Restaurant extends Component {
 
@@ -48,8 +53,43 @@ export default class Restaurant extends Component {
     render() {
         return (
             <div>
-                <h1>restaurant details</h1>
-                <h2> name = {this.state.name}</h2>
+                <Jumbotron />
+                <div className="restaurantInfo">
+                    { this.state.active ? null : <h2 className="restaurantInactive">
+                        <IoMdSad className="sadIcon"/>{Translate('inactiveMsg')}<IoMdSad className="sadIcon"/></h2> }
+                    <div className="infoFirstDiv">
+                        <h1 className="restaurantNameLabel">{this.state.name}</h1>
+                        <p className="restaurantDescriptionLabel">{this.state.description}</p>
+                        <p className="restaurantAddressLabel">{this.state.city}, {this.state.street} {this.state.streetNo}</p>
+                    </div>
+                    <div className="infoSecondDiv">
+                        <div>
+                            <p className="restaurantHoursLabel">{Translate('openingHours')}</p>
+                            <div className="restaurantDays">
+                                <p>{Translate('monday')}</p>
+                                <p>{Translate('tuesday')}</p>
+                                <p>{Translate('wednesday')}</p>
+                                <p>{Translate('thursday')}</p>
+                                <p>{Translate('friday')}</p>
+                                <p>{Translate('saturday')}</p>
+                                <p>{Translate('sunday')}</p>
+                            </div>
+                            <div className="restaurantHours">
+                                <p> {this.state.hours.mondayStart} - {this.state.hours.mondayEnd}</p>
+                                <p>{this.state.hours.tuesdayStart} - {this.state.hours.tuesdayEnd}</p>
+                                <p>{this.state.hours.wednesdayStart} - {this.state.hours.wednesdayEnd}</p>
+                                <p>{this.state.hours.thursdayStart} - {this.state.hours.thursdayEnd}</p>
+                                <p>{this.state.hours.fridayStart} - {this.state.hours.fridayEnd}</p>
+                                <p>{this.state.hours.saturdayStart} - {this.state.hours.saturdayEnd}</p>
+                                <p>{this.state.hours.sundayStart} - {this.state.hours.sundayEnd}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="restaurantReserve">
+                        <Button className="reserveButton">{Translate('book-table')}</Button>
+                    </div>
+                    <h2 className="restaurantMenuLabel">Menu</h2>
+                </div>
             </div>
         );
     }
