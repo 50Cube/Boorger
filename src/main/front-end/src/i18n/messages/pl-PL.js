@@ -117,6 +117,10 @@ export default {
         'remember': 'Pamiętaj',
         'inactive': 'Restauracja jest niedostępna',
         'inactiveMsg': 'Wybrana restauracja jest obecnie niedostępna. Przepraszamy za utrudnienia.',
-        'listRestaurants': 'Lista restauracji'
+        'listRestaurants': 'Lista restauracji',
+        'details': 'Szczegóły',
+        'showMenu': 'Zobacz menu',
+        'deactivate': 'Dezaktywuj',
+        'activate': 'Aktywuj'
     }
 }

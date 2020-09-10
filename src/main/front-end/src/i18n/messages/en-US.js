@@ -117,6 +117,10 @@ export default {
         'remember': 'Remember',
         'inactive': 'Restaurant is unavailable',
         'inactiveMsg': 'The selected restaurant is currently unavailable. We are sorry for the inconvenience.',
-        'listRestaurants': 'List restaurants'
+        'listRestaurants': 'List restaurants',
+        'details': 'Details',
+        'showMenu': 'See the menu',
+        'deactivate': 'Deactivate',
+        'activate': 'Activate'
     }
 }

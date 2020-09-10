@@ -41,7 +41,7 @@ export default class Home extends Component {
                 })
             })
             .catch(error => {
-                console.log(error.response.data)
+                console.log(error)
             })
     }
 

@@ -1,0 +1,35 @@
+.listRestaurantsListGroup {
+    max-height: 560px;
+    overflow-y: auto;
+}
+
+.listRestaurantElement {
+    border-bottom: gainsboro solid 5px;
+}
+
+.listRestaurantsLabel {
+    display: inline-block;
+    margin-bottom: 0;
+}
+
+.listRestaurantsName {
+    width: 40%;
+    letter-spacing: 1px;
+    font-weight: bold;
+    font-size: 130%;
+}
+
+.listRestaurantsButton {
+    width: 18%;
+    margin-left: 1%;
+    margin-right: 1%;
+    background-color: unset;
+    color: black;
+    border: 0;
+}
+
+.listRestaurantsButton:hover, .listRestaurantsButton:focus, .listRestaurantsButton:active {
+    background-color: unset;
+    color: black;
+    letter-spacing: 1px;
+}
