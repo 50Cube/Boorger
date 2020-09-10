@@ -30,4 +30,5 @@ public class RestaurantDTO {
     private AddressDTO addressDTO;
     private HoursDTO hoursDTO;
     private Collection<TableDTO> tableDTOs;
+    private Collection<DishDTO> dishDTOs;
 }

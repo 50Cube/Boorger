@@ -14,7 +14,7 @@ public class AccountDTO {
     private String creationDate;
 
     @Size(min = 1, max = 32)
-    @Pattern(regexp = "[a-zA-Z0-9!@#$%^&*]+")
+    @Pattern(regexp = "[a-zA-Z0-9!@$^&*]+")
     private String login;
 
     @Size(min = 8, max = 32)

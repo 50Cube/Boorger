@@ -21,6 +21,7 @@ public class RestaurantMapper {
                 .addressDTO(AddressMapper.mapToDto(restaurant.getAddress()))
                 .hoursDTO(HoursMapper.mapToDto(restaurant.getHours()))
                 .tableDTOs(restaurant.getTables().stream().map(TableMapper::mapToDto).collect(Collectors.toList()))
+                .dishDTOs(restaurant.getDishes().stream().map(DishMapper::mapToDto).collect(Collectors.toList()))
                 .build();
     }
 

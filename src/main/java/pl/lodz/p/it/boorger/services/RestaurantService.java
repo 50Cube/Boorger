@@ -16,6 +16,7 @@ import pl.lodz.p.it.boorger.repositories.AddressRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,6 +49,7 @@ public class RestaurantService {
         try {
             restaurant.getHours().setRestaurant(restaurant);
             restaurant.getTables().forEach(table -> table.setRestaurant(restaurant));
+            restaurant.setDishes(new ArrayList<>());
             if(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
                     restaurant.getAddress().getStreet(), restaurant.getAddress().getStreetNo()).isPresent())
                 restaurant.setAddress(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),

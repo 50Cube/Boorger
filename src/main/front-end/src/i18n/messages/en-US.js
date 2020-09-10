@@ -121,6 +121,8 @@ export default {
         'details': 'Details',
         'showMenu': 'See the menu',
         'deactivate': 'Deactivate',
-        'activate': 'Activate'
+        'activate': 'Activate',
+        'pln': 'PLN',
+        'newDish': 'Add new dish'
     }
 }

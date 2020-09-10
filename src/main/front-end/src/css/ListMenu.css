@@ -1,0 +1,66 @@
+.ListMenuNew {
+    font-size: 120%;
+    text-align: left;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.menuIcon {
+    font-size: 125%;
+}
+
+.listMenuElement {
+    border-bottom: gainsboro solid 5px;
+}
+
+.listMenuFirstDiv {
+    display: inline-block;
+    width: 82%;
+    text-align: left;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.listMenuSecondDiv {
+    display: inline-block;
+    margin-left: 3%;
+    width: 15%;
+    vertical-align: top;
+}
+
+.listMenuName {
+    font-weight: bold;
+    font-size: 140%;
+}
+
+.listMenuPrice {
+    text-align: right;
+    font-weight: bold;
+    font-size: 160%;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.listMenuButton {
+    margin: 20px 10px 0 10px;
+}
+
+.newDishFirstDiv {
+    display: inline-block;
+    width: 40%;
+    margin-right: 5%;
+}
+
+.newDishSecondDiv {
+    display: inline-block;
+    vertical-align: top;
+    width: 40%;
+    margin-left: 5%;
+}
+
+.newDishLabels {
+    text-align: left;
+    letter-spacing: 1px;
+    font-size: 120%;
+    font-style: italic;
+}

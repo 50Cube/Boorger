@@ -121,6 +121,8 @@ export default {
         'details': 'Szczegóły',
         'showMenu': 'Zobacz menu',
         'deactivate': 'Dezaktywuj',
-        'activate': 'Aktywuj'
+        'activate': 'Aktywuj',
+        'pln': 'zł',
+        'newDish': 'Dodaj nowe danie'
     }
 }

@@ -8,7 +8,7 @@ const validationFunctions = {
             loginValid = false;
             errorMsg.login = 'field-required'
         }
-        else if(!/^([a-zA-Z0-9!@#$%^&*]+)$/.test(login)) {
+        else if(!/^([a-zA-Z0-9!@$^&*]+)$/.test(login)) {
             loginValid = false;
             errorMsg.login = 'field-pattern'
         }
@@ -221,6 +221,48 @@ const validationFunctions = {
         }
 
         this.setState({streetNoValid, errorMsg}, this.validateForm)
+    },
+
+    validateDishName() {
+        let { name } = this.state;
+        let nameValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(name.length < 1) {
+            nameValid = false;
+            errorMsg.name = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@$^&*,. -]+)$/.test(name)) {
+            nameValid = false;
+            errorMsg.name = 'field-pattern'
+        }
+        else if(name.length > 64) {
+            nameValid = false;
+            errorMsg.name = 'field-toolong'
+        }
+
+        this.setState({nameValid, errorMsg}, this.validateForm)
+    },
+
+    validateDishDescription() {
+        let { description } = this.state;
+        let descriptionValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(description.length < 1) {
+            descriptionValid = false;
+            errorMsg.description = 'field-required';
+        }
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+)$/.test(description)) {
+            descriptionValid = false;
+            errorMsg.description = 'field-pattern'
+        }
+        else if(description.length > 64) {
+            descriptionValid = false;
+            errorMsg.description = 'field-toolong'
+        }
+
+        this.setState({descriptionValid, errorMsg}, this.validateForm)
     }
 };
 

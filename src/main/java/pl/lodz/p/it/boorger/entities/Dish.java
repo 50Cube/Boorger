@@ -1,7 +1,6 @@
 package pl.lodz.p.it.boorger.entities;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 
 import javax.persistence.*;
@@ -11,6 +10,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Dish extends AbstractEntity {
 
     @Id
@@ -20,7 +22,7 @@ public class Dish extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 64)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@$^&*,. -]+")
     private String name;
 
     @NotNull
@@ -29,6 +31,7 @@ public class Dish extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 255)
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
     private String description;
 
     @NotNull
