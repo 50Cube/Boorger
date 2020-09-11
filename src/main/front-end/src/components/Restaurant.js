@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import {Jumbotron} from "./Jumbotron";
 import Translate from '../i18n/Translate';
 import { IoMdSad } from "react-icons/all";
-import {Button} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import '../css/Restaurant.css';
 
 export default class Restaurant extends Component {
@@ -25,7 +25,8 @@ export default class Restaurant extends Component {
                 capacity: "",
                 active: ""
             }],
-            hours: {}
+            hours: {},
+            menu: {}
         }
     }
 
@@ -40,7 +41,8 @@ export default class Restaurant extends Component {
                     street: response.data.addressDTO.street,
                     streetNo: response.data.addressDTO.streetNo,
                     tables: response.data.tableDTOs,
-                    hours: response.data.hoursDTO
+                    hours: response.data.hoursDTO,
+                    menu: response.data.dishDTOs
                 })
             }).catch(error => {
             Swal.fire({
@@ -50,7 +52,16 @@ export default class Restaurant extends Component {
         })
     }
 
+    createData = (name, description, price) => {
+        return { name, description, price };
+    };
+
     render() {
+        const menuList = [];
+        for(let i=0; i<this.state.menu.length; i++) {
+            menuList.push(this.createData(this.state.menu[i].name, this.state.menu[i].description, this.state.menu[i].price))
+        }
+
         return (
             <div>
                 <Jumbotron />
@@ -89,6 +100,19 @@ export default class Restaurant extends Component {
                         <Button className="reserveButton">{Translate('book-table')}</Button>
                     </div>
                     <h2 className="restaurantMenuLabel">Menu</h2>
+                    <ListGroup>
+                        { menuList.map(element => (
+                            <ListGroup.Item className="restaurantMenuItem">
+                                <div className="restaurantMenuFirstDiv">
+                                    <p className="restaurantMenuNameLabel">{element.name}</p>
+                                    <p>{element.description}</p>
+                                </div>
+                                <div className="restaurantMenuSecondDiv">
+                                    <p className="restaurantMenuPriceLabel">{element.price} {Translate('pln')}</p>
+                                </div>
+                            </ListGroup.Item>
+                        )) }
+                    </ListGroup>
                 </div>
             </div>
         );

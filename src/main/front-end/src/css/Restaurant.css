@@ -10,7 +10,7 @@
 
 .restaurantInfo {
     width: 70%;
-    margin: 50px auto 0 auto;
+    margin: 50px auto 30px auto;
 }
 
 .infoFirstDiv {
@@ -82,7 +82,40 @@
 }
 
 .restaurantMenuLabel {
-    font-size: 230%;
+    font-size: 240%;
     margin-top: 80px;
     text-align: left;
+}
+
+.restaurantMenuFirstDiv {
+    display: inline-block;
+    text-align: left;
+    width: 85%;
+    font-style: italic;
+    font-size: 110%;
+}
+
+.restaurantMenuSecondDiv {
+    display: inline-block;
+    text-align: right;
+    width: 15%;
+    vertical-align: top;
+}
+
+.restaurantMenuNameLabel {
+    font-weight: bold;
+    font-size: 150%;
+}
+
+.restaurantMenuPriceLabel {
+    font-weight: bold;
+    font-size: 160%;
+    color: darkred;
+}
+
+.restaurantMenuItem {
+    margin-top: 25px;
+    border: 3px solid darkgray;
+    border-top: 0;
+    border-bottom: 0;
 }
