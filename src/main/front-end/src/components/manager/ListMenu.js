@@ -18,19 +18,22 @@ export default class ListMenu extends Component {
                 name: "",
                 description: "",
                 price: 0,
-                active: ""
             }],
             loaded: false,
-            newDish: false,
+            newDish: false, newDishButtonLoading: false,
             name: "", nameValid: false,
             description: "", descriptionValid: false,
-            price: 0,
-            active: "",
+            price: 0, priceValid: false,
+            formValid: false,
             errorMsg: {}
         }
     }
 
     componentDidMount() {
+        this.loadDishes();
+    }
+
+    loadDishes = () => {
         axios.get("/restaurant/" + this.props.restaurantName, { headers: getHeader()})
             .then(response => {
                 this.setState({
@@ -43,16 +46,16 @@ export default class ListMenu extends Component {
                 title: error.response.data
             })
         })
-    }
+    };
 
-    createData = (name, description, price, active) => {
-        return { name, description, price, active};
+    createData = (name, description, price) => {
+        return { name, description, price};
     };
 
     validateForm = () => {
-        const { nameValid, descriptionValid } = this.state;
+        const { nameValid, descriptionValid, priceValid } = this.state;
         this.setState({
-            formValid: nameValid && descriptionValid
+            formValid: nameValid && descriptionValid && priceValid
         })
     };
 
@@ -64,6 +67,35 @@ export default class ListMenu extends Component {
         this.setState({description}, ValidationService.validateDishDescription)
     };
 
+    updatePrice = (price) => {
+      this.setState({price}, ValidationService.validateDishPrice)
+    };
+
+    handleNewDish = (e) => {
+        e.preventDefault();
+        this.setState({ newDishButtonLoading: true });
+        axios.post("/dish/" + this.props.restaurantName, {
+            name: this.state.name,
+            description: this.state.description,
+            price: this.state.price
+        }, { headers: getHeader() })
+            .then(() => {
+                this.setState({
+                    newDishButtonLoading: false,
+                    newDish: false,
+                    nameValid: false,
+                    descriptionValid: false,
+                    priceValid: false
+                });
+                this.loadDishes();
+            }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            }).then(() => this.setState({ newDishButtonLoading: false }))
+        })
+    };
+
     render() {
         const list = [];
         for(let i=0; i<this.state.dishes.length; i++) {
@@ -73,33 +105,35 @@ export default class ListMenu extends Component {
         return (
             <div>
                 { this.state.newDish ?
-                <div>
-                    <div className="newDishFirstDiv">
-                        <form>
-                            <FormGroup className="newDishLabels">
-                                <FormLabel>{Translate('name')} *</FormLabel>
-                                <FormControl autoFocus value={this.state.name} onChange={event => this.updateName(event.target.value)} />
-                                <ValidationMessage valid={this.state.nameValid} message={this.state.errorMsg.name}/>
-                            </FormGroup>
+                <div className="newDishDiv">
+                    <form>
+                        <FormGroup className="newDishLabels">
+                            <FormLabel>{Translate('name')} *</FormLabel>
+                            <FormControl autoFocus value={this.state.name} onChange={event => this.updateName(event.target.value)} />
+                            <ValidationMessage valid={this.state.nameValid} message={this.state.errorMsg.name}/>
+                        </FormGroup>
 
-                            <FormGroup className="newDishLabels">
-                                <FormLabel>{Translate('description')} *</FormLabel>
-                                <FormControl value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
-                                <ValidationMessage valid={this.state.descriptionValid} message={this.state.errorMsg.description} />
-                            </FormGroup>
-                        </form>
-                    </div>
-                    <div className="newDishSecondDiv">
-                        second
-                    </div>
+                        <FormGroup className="newDishLabels">
+                            <FormLabel>{Translate('description')} *</FormLabel>
+                            <FormControl value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
+                            <ValidationMessage valid={this.state.descriptionValid} message={this.state.errorMsg.description} />
+                        </FormGroup>
+
+                        <FormGroup className="newDishLabels">
+                            <FormLabel>{Translate('price')} *</FormLabel>
+                            <FormControl className="newDishPriceForm" maxLength={8} value={this.state.price} onChange={event => this.updatePrice(event.target.value)} />
+                            <ValidationMessage valid={this.state.priceValid} message={this.state.errorMsg.price} />
+                        </FormGroup>
+                    </form>
                 </div> :
                     <div>
-                        <div className="ListMenuNew" onClick={() => this.setState({ newDish: true })}>
+                        <div className="ListMenuNew" onClick={() => this.setState({
+                            newDish: true, name: "", description: "", price: 0, })}>
                             <FcPlus className="menuIcon"/> {Translate('newDish')}
                         </div>
                         { this.state.loaded ?
                             <div>
-                                <ListGroup>
+                                <ListGroup className="listMenuListGroup">
                                     { list.map(element => (
                                         <ListGroup.Item className="listMenuElement">
                                             <div className="listMenuFirstDiv">
@@ -115,8 +149,17 @@ export default class ListMenu extends Component {
                             </div> :  <Spinner animation="border" /> }
                     </div> }
                 <div>
-                    { this.state.newDish ? <Button className="buttons listMenuButton">{Translate('confirm')}</Button> : null }
-                    <Button className="buttons listMenuButton" onClick={() => this.props.handleBackButtonClick()}>{Translate('back')}</Button>
+                    { this.state.newDish ?
+                        <div>
+                            <Button className="buttons listMenuButton" disabled={!this.state.formValid} onClick={this.handleNewDish}>
+                                { this.state.newDishButtonLoading ? <Spinner animation="border" /> : Translate('confirm') }
+                            </Button>
+                            <Button className="buttons listMenuButton" onClick={() => this.setState({
+                                newDish: false,  nameValid: false, descriptionValid: false, priceValid: false, errorMsg: {} })}>
+                                {Translate('back')}
+                            </Button>
+                        </div>
+                        : <Button className="buttons listMenuButton" onClick={() => this.props.handleBackButtonClick()}>{Translate('back')}</Button> }
                 </div>
             </div>
         );

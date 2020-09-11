@@ -263,6 +263,23 @@ const validationFunctions = {
         }
 
         this.setState({descriptionValid, errorMsg}, this.validateForm)
+    },
+
+    validateDishPrice() {
+        let { price } = this.state;
+        let priceValid = true;
+        let errorMsg = {...this.state.errorMsg};
+
+        if(price.length < 1) {
+            priceValid = false;
+            errorMsg.price = 'field-required';
+        }
+        else if(!/^([0-9]{0,5}(,[0-9]{0,2})?)$/.test(price)) {
+            priceValid = false;
+            errorMsg.price = 'price-pattern'
+        }
+
+        this.setState({priceValid, errorMsg}, this.validateForm)
     }
 };
 

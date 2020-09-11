@@ -44,6 +44,7 @@ export default {
         'password-char': 'Hasło musi zawierać znak specjalny: !@#$%^&*',
         'password-confirm': 'Hasła nie są identyczne',
         'email-pattern': 'Nieprawidłowy format adresu email',
+        'price-pattern': 'Nieprawidłowy format ceny',
         'field-toolong': 'Wartość jest zbyt długa',
         'motto': 'Od teraz jedzenie będzie czekać na Ciebie',
         'choose-restaurant': 'Wybierz restaurację',
@@ -123,6 +124,7 @@ export default {
         'deactivate': 'Dezaktywuj',
         'activate': 'Aktywuj',
         'pln': 'zł',
-        'newDish': 'Dodaj nowe danie'
+        'newDish': 'Dodaj nowe danie',
+        'price': 'Cena [zł]'
     }
 }

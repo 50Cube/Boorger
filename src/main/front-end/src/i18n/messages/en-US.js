@@ -44,6 +44,7 @@ export default {
         'password-char': 'Password must contain special character: !@#$%^&*',
         'password-confirm': 'Passwords do not match',
         'email-pattern': 'Invalid email format',
+        'price-pattern': 'Invalid price format',
         'motto': 'From now food will be waiting for you',
         'field-toolong': 'Value is too long',
         'choose-restaurant': 'Choose a restaurant',
@@ -123,6 +124,7 @@ export default {
         'deactivate': 'Deactivate',
         'activate': 'Activate',
         'pln': 'PLN',
-        'newDish': 'Add new dish'
+        'newDish': 'Add new dish',
+        'price': 'Price [PLN]'
     }
 }

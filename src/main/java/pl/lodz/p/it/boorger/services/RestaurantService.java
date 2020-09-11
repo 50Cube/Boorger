@@ -7,12 +7,11 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
+import pl.lodz.p.it.boorger.entities.Dish;
 import pl.lodz.p.it.boorger.entities.Restaurant;
-import pl.lodz.p.it.boorger.exceptions.AppBaseException;
-import pl.lodz.p.it.boorger.exceptions.DatabaseException;
-import pl.lodz.p.it.boorger.exceptions.RestaurantAlreadyExistsException;
-import pl.lodz.p.it.boorger.exceptions.RestaurantNotFoundException;
+import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AddressRepository;
+import pl.lodz.p.it.boorger.repositories.DishRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
 
 import javax.validation.Valid;
@@ -28,6 +27,7 @@ public class RestaurantService {
 
     private RestaurantRepository restaurantRepository;
     private AddressRepository addressRepository;
+    private DishRepository dishRepository;
 
     public List<Restaurant> getRestaurants() throws AppBaseException {
         try {
@@ -68,6 +68,22 @@ public class RestaurantService {
         try {
             return restaurantRepository.findByName(name)
                     .orElseThrow(RestaurantNotFoundException::new);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void addDish(String restaurantName, @Valid Dish dish) throws AppBaseException {
+        try {
+            Restaurant restaurant = restaurantRepository.findByName(restaurantName)
+                    .orElseThrow(RestaurantNotFoundException::new);
+            dish.setRestaurant(restaurant);
+            restaurant.getDishes().add(dish);
+            dishRepository.saveAndFlush(dish);
+            restaurantRepository.saveAndFlush(restaurant);
+        } catch (DataIntegrityViolationException e) {
+            if(Objects.requireNonNull(e.getMessage()).contains("dish_name_restaurant_id_uindex"))
+                throw new DishAlreadyExistsException();
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

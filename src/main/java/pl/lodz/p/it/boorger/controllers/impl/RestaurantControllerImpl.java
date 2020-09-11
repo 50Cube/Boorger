@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.RestaurantController;
+import pl.lodz.p.it.boorger.dto.DishDTO;
 import pl.lodz.p.it.boorger.dto.RestaurantDTO;
+import pl.lodz.p.it.boorger.dto.mappers.DishMapper;
 import pl.lodz.p.it.boorger.dto.mappers.RestaurantMapper;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.RestaurantService;
@@ -43,5 +45,10 @@ public class RestaurantControllerImpl implements RestaurantController {
     @GetMapping("/restaurant/{name}")
     public RestaurantDTO getRestaurant(@PathVariable String name) throws AppBaseException {
         return RestaurantMapper.mapToDto(restaurantService.getRestaurantByName(name));
+    }
+
+    @PostMapping("/dish/{restaurantName}")
+    public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO, @RequestHeader("lang") String language) throws AppBaseException {
+        restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
     }
 }

@@ -21,5 +21,4 @@ public class DishDTO {
     @Size(min = 1, max = 255)
     @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
     private String description;
-    private boolean active;
 }

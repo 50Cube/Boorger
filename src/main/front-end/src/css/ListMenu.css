@@ -5,6 +5,11 @@
     cursor: pointer;
 }
 
+.listMenuListGroup {
+    max-height: 475px;
+    overflow-y: auto;
+}
+
 .menuIcon {
     font-size: 125%;
 }
@@ -45,17 +50,14 @@
     margin: 20px 10px 0 10px;
 }
 
-.newDishFirstDiv {
-    display: inline-block;
+.newDishDiv {
+    text-align: center;
+    margin: 10px auto 0 auto;
     width: 40%;
-    margin-right: 5%;
 }
 
-.newDishSecondDiv {
-    display: inline-block;
-    vertical-align: top;
-    width: 40%;
-    margin-left: 5%;
+.newDishPriceForm {
+    width: 30%;
 }
 
 .newDishLabels {

@@ -35,9 +35,6 @@ public class Dish extends AbstractEntity {
     private String description;
 
     @NotNull
-    private boolean active;
-
-    @NotNull
     @ManyToOne
     private Restaurant restaurant;
 
@@ -54,7 +51,6 @@ public class Dish extends AbstractEntity {
         if (!id.equals(that.id)) return false;
         if (version != that.version) return false;
         if (Double.compare(that.price, price) != 0) return false;
-        if (active != that.active) return false;
         if (!Objects.equals(businessKey, that.businessKey)) return false;
         if (!Objects.equals(createdBy, that.createdBy)) return false;
         if (!Objects.equals(creationDate, that.creationDate)) return false;
@@ -79,7 +75,6 @@ public class Dish extends AbstractEntity {
         temp = Double.doubleToLongBits(price);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (active ? 1 : 0);
         return result;
     }
 }

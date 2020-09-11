@@ -10,7 +10,6 @@ public class DishMapper {
                 .name(dish.getName())
                 .description(dish.getDescription())
                 .price(dish.getPrice())
-                .active(dish.isActive())
                 .build();
     }
 
@@ -19,7 +18,6 @@ public class DishMapper {
                 .name(dishDTO.getName())
                 .description(dishDTO.getDescription())
                 .price(dishDTO.getPrice())
-                .active(dishDTO.isActive())
                 .build();
     }
 }
