@@ -10,4 +10,4 @@ Technologies used:<strong>
 - Heroku.com
 </strong>
 
-App is available [here](boorger.herokuapp.com).
+App is available [here](https://boorger.herokuapp.com).
