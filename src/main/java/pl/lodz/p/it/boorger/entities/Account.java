@@ -77,6 +77,10 @@ public class Account extends AbstractEntity {
     @OneToMany(mappedBy = "account", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private Collection<PreviousPassword> previousPasswords = new ArrayList<>();
 
+    public String getSignatureString() {
+        return businessKey + login + email + version;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

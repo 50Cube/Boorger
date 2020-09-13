@@ -23,7 +23,8 @@ export default class MyProfile extends Component {
             accessLevels: "",
             errorMsg: {},
             loaded: false, buttonLoading: false,
-            editable: false
+            editable: false,
+            signature: ""
         }
     }
 
@@ -39,7 +40,8 @@ export default class MyProfile extends Component {
                     lastname: response.data.lastname,
                     lastnameCopy: response.data.lastname,
                     accessLevels: response.data.accessLevels,
-                    loaded: true
+                    loaded: true,
+                    signature: response.data.signature
                 })
             }).catch(error => {
                 Swal.fire({
@@ -66,7 +68,8 @@ export default class MyProfile extends Component {
             login: getUser(),
             firstname: this.state.firstname,
             lastname: this.state.lastname,
-            language: getLanguageShortcut()
+            language: getLanguageShortcut(),
+            signature: this.state.signature
         }, { headers: getHeader() })
             .then(() => {
                 this.setState({

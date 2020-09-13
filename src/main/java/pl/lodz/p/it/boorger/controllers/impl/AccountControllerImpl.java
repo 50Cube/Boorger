@@ -124,7 +124,7 @@ public class AccountControllerImpl implements AccountController {
 
     @PutMapping("/editPersonal")
     public void editAccount(@Valid @RequestBody AccountDTO accountDTO) throws AppBaseException {
-        accountService.editPersonal(AccountMapper.mapFromDto(accountDTO));
+        accountService.editPersonal(AccountMapper.mapFromDto(accountDTO), accountDTO.getSignature());
     }
 
     @PostMapping("/resendEmail")
@@ -140,7 +140,7 @@ public class AccountControllerImpl implements AccountController {
 
     @PutMapping("/editOtherAccount")
     public void editOtherAccount(@Valid @RequestBody AccountDTO accountDTO) throws AppBaseException {
-        accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels());
+        accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels(), accountDTO.getSignature());
     }
 
     @PostMapping("/addAccount")

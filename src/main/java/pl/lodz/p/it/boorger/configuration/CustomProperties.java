@@ -31,4 +31,7 @@ public class CustomProperties {
     private String recaptchaSecret;
 
     private int pageSize;
+
+    private String keystorePassword;
+    private String keyPassword;
 }

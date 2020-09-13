@@ -34,6 +34,7 @@ export default class Profile extends Component {
             errorMsg: {},
             loaded: false, buttonLoading: false, emailButtonLoading: false,
             editable: false,
+            signature: ""
         }
     }
 
@@ -57,7 +58,8 @@ export default class Profile extends Component {
                     lastSuccessfulAuth: response.data.lastSuccessfulAuth,
                     lastAuthIp: response.data.lastAuthIp,
                     language: response.data.language,
-                    loaded: true
+                    loaded: true,
+                    signature: response.data.signature
                 })
             }).catch(error => {
             Swal.fire({
@@ -107,7 +109,8 @@ export default class Profile extends Component {
             lastname: this.state.lastname,
             active: this.state.active,
             accessLevels: roles,
-            language: getLanguageShortcut()
+            language: getLanguageShortcut(),
+            signature: this.state.signature
         }, { headers: getHeader()})
             .then(() => {
                 this.setState({

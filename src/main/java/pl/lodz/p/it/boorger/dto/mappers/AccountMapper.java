@@ -1,18 +1,22 @@
 package pl.lodz.p.it.boorger.dto.mappers;
 
+import lombok.AllArgsConstructor;
 import pl.lodz.p.it.boorger.dto.AccountDTO;
 import pl.lodz.p.it.boorger.entities.AccessLevel;
 import pl.lodz.p.it.boorger.entities.Account;
 import pl.lodz.p.it.boorger.entities.AuthData;
+import pl.lodz.p.it.boorger.exceptions.AppBaseException;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 public class AccountMapper {
 
     public static AccountDTO mapToDto(Account account) {
         return AccountDTO.builder()
-                .version(account.getVersion())
+                .signature(SignatureService.createSignature(account.getSignatureString()))
                 .login(account.getLogin())
                 .password(account.getPassword())
                 .active(account.isActive())

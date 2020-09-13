@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Singular;
 
 import javax.validation.constraints.*;
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Collection;
 @Builder
 public class AccountDTO {
 
-    private long version;
+    private String signature;
     private String creationDate;
 
     @Size(min = 1, max = 32)
@@ -41,7 +42,7 @@ public class AccountDTO {
     @Email
     private String email;
 
-    @Builder.Default
+    @Singular
     private Collection<String> accessLevels;
     private String lastSuccessfulAuth;
     private String lastFailedAuth;

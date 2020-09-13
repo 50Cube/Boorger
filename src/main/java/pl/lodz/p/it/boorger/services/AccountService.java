@@ -19,6 +19,7 @@ import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AccountRepository;
 import pl.lodz.p.it.boorger.repositories.AccountTokenRepository;
 import pl.lodz.p.it.boorger.repositories.AuthDataRepository;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -266,10 +267,12 @@ public class AccountService {
         }
     }
 
-    public void editPersonal(@Valid Account editedAccount) throws AppBaseException {
+    public void editPersonal(@Valid Account editedAccount, String signatureDTO) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
+            if(!SignatureService.verify(account.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
             account.setFirstname(editedAccount.getFirstname());
             account.setLastname(editedAccount.getLastname());
             accountRepository.saveAndFlush(account);
@@ -297,10 +300,12 @@ public class AccountService {
         }
     }
 
-    public void editOtherAccount(@Valid Account editedAccount, Collection<String> accessLevels) throws AppBaseException {
+    public void editOtherAccount(@Valid Account editedAccount, Collection<String> accessLevels, String signatureDTO) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
+            if(!SignatureService.verify(account.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
             account.setFirstname(editedAccount.getFirstname());
             account.setLastname(editedAccount.getLastname());
             account.setActive(editedAccount.isActive());
