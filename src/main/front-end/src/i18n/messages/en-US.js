@@ -27,7 +27,6 @@ export default {
         'ADMIN,MANAGER': 'Admin, Manager',
         'MANAGER,ADMIN': 'Admin, Manager',
         'MANAGER,CLIENT': 'Client, Manager',
-        'active': 'Account active',
         'confirmed': 'Account confirmed',
         'lastAuthIP': 'Last authentication IP address',
         'lastAuthDate': 'Last authentication date',
@@ -125,6 +124,9 @@ export default {
         'activate': 'Activate',
         'pln': 'PLN',
         'newDish': 'Add new dish',
-        'price': 'Price [PLN]'
+        'price': 'Price [PLN]',
+        'restaurantActive': 'Restaurant is active',
+        'restaurantInactive': 'Restaurant is inactive',
+        'creationDateRestaurant': 'Restaurant adding date'
     }
 }

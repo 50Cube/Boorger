@@ -1,0 +1,18 @@
+.restaurantDetailsFirstDiv {
+    display: inline-block;
+    width: 50%;
+    text-align: left;
+    font-style: italic;
+    font-size: 110%;
+}
+
+.restaurantDetailsSecondDiv {
+    display: inline-block;
+    width: 50%;
+    vertical-align: top;
+}
+
+.restaurantDetailsNameLabel {
+    font-weight: bold;
+    font-size: 140%;
+}

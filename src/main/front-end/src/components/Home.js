@@ -4,7 +4,7 @@ import Translate from "../i18n/Translate";
 import image from '../assets/navbarImage.jpg';
 import { BsFillForwardFill, BsSearch } from "react-icons/all";
 import { Jumbotron } from "../components/Jumbotron";
-import {InputGroup, Form, Button, ListGroup, Spinner} from "react-bootstrap";
+import {InputGroup, Form, ListGroup, Spinner} from "react-bootstrap";
 import {getHeader} from "../services/UserDataService";
 import SingleRestaurantPuzzle from "./SingleRestaurantPuzzle";
 import {Link} from "react-router-dom";
@@ -74,7 +74,7 @@ export default class Home extends Component {
             let data = this.createData(this.state.restaurants[i].name, this.state.restaurants[i].description, this.state.restaurants[i].active,
                 this.state.restaurants[i].photo, this.state.restaurants[i].addressDTO.city, this.state.restaurants[i].addressDTO.street,
                 this.state.restaurants[i].addressDTO.streetNo);
-                { i%2===0 ? firstColumn.push(data) : secondColumn.push(data) }
+                i%2===0 ? firstColumn.push(data) : secondColumn.push(data)
         }
 
         return (

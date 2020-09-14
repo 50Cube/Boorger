@@ -7,7 +7,6 @@ import lombok.Data;
 @Builder
 public class HoursDTO {
 
-    private long version;
     private String creationDate;
 
     private String mondayStart;

@@ -5,6 +5,7 @@ import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import { ListGroup, Spinner, Button } from 'react-bootstrap';
 import ListMenu from "./ListMenu";
+import RestaurantDetails from "./RestaurantDetails";
 import '../../css/ListRestaurants.css';
 
 export default class ListRestaurants extends Component {
@@ -55,18 +56,20 @@ export default class ListRestaurants extends Component {
     };
 
     handleActivation = (name, signature) => {
-        this.setState({ loadingActive: true });
-        axios.put("/restaurant/activity", {
-            name: name,
-            signature: signature
-        }, { headers: getHeader()})
-            .then(() => this.getRestaurants())
-            .catch(error => {
-                Swal.fire({
-                    icon: "error",
-                    title: error.response.data
-                }).then(() => this.setState({ loadingActive: false }))
-            })
+        if(this.state.loadingActive === false) {
+            this.setState({ loadingActive: true });
+            axios.put("/restaurant/activity", {
+                name: name,
+                signature: signature
+            }, { headers: getHeader()})
+                .then(() => this.getRestaurants())
+                .catch(error => {
+                    Swal.fire({
+                        icon: "error",
+                        title: error.response.data
+                    }).then(() => this.setState({ loadingActive: false }))
+                })
+        }
     };
 
     render() {
@@ -76,11 +79,7 @@ export default class ListRestaurants extends Component {
         }
 
         if(this.state.showDetails) {
-            return (
-                <div>
-                    details
-                </div>
-            )
+            return ( <RestaurantDetails restaurantName={this.state.restaurantName} handleBackButtonClick={this.handleBackButtonClick} /> )
         } else if(this.state.showMenu) {
             return ( <ListMenu restaurantName={this.state.restaurantName} handleBackButtonClick={this.handleBackButtonClick} /> )
         } else return (
@@ -99,7 +98,8 @@ export default class ListRestaurants extends Component {
                                             onClick={() => this.handleActivation(element.name, element.signature)}>
                                         { this.state.loadingActive ? <Spinner animation="border" /> : Translate('activate') }
                                     </Button> }
-                                <Button className="listRestaurantsLabel listRestaurantsButton">{Translate('details')}</Button>
+                                <Button className="listRestaurantsLabel listRestaurantsButton" onClick={() => this.setState({
+                                    restaurantName: element.name, showDetails: true })}>{Translate('details')}</Button>
                                 <Button className="listRestaurantsLabel listRestaurantsButton" onClick={() => this.setState({
                                     restaurantName: element.name, showMenu: true })}>{Translate('showMenu')}
                                 </Button>

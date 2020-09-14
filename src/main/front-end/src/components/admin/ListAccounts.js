@@ -173,7 +173,7 @@ export default class ListAccounts extends Component {
                                         <TableCell className="tableLabels"
                                                    align="center">{Translate('lastname')}</TableCell>
                                         <TableCell className="tableLabels"
-                                                   align="center">{Translate('active')}</TableCell>
+                                                   align="center">{Translate('accountActive')}</TableCell>
                                         <TableCell className="tableLabels"
                                                    align="center">{Translate('confirmed')}</TableCell>
                                         <TableCell className="tableLongLabels"

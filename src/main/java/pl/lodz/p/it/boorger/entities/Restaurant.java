@@ -64,7 +64,7 @@ public class Restaurant extends AbstractEntity {
 //    private Collection<Opinion> opinions;
 
     public String getSignatureString() {
-        return businessKey + name + version;
+        return businessKey + name + version + hours.getBusinessKey() + hours.getVersion();
     }
 
     @Override

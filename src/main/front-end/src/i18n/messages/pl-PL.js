@@ -27,7 +27,6 @@ export default {
         'ADMIN,MANAGER': 'Administrator, Menadżer',
         'MANAGER,ADMIN': 'Administrator, Menadżer',
         'MANAGER,CLIENT': 'Klient, Menadżer',
-        'active': 'Konto aktywne',
         'confirmed': 'Konto potwierdzone',
         'lastAuthIP': 'Adres IP ostatniego uwierzytelnienia',
         'lastAuthDate': 'Data ostatniego uwierzytelnienia',
@@ -125,6 +124,9 @@ export default {
         'activate': 'Aktywuj',
         'pln': 'zł',
         'newDish': 'Dodaj nowe danie',
-        'price': 'Cena [zł]'
+        'price': 'Cena [zł]',
+        'restaurantActive': 'Restauracja jest aktywna',
+        'restaurantInactive': 'Restauracja jest nieaktywna',
+        'creationDateRestaurant': 'Data dodania restauracji'
     }
 }
