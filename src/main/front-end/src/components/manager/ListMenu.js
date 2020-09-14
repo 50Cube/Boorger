@@ -5,9 +5,10 @@ import Translate from '../../i18n/Translate';
 import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import { FcPlus } from "react-icons/all";
-import '../../css/ListMenu.css';
 import ValidationMessage from "../../i18n/ValidationMessage";
 import ValidationService from "../../services/ValidationService";
+import TextareaCounter from "react-textarea-counter";
+import '../../css/ListMenu.css';
 
 export default class ListMenu extends Component {
 
@@ -85,7 +86,8 @@ export default class ListMenu extends Component {
                     newDish: false,
                     nameValid: false,
                     descriptionValid: false,
-                    priceValid: false
+                    priceValid: false,
+                    errorMsg: {}
                 });
                 this.loadDishes();
             }).catch(error => {
@@ -115,7 +117,7 @@ export default class ListMenu extends Component {
 
                         <FormGroup className="newDishLabels">
                             <FormLabel>{Translate('description')} *</FormLabel>
-                            <FormControl value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
+                            <TextareaCounter countLimit={255} value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
                             <ValidationMessage valid={this.state.descriptionValid} message={this.state.errorMsg.description} />
                         </FormGroup>
 

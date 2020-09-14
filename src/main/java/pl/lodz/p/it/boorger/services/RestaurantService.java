@@ -13,6 +13,7 @@ import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.AddressRepository;
 import pl.lodz.p.it.boorger.repositories.DishRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -84,6 +85,19 @@ public class RestaurantService {
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("dish_name_restaurant_id_uindex"))
                 throw new DishAlreadyExistsException();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void changeRestaurantActivity(@Valid Restaurant editedRestaurant, String signatureDTO) throws AppBaseException {
+        try {
+            Restaurant restaurant = restaurantRepository.findByName(editedRestaurant.getName())
+                    .orElseThrow(RestaurantNotFoundException::new);
+            if(!SignatureService.verify(restaurant.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
+            restaurant.setActive(!restaurant.isActive());
+            restaurantRepository.saveAndFlush(restaurant);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

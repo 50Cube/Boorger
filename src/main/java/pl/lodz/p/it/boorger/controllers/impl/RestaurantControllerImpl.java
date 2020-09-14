@@ -51,4 +51,9 @@ public class RestaurantControllerImpl implements RestaurantController {
     public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO, @RequestHeader("lang") String language) throws AppBaseException {
         restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
     }
+
+    @PutMapping("/restaurant/activity")
+    public void changeRestaurantActivity(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
+        restaurantService.changeRestaurantActivity(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
+    }
 }

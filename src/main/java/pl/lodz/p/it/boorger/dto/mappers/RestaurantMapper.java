@@ -3,6 +3,7 @@ package pl.lodz.p.it.boorger.dto.mappers;
 import org.springframework.util.Base64Utils;
 import pl.lodz.p.it.boorger.dto.RestaurantDTO;
 import pl.lodz.p.it.boorger.entities.Restaurant;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
 import java.util.stream.Collectors;
@@ -11,7 +12,7 @@ public class RestaurantMapper {
 
     public static RestaurantDTO mapToDto(Restaurant restaurant) {
         return RestaurantDTO.builder()
-                .version(restaurant.getVersion())
+                .signature(SignatureService.createSignature(restaurant.getSignatureString()))
                 .name(restaurant.getName())
                 .description(restaurant.getDescription())
                 .active(restaurant.isActive())
@@ -31,10 +32,10 @@ public class RestaurantMapper {
                 .description(restaurantDTO.getDescription())
                 .active(restaurantDTO.isActive())
                 .installment(restaurantDTO.getInstallment())
-                .photo(Base64Utils.decode(restaurantDTO.getPhoto().getBytes()))
-                .address(AddressMapper.mapFromDto(restaurantDTO.getAddressDTO()))
-                .hours(HoursMapper.mapFromDto(restaurantDTO.getHoursDTO()))
-                .tables(restaurantDTO.getTableDTOs().stream().map(TableMapper::mapFromDto).collect(Collectors.toList()))
+                .photo(restaurantDTO.getPhoto() != null ? Base64Utils.decode(restaurantDTO.getPhoto().getBytes()) : null)
+                .address(restaurantDTO.getAddressDTO() != null ? AddressMapper.mapFromDto(restaurantDTO.getAddressDTO()) : null)
+                .hours(restaurantDTO.getHoursDTO() != null ? HoursMapper.mapFromDto(restaurantDTO.getHoursDTO()) : null)
+                .tables(restaurantDTO.getTableDTOs() != null ? restaurantDTO.getTableDTOs().stream().map(TableMapper::mapFromDto).collect(Collectors.toList()) : null)
                 .build();
     }
 }

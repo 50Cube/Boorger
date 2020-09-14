@@ -12,7 +12,7 @@ import java.util.Collection;
 @Builder
 public class RestaurantDTO {
 
-    private long version;
+    private String signature;
     private String creationDate;
 
     @Size(min = 1, max = 32)
@@ -20,7 +20,7 @@ public class RestaurantDTO {
     private String name;
 
     @Size(min = 1, max = 255)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*();/,.\n -]+")
     private String description;
 
     @Digits(integer = 3, fraction = 0)

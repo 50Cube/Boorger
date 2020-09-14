@@ -14,4 +14,5 @@ public interface RestaurantController {
     ResponseEntity<?> addRestaurant(RestaurantDTO restaurantDTO, String language) throws AppBaseException;
     RestaurantDTO getRestaurant(String name) throws AppBaseException;
     void addDish(String restaurantName, DishDTO dishDTO, String language) throws AppBaseException;
+    void changeRestaurantActivity(RestaurantDTO restaurantDTO) throws AppBaseException;
 }

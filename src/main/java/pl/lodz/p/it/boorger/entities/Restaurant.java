@@ -30,7 +30,7 @@ public class Restaurant extends AbstractEntity {
 
     @NotBlank
     @Size(min = 1, max = 255)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*();/,.\n -]+")
     private String description;
 
     @NotNull
@@ -62,6 +62,10 @@ public class Restaurant extends AbstractEntity {
 //
 //    @OneToMany
 //    private Collection<Opinion> opinions;
+
+    public String getSignatureString() {
+        return businessKey + name + version;
+    }
 
     @Override
     public boolean equals(Object o) {

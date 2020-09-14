@@ -19,6 +19,6 @@ public class DishDTO {
     private double price;
 
     @Size(min = 1, max = 255)
-    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*,. -]+")
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*():,./\n -]+")
     private String description;
 }
