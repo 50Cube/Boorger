@@ -127,6 +127,10 @@ export default {
         'price': 'Price [PLN]',
         'restaurantActive': 'Restaurant is active',
         'restaurantInactive': 'Restaurant is inactive',
-        'creationDateRestaurant': 'Restaurant adding date'
+        'creationDateRestaurant': 'Date added',
+        'restaurantTables': 'Tables available in restaurant',
+        'number': 'Number',
+        'capacity': 'Capacity',
+        'active': 'Active'
     }
 }

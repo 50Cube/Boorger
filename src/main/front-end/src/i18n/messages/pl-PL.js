@@ -127,6 +127,10 @@ export default {
         'price': 'Cena [zł]',
         'restaurantActive': 'Restauracja jest aktywna',
         'restaurantInactive': 'Restauracja jest nieaktywna',
-        'creationDateRestaurant': 'Data dodania restauracji'
+        'creationDateRestaurant': 'Data dodania',
+        'restaurantTables': 'Stoliki dostępne w restauracji',
+        'number': 'Numer',
+        'capacity': 'Pojemność',
+        'active': 'Aktywny'
     }
 }

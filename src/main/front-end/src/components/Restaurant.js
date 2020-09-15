@@ -86,7 +86,7 @@ export default class Restaurant extends Component {
                                 <p>{Translate('sunday')}</p>
                             </div>
                             <div className="restaurantHours">
-                                <p> {this.state.hours.mondayStart} - {this.state.hours.mondayEnd}</p>
+                                <p>{this.state.hours.mondayStart} - {this.state.hours.mondayEnd}</p>
                                 <p>{this.state.hours.tuesdayStart} - {this.state.hours.tuesdayEnd}</p>
                                 <p>{this.state.hours.wednesdayStart} - {this.state.hours.wednesdayEnd}</p>
                                 <p>{this.state.hours.thursdayStart} - {this.state.hours.thursdayEnd}</p>

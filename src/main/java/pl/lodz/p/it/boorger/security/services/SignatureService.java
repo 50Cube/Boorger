@@ -9,6 +9,7 @@ import org.springframework.util.Base64Utils;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.Certificate;
+import java.util.UUID;
 
 @Log
 @Component
@@ -45,7 +46,7 @@ public class SignatureService {
         } catch (Exception e) {
             log.warning("An error occurred during creating signature");
         }
-        return "";
+        return UUID.randomUUID().toString();
     }
 
     public static boolean verify(String signature, String signatureDTO) {
@@ -56,7 +57,6 @@ public class SignatureService {
             publicSignature.update(signature.getBytes());
             return publicSignature.verify(Base64Utils.decode(signatureDTO.getBytes()));
         } catch (Exception e) {
-            e.printStackTrace();
             log.warning("An error occurred during verifying signature");
         }
         return false;

@@ -202,9 +202,9 @@ export default class ListAccounts extends Component {
                             </Table>
                         </TableContainer> }
                         <div className="paginationDiv">
-                            <Pagination className="herb">
-                                <Pagination.First className="herb"/>
-                                <Pagination className="herb" onClick={this.handlePageChange}>{pages}</Pagination>
+                            <Pagination>
+                                <Pagination.First/>
+                                <Pagination onClick={this.handlePageChange}>{pages}</Pagination>
                                 <Pagination.Last/>
                             </Pagination>
                         </div>

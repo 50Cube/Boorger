@@ -16,3 +16,101 @@
     font-weight: bold;
     font-size: 140%;
 }
+
+.restaurantDetailsAddressLabel {
+    font-weight: bold;
+    font-size: 110%;
+}
+
+.restaurantDetailsActive {
+    margin-top: 30px;
+    color: darkgreen;
+}
+
+.restaurantDetailsInactive {
+    margin-top: 30px;
+    color: darkred;
+}
+
+.restaurantDetailsTablesLabel {
+    font-size: 120%;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.restaurantDetailsListGroup {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 190px;
+    overflow-y: auto;
+    width: 85%;
+}
+
+.restaurantDetailsListItem {
+    background-color: gainsboro;
+    margin-bottom: 5px;
+}
+
+.restaurantDetailsListItemLabel {
+    display: inline-block;
+}
+
+.restaurantDetailsListMiddleItemLabel {
+    margin: 0 8% 0 8%;
+}
+
+.restaurantDetailsHoursLabel {
+    font-size: 120%;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.restaurantDetailsDays {
+    display: inline-block;
+    margin-right: 3%;
+}
+
+.restaurantDetailsHours {
+    display: inline-block;
+}
+
+.restaurantDetailsImage {
+    max-width: 200px;
+    max-height: 120px;
+    margin-bottom: 3%;
+}
+
+.restaurantDetailsButton {
+    margin: 0 10px 0 10px;
+    letter-spacing: 1px;
+}
+
+.restaurantDetailsConfirmButton {
+    margin: 0 10px 0 10px;
+    background-color: darkgreen !important;
+    letter-spacing: 1px;
+}
+
+.restaurantDetailsConfirmButton:hover, .restaurantDetailsConfirmButton:focus {
+    margin: 0 10px 0 10px;
+    background-color: darkgreen !important;
+    color: black;
+}
+
+.restaurantDetailsCancelButton {
+    margin: 0 10px 0 10px;
+    background-color: darkred !important;
+    letter-spacing: 1px;
+}
+
+.restaurantDetailsCancelButton:hover, .restaurantDetailsCancelButton:focus {
+    margin: 0 10px 0 10px;
+    background-color: darkred !important;
+    color: black;
+}
+
+.editableHours {
+    margin-bottom: 11%;
+}
