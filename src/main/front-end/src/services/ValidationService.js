@@ -159,7 +159,7 @@ const validationFunctions = {
             descriptionValid = false;
             errorMsg.description = 'field-required';
         }
-        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*();/,.\n -]+)$/.test(description)) {
+        else if(!/^([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*():/,.\n -]+)$/.test(description)) {
             descriptionValid = false;
             errorMsg.description = 'field-pattern'
         }

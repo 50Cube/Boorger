@@ -54,6 +54,7 @@ public class Restaurant extends AbstractEntity {
     private Collection<Dish> dishes = new ArrayList<>();
 
     @Builder.Default
+    @OrderBy("number")
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
     private Collection<Table> tables = new ArrayList<>();
 

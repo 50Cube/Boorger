@@ -78,7 +78,7 @@ export default class ListMenu extends Component {
         axios.post("/dish/" + this.props.restaurantName, {
             name: this.state.name,
             description: this.state.description,
-            price: this.state.price
+            price: this.state.price.replace(',', '.')
         }, { headers: getHeader() })
             .then(() => {
                 this.setState({

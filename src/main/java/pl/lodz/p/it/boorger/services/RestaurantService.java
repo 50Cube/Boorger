@@ -9,10 +9,9 @@ import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Dish;
 import pl.lodz.p.it.boorger.entities.Restaurant;
+import pl.lodz.p.it.boorger.entities.Table;
 import pl.lodz.p.it.boorger.exceptions.*;
-import pl.lodz.p.it.boorger.repositories.AddressRepository;
-import pl.lodz.p.it.boorger.repositories.DishRepository;
-import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
+import pl.lodz.p.it.boorger.repositories.*;
 import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
@@ -29,6 +28,8 @@ public class RestaurantService {
     private RestaurantRepository restaurantRepository;
     private AddressRepository addressRepository;
     private DishRepository dishRepository;
+    private HoursRepository hoursRepository;
+    private TableRepository tableRepository;
 
     public List<Restaurant> getRestaurants() throws AppBaseException {
         try {
@@ -97,6 +98,29 @@ public class RestaurantService {
             if(!SignatureService.verify(restaurant.getSignatureString(), signatureDTO))
                 throw new OptimisticLockException();
             restaurant.setActive(!restaurant.isActive());
+            restaurantRepository.saveAndFlush(restaurant);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void editRestaurant(@Valid Restaurant editedRestaurant, String signatureDTO) throws AppBaseException {
+        try {
+            Restaurant restaurant = restaurantRepository.findByName(editedRestaurant.getName())
+                    .orElseThrow(RestaurantNotFoundException::new);
+            if(restaurant.isActive())
+                throw new RestaurantNotDeactivatedException();
+            if (!SignatureService.verify(restaurant.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
+            restaurant.setDescription(editedRestaurant.getDescription());
+            restaurant.setInstallment(editedRestaurant.getInstallment());
+            hoursRepository.delete(restaurant.getHours());
+            editedRestaurant.getHours().setRestaurant(restaurant);
+            restaurant.setHours(editedRestaurant.getHours());
+            for(Table table : restaurant.getTables())
+                for(Table table2 : editedRestaurant.getTables())
+                    if(table.getNumber() == table2.getNumber())
+                        table.setActive(table2.isActive());
             restaurantRepository.saveAndFlush(restaurant);
         } catch (DataAccessException e) {
             throw new DatabaseException();

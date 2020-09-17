@@ -56,4 +56,9 @@ public class RestaurantControllerImpl implements RestaurantController {
     public void changeRestaurantActivity(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
         restaurantService.changeRestaurantActivity(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
     }
+
+    @PutMapping("/restaurant/edit")
+    public void editRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
+        restaurantService.editRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
+    }
 }

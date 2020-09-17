@@ -15,4 +15,5 @@ public interface RestaurantController {
     RestaurantDTO getRestaurant(String name) throws AppBaseException;
     void addDish(String restaurantName, DishDTO dishDTO, String language) throws AppBaseException;
     void changeRestaurantActivity(RestaurantDTO restaurantDTO) throws AppBaseException;
+    void editRestaurant(RestaurantDTO restaurantDTO) throws AppBaseException;
 }

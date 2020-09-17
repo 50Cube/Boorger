@@ -18,7 +18,7 @@ export default class RestaurantDetails extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            description: "", descriptionValid: false, descriptionCopy: "",
+            description: "", descriptionValid: true, descriptionCopy: "",
             installment: 0, installmentCopy: 0,
             active: "",
             photo: "",
@@ -35,6 +35,7 @@ export default class RestaurantDetails extends Component {
             signature: "",
             loaded: false,
             editing: false,
+            buttonLoading: false,
             errorMsg: {}
         }
     }
@@ -115,7 +116,32 @@ export default class RestaurantDetails extends Component {
     };
 
     handleEdit = () => {
-        console.log(this.state)
+        this.setState({ buttonLoading: true });
+        axios.put("restaurant/edit", {
+            name: this.props.restaurantName,
+            description: this.state.description,
+            installment: this.state.installment,
+            hoursDTO: {
+                mondayStart: this.state.mondayStart, mondayEnd: this.state.mondayEnd,
+                tuesdayStart: this.state.tuesdayStart, tuesdayEnd: this.state.tuesdayEnd,
+                wednesdayStart: this.state.wednesdayStart, wednesdayEnd: this.state.wednesdayEnd,
+                thursdayStart: this.state.thursdayStart, thursdayEnd: this.state.thursdayEnd,
+                fridayStart: this.state.fridayStart, fridayEnd: this.state.fridayEnd,
+                saturdayStart: this.state.saturdayStart, saturdayEnd: this.state.saturdayEnd,
+                sundayStart: this.state.sundayStart, sundayEnd: this.state.sundayEnd
+            },
+            tableDTOs: this.state.tables,
+            signature: this.state.signature
+        }, { headers: getHeader()})
+            .then(() => {
+                this.setState({ buttonLoading: false, editing: false })
+            })
+            .catch(error => {
+                Swal.fire({
+                    icon: "error",
+                    title: error.response.data
+                }).then(() => this.setState({ buttonLoading: false }))
+            })
     };
 
     render() {
@@ -177,9 +203,8 @@ export default class RestaurantDetails extends Component {
                                         { this.state.editing ?
                                             <BootstrapSwitchButton checked={element.active} size="sm" onstyle="dark" onlabel={Translate('true')}
                                                                    offlabel={Translate('false')} onChange={() => this.handleTableActivityChange(element.number)} />
-                                            : Translate(element.active) }
+                                            : Translate(element.active.toString()) }
                                     </p>
-
                                 </ListGroup.Item>
                             ))}
                         </ListGroup>
@@ -229,8 +254,9 @@ export default class RestaurantDetails extends Component {
                     </div>
                     { this.state.editing ?
                         <div>
-                            <Button className="buttons restaurantDetailsConfirmButton"
-                            onClick={this.handleEdit}>{Translate('save')}</Button>
+                            <Button className="buttons restaurantDetailsConfirmButton" disabled={!this.state.descriptionValid}
+                            onClick={this.handleEdit}>
+                                { this.state.buttonLoading ? <Spinner animation="border" /> : Translate('save')}</Button>
                             <Button className="buttons restaurantDetailsCancelButton"
                             onClick={this.cancelEdit}>{Translate('cancel')}</Button>
                         </div> :
