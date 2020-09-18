@@ -15,13 +15,19 @@ public class DateFormatter {
         else return "";
     }
 
+    public static LocalDateTime stringToDate(String date) {
+        if( date != null)
+            return LocalDateTime.parse(date, DateTimeFormatter.ofPattern(DATE_FORMAT));
+        else return null;
+    }
+
     public static String timeToString(LocalTime localTime) {
         if(localTime != null)
             return localTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
         else return "";
     }
 
-    public static LocalTime StringToTime(String date) {
+    public static LocalTime stringToTime(String date) {
         if(date != null)
             return LocalTime.parse(date, DateTimeFormatter.ofPattern(TIME_FORMAT));
         else return LocalTime.MIN;

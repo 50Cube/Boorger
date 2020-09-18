@@ -9,6 +9,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -25,10 +26,15 @@ public abstract class AbstractEntity implements Serializable {
     protected String businessKey;
 
     @NotBlank
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9!@$^&*]+")
     protected String createdBy;
 
     @NotNull
     protected LocalDateTime creationDate;
+
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9!@$^&*]+")
     protected String modifiedBy;
     protected LocalDateTime modificationDate;
 

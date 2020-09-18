@@ -33,7 +33,7 @@ public class RestaurantService {
 
     public List<Restaurant> getRestaurants() throws AppBaseException {
         try {
-            return restaurantRepository.findAll();
+            return restaurantRepository.findAllByOrderByName();
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

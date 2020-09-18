@@ -6,6 +6,7 @@ import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.Objects;
 
 @Getter
@@ -33,8 +34,8 @@ public class Table extends AbstractEntity {
     @NotNull
     private boolean active;
 
-//    @OneToMany
-//    private Collection<Reservation> reservations;
+    @OneToMany(mappedBy = "table")
+    private Collection<Reservation> reservations;
 
     @NotNull
     @ManyToOne

@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
     @RepositoryReadOnlyTransaction
-    List<Restaurant> findAll();
+    List<Restaurant> findAllByOrderByName();
 
     @RepositoryReadOnlyTransaction
     List<Restaurant> findAllByNameIgnoreCaseContaining(String filter);

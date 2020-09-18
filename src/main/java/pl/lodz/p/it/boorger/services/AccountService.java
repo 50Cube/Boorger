@@ -55,7 +55,7 @@ public class AccountService {
     @ServiceReadOnlyTransaction
     public Page<Account> getAccounts(int page) throws AppBaseException {
         try {
-            return accountRepository.findAll(
+            return accountRepository.findAllByOrderByLogin(
                     PageRequest.of(page, Integer.parseInt(Objects.requireNonNull(env.getProperty("boorger.pageSize")))));
         } catch (DataAccessException e) {
             throw new DatabaseException();

@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register/**", "/boorger/confirm/**", "/boorger/reset/**",
                                         "/boorger/changeResetPassword/**", "/boorger/restaurants", "/boorger/restaurants/**",
-                                        "/boorger/restaurant/**"};
+                                        "/boorger/restaurant/**", "/boorger/reservation"};
     private final String[] CLIENT_PATHS = new String[]{"/tmp"};
     private final String[] MANAGER_PATHS = new String[]{"/boorger/restaurant", "/boorger/addresses", "/boorger/address",
                                         "/boorger/dish/**", "/boorger/restaurant/activity", "/boorger/restaurant/edit"};

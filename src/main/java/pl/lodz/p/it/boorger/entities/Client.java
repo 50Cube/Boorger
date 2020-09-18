@@ -2,6 +2,8 @@ package pl.lodz.p.it.boorger.entities;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.Collection;
 
 @Entity
 @DiscriminatorValue("CLIENT")
@@ -12,11 +14,11 @@ public class Client extends AccessLevel {
     }
 
 //    @OneToMany
-//    private Collection<ClientRestaurants> clientRestaurantsById;
+//    private Collection<ClientRestaurants> clientRestaurants;
 //
 //    @OneToMany
-//    private Collection<Opinion> opinionsById;
-//
-//    @OneToMany
-//    private Collection<Reservation> reservationsById;
+//    private Collection<Opinion> opinions;
+
+    @OneToMany(mappedBy = "client")
+    private Collection<Reservation> reservations;
 }
