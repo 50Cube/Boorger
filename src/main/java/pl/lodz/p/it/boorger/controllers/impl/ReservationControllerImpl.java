@@ -24,7 +24,8 @@ public class ReservationControllerImpl implements ReservationController {
 
     @PostMapping("/reservation")
     public ResponseEntity<?> addReservation(@Valid @RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO));
+        reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO), reservationDTO.getClientDTO().getLogin(),
+                reservationDTO.getRestaurantName(), reservationDTO.getTableNumber());
         return ResponseEntity.ok(MessageProvider.getTranslatedText("reservation.addnew", language));
     }
 }

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -23,4 +24,13 @@ public class ReservationDTO {
 
     @Digits(integer = 5, fraction = 2)
     private double totalPrice;
+    private String status;
+
+    @Size(min = 1, max = 32)
+    @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@*,. -]+")
+    private String restaurantName;
+
+    @Digits(integer = 2, fraction = 0)
+    private int tableNumber;
+    private ClientDTO clientDTO;
 }

@@ -185,7 +185,7 @@ export default class RestaurantDetails extends Component {
                                     </p>
                                 </div> :
                                 <div>
-                                    <p>{Translate('installment')}: {this.state.installment} {Translate('pln')}</p>
+                                    <p>{Translate('installment')}: {this.state.installment}%</p>
                                 </div> }
                         { this.state.active ? <p className="restaurantDetailsActive">{Translate('restaurantActive')}</p>
                             : <p className="restaurantDetailsInactive">{Translate('restaurantInactive')}</p> }

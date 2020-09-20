@@ -45,6 +45,10 @@ public class Reservation extends AbstractEntity {
     @ManyToOne
     private Table table;
 
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
     public String getSignatureString() {
         return businessKey + version;
     }
