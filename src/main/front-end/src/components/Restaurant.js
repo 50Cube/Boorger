@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from 'axios';
-import {getHeader} from "../services/UserDataService";
+import {getHeader, getLanguage, getUser} from "../services/UserDataService";
 import Swal from "sweetalert2";
 import {Jumbotron} from "./Jumbotron";
 import Translate from '../i18n/Translate';
 import { IoMdSad } from "react-icons/all";
 import {Button, ListGroup} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import '../css/Restaurant.css';
 
 export default class Restaurant extends Component {
@@ -56,6 +57,14 @@ export default class Restaurant extends Component {
         return { name, description, price };
     };
 
+    handleReserveButton = () => {
+      if(!getUser())
+          Swal.fire({
+              icon: "error",
+              title: getLanguage() === ('en-US') ? 'You must be logged in' : 'Musisz być zalogowany'
+          }).then(() => window.location.replace("login"))
+    };
+
     render() {
         const menuList = [];
         for(let i=0; i<this.state.menu.length; i++) {
@@ -97,7 +106,9 @@ export default class Restaurant extends Component {
                         </div>
                     </div>
                     <div className="restaurantReserve">
-                        <Button className="reserveButton">{Translate('book-table')}</Button>
+                        <Link to="/book" onClick={this.handleReserveButton}>
+                            <Button className="reserveButton" disabled={!this.state.active}>{Translate('book-table')}</Button>
+                        </Link>
                     </div>
                     <h2 className="restaurantMenuLabel">Menu</h2>
                     <ListGroup>

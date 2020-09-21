@@ -131,6 +131,10 @@ export default {
         'restaurantTables': 'Stoliki dostępne w restauracji',
         'number': 'Numer',
         'capacity': 'Pojemność',
-        'active': 'Aktywny'
+        'active': 'Aktywny',
+        'chooseDate': 'Wybierz datę rezerwacji',
+        'checkTables': 'Sprawdź dostępność',
+        'duration': 'Czas trwania rezerwacji (w minutach)',
+        'selectedDate': 'Wybrana data'
     }
 }

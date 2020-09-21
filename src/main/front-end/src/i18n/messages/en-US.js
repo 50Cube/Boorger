@@ -131,6 +131,10 @@ export default {
         'restaurantTables': 'Tables available in restaurant',
         'number': 'Number',
         'capacity': 'Capacity',
-        'active': 'Active'
+        'active': 'Active',
+        'chooseDate': 'Select the booking date',
+        'checkTables': 'Check availability',
+        'duration': 'Duration of the booking (in minutes)',
+        'selectedDate': 'Selected date'
     }
 }

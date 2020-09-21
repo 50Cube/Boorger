@@ -92,7 +92,7 @@ export default class Register extends Component {
         } else {
             Swal.fire({
                 icon: "warning",
-                title:  getLanguage() === ('en-US') ? 'Please fill out all required fields in correct way' : 'Uzupełnij wszystkie wymagane pola w poprawny sposób'
+                title: getLanguage() === ('en-US') ? 'Please fill out all required fields in correct way' : 'Uzupełnij wszystkie wymagane pola w poprawny sposób'
             })
         }
     };
