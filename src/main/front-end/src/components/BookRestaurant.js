@@ -6,10 +6,11 @@ import 'react-day-picker/lib/style.css';
 import {getHeader, getLanguageShortcut} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner, ListGroup } from 'react-bootstrap';
 import {Dropdown} from "semantic-ui-react";
 import '../css/BookRestaurant.css';
 import Swal from "sweetalert2";
+import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
 
 const WEEKDAYS_SHORT = { pl: ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Ndz'] };
 const WEEKDAYS_LONG = { pl: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']};
@@ -23,7 +24,7 @@ export default class BookRestaurant extends Component {
         this.state = {
             name: sessionStorage.getItem("restaurantName"),
             selectedDay: new Date(),
-            selectedHour: new Date().getHours(),
+            selectedHour: '12:00',
             duration: 30,
             tables: [{ }],
             buttonLoading: false,
@@ -48,6 +49,10 @@ export default class BookRestaurant extends Component {
         })
     };
 
+    createData = (number, capacity, active) => {
+        return { number, capacity, active };
+    };
+
     render() {
         const durationOptions = [
             { text: '30', value: 30 },
@@ -62,6 +67,17 @@ export default class BookRestaurant extends Component {
             { text: '165', value: 165 },
             { text: '180', value: 180 }
         ];
+
+        let durationConcat = this.state.selectedHour.split(':');
+        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor(this.state.duration/60));
+        let minutes = parseInt(durationConcat[1]) + parseInt(this.state.duration%60);
+        if(minutes.toString().length === 1) minutes = minutes + '0';
+
+        let tableList = [];
+        for(let i=0; i<this.state.tables.length; i++) {
+            if(this.state.tables[i].active)
+                tableList.push(this.createData(this.state.tables[i].number, this.state.tables[i].capacity, this.state.tables[i].active));
+        }
 
         return (
             <div>
@@ -92,9 +108,19 @@ export default class BookRestaurant extends Component {
                     { this.state.loaded ?
                     <p className="bookSearchLabel">
                         {Translate('selectedDate')}: {this.state.selectedDay.getDate()}.{this.state.selectedDay.getMonth() + 1}.{this.state.selectedDay.getFullYear()
-                    } {this.state.selectedHour}
+                    }  {this.state.selectedHour} - {hours}:{minutes}
                     </p>
                     : null }
+                    <ListGroup>
+                        { tableList.map(element => (
+                            <ListGroup.Item>
+                                <RestaurantTablePuzzle
+                                    number={element.number}
+                                    capacity={element.capacity}
+                                />
+                            </ListGroup.Item>
+                        )) }
+                    </ListGroup>
                 </div>
             </div>
         );
