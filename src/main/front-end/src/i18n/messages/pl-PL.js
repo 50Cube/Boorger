@@ -135,6 +135,9 @@ export default {
         'chooseDate': 'Wybierz datę rezerwacji',
         'checkTables': 'Sprawdź dostępność',
         'duration': 'Czas trwania rezerwacji (w minutach)',
-        'selectedDate': 'Wybrana data'
+        'selectedDate': 'Wybrana data',
+        '2tableList': 'Stolik dwuosobowy',
+        '3tableList': 'Stolik trzyosobowy',
+        '4tableList': 'Stolik czteroosobowy'
     }
 }

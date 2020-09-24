@@ -60,3 +60,25 @@
     font-size: 110%;
     font-style: italic;
 }
+
+.bookGridList {
+    justify-content: center;
+}
+
+.bookGridListTile {
+    margin: 5px 5px 5px 5px;
+    border: 2px solid black;
+    max-height: 150px;
+}
+
+.tableCapacityLabel {
+    font-size: 110%;
+    font-weight: bold;
+    margin-top: 20% !important;
+}
+
+.tableNumberLabel {
+    font-size: 120%;
+    letter-spacing: 1px;
+    font-weight: bold;
+}

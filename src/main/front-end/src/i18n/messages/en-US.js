@@ -135,6 +135,9 @@ export default {
         'chooseDate': 'Select the booking date',
         'checkTables': 'Check availability',
         'duration': 'Duration of the booking (in minutes)',
-        'selectedDate': 'Selected date'
+        'selectedDate': 'Selected date',
+        '2tableList': 'Double tabley',
+        '3tableList': 'Three-person table',
+        '4tableList': 'Four-person table'
     }
 }
