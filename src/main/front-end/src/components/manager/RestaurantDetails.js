@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from 'axios';
 import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
-import {Spinner, Button, ListGroup, FormGroup} from "react-bootstrap";
+import {Spinner, Button, ListGroup} from "react-bootstrap";
 import Translate from '../../i18n/Translate';
 import BootstrapSwitchButton from "bootstrap-switch-button-react";
 import defaultImage from '../../assets/noImage.png';

@@ -138,6 +138,7 @@ export default {
         'selectedDate': 'Selected date',
         '2tableList': 'Double tabley',
         '3tableList': 'Three-person table',
-        '4tableList': 'Four-person table'
+        '4tableList': 'Four-person table',
+        'selectTable': 'Select table'
     }
 }

@@ -7,11 +7,15 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.RestaurantController;
 import pl.lodz.p.it.boorger.dto.DishDTO;
+import pl.lodz.p.it.boorger.dto.FreeTableDTO;
 import pl.lodz.p.it.boorger.dto.RestaurantDTO;
+import pl.lodz.p.it.boorger.dto.TableDTO;
 import pl.lodz.p.it.boorger.dto.mappers.DishMapper;
 import pl.lodz.p.it.boorger.dto.mappers.RestaurantMapper;
+import pl.lodz.p.it.boorger.dto.mappers.TableMapper;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.RestaurantService;
+import pl.lodz.p.it.boorger.utils.DateFormatter;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.validation.Valid;
@@ -60,5 +64,12 @@ public class RestaurantControllerImpl implements RestaurantController {
     @PutMapping("/restaurant/edit")
     public void editRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
         restaurantService.editRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
+    }
+
+    @PostMapping("/tables")
+    public List<TableDTO> getFreeTables(@Valid @RequestBody FreeTableDTO freeTableDTO) throws AppBaseException {
+        return restaurantService.getFreeTables(freeTableDTO.getRestaurantName(), DateFormatter.stringToDate(freeTableDTO.getStartDate()),
+                DateFormatter.stringToDate(freeTableDTO.getEndDate()))
+                .stream().map(TableMapper::mapToDto).collect(Collectors.toList());
     }
 }

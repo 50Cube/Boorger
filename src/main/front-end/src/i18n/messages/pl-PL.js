@@ -138,6 +138,7 @@ export default {
         'selectedDate': 'Wybrana data',
         '2tableList': 'Stolik dwuosobowy',
         '3tableList': 'Stolik trzyosobowy',
-        '4tableList': 'Stolik czteroosobowy'
+        '4tableList': 'Stolik czteroosobowy',
+        'selectTable': 'Wybierz stolik'
     }
 }

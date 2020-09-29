@@ -12,4 +12,7 @@ public interface TableRepository extends JpaRepository<Table, Long> {
 
     @RepositoryReadOnlyTransaction
     List<Table> findAll();
+
+    @RepositoryReadOnlyTransaction
+    List<Table> findAllByRestaurantName(String restaurantName);
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.Dish;
+import pl.lodz.p.it.boorger.entities.Reservation;
 import pl.lodz.p.it.boorger.entities.Restaurant;
 import pl.lodz.p.it.boorger.entities.Table;
 import pl.lodz.p.it.boorger.exceptions.*;
@@ -15,9 +16,11 @@ import pl.lodz.p.it.boorger.repositories.*;
 import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -125,5 +128,26 @@ public class RestaurantService {
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
+    }
+
+    public List<Table> getFreeTables(String restaurantName, LocalDateTime start, LocalDateTime end) throws AppBaseException {
+        List<Table> returnList = new ArrayList<>();
+        List<Table> tmpList = tableRepository.findAllByRestaurantName(restaurantName).stream().filter(Table::isActive).collect(Collectors.toList());
+
+        for(Table table : tmpList) {
+            if(checkDatesOverlap(table, start, end))
+                returnList.add(table);
+        }
+        return returnList;
+    }
+
+    private boolean checkDatesOverlap(Table table, LocalDateTime start, LocalDateTime end) {
+        boolean tmp = true;
+        //TODO status rezerwacji
+        for(Reservation reservation : table.getReservations()) {
+            if(start.isBefore(reservation.getEndDate()) && end.isAfter(reservation.getStartDate()))
+                tmp = false;
+        }
+        return tmp;
     }
 }

@@ -71,6 +71,10 @@
     max-height: 150px;
 }
 
+.bookGridListTile:hover {
+    cursor: pointer;
+}
+
 .tableCapacityLabel {
     font-size: 110%;
     font-weight: bold;
@@ -81,4 +85,24 @@
     font-size: 120%;
     letter-spacing: 1px;
     font-weight: bold;
+}
+
+.bookMenuLabel, .bookSelectTable {
+    padding-top: 50px;
+    padding-left: 1%;
+    text-align: left;
+    font-size: 200%;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.bookListGroupItem {
+    margin-top: 25px;
+    border: 3px solid darkgray;
+    border-top: 0;
+    border-bottom: 0;
+}
+
+.bookListGroup:hover {
+    cursor: pointer;
 }

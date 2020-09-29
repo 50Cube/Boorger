@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 import {getHeader, getLanguageShortcut} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner, ListGroup } from 'react-bootstrap';
 import {Dropdown} from "semantic-ui-react";
 import Swal from "sweetalert2";
 import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
@@ -28,6 +28,8 @@ export default class BookRestaurant extends Component {
             selectedHour: '12:00',
             duration: 30,
             tables: [{ }],
+            freeTables: [{}],
+            menu: [{}],
             buttonLoading: false,
             loaded: false
         }
@@ -35,12 +37,35 @@ export default class BookRestaurant extends Component {
 
     handleButtonClick = () => {
         this.setState({ buttonLoading: true });
+
+        let durationConcat = this.state.selectedHour.split(':');
+        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor(this.state.duration/60));
+        let minutes = parseInt(durationConcat[1]) + parseInt(this.state.duration%60);
+        if(minutes.toString().length === 1) minutes = minutes + '0';
+
+        axios.post("/tables", {
+            restaurantName: this.state.name,
+            startDate: this.state.selectedDay.toISOString().substring(0, this.state.selectedDay.toLocaleDateString().length) + ' ' + this.state.selectedHour,
+            endDate: this.state.selectedDay.toISOString().substring(0, this.state.selectedDay.toLocaleDateString().length) + ' ' + hours + ':' + minutes
+            }, { headers: getHeader() })
+            .then(response => {
+            this.setState({
+                freeTables: response.data
+            })
+        }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            })
+        });
+
         axios.get("/restaurant/" + this.state.name, { headers: getHeader() })
             .then(response => {
                 this.setState({
                     buttonLoading: false,
                     loaded: true,
-                    tables: response.data.tableDTOs
+                    tables: response.data.tableDTOs,
+                    menu: response.data.dishDTOs
                 })
             }).catch(error => {
             Swal.fire({
@@ -50,8 +75,12 @@ export default class BookRestaurant extends Component {
         })
     };
 
-    createData = (number, capacity, active) => {
+    createTableData = (number, capacity, active) => {
         return { number, capacity, active };
+    };
+
+    createMenuData = (name, description, price) => {
+        return { name, description, price };
     };
 
     render() {
@@ -77,7 +106,12 @@ export default class BookRestaurant extends Component {
         let tableList = [];
         for(let i=0; i<this.state.tables.length; i++) {
             if(this.state.tables[i].active)
-                tableList.push(this.createData(this.state.tables[i].number, this.state.tables[i].capacity, this.state.tables[i].active));
+                tableList.push(this.createTableData(this.state.tables[i].number, this.state.tables[i].capacity, this.state.tables[i].active));
+        }
+
+        let menuList = [];
+        for(let i=0; i<this.state.menu.length; i++) {
+            menuList.push(this.createMenuData(this.state.menu[i].name, this.state.menu[i].description, this.state.menu[i].price));
         }
 
         return (
@@ -107,21 +141,38 @@ export default class BookRestaurant extends Component {
                 </div>
                 <div className="bookTablesDiv">
                     { this.state.loaded ?
-                    <p className="bookSearchLabel">
-                        {Translate('selectedDate')}: {this.state.selectedDay.getDate()}.{this.state.selectedDay.getMonth() + 1}.{this.state.selectedDay.getFullYear()
-                    }  {this.state.selectedHour} - {hours}:{minutes}
-                    </p>
+                        <div>
+                            <p className="bookSearchLabel">
+                                {Translate('selectedDate')}: {this.state.selectedDay.getDate()}.{this.state.selectedDay.getMonth() + 1}.{this.state.selectedDay.getFullYear()
+                            }  {this.state.selectedHour} - {hours}:{minutes}
+                            </p>
+                            <p className="bookSelectTable">{Translate('selectTable')}</p>
+                            <GridList className="bookGridList" cols={5}>
+                                { tableList.map(element => (
+                                    <GridListTile className="bookGridListTile">
+                                        <RestaurantTablePuzzle
+                                            number={element.number}
+                                            capacity={element.capacity}
+                                        />
+                                    </GridListTile>
+                                )) }
+                            </GridList>
+                            <p className="bookMenuLabel">Menu</p>
+                            <ListGroup>
+                                { menuList.map(element => (
+                                    <ListGroup.Item className="restaurantMenuItem bookListGroup">
+                                        <div className="restaurantMenuFirstDiv">
+                                            <p className="restaurantMenuNameLabel">{element.name}</p>
+                                            <p>{element.description}</p>
+                                        </div>
+                                        <div className="restaurantMenuSecondDiv">
+                                            <p className="restaurantMenuPriceLabel">{element.price} {Translate('pln')}</p>
+                                        </div>
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </div>
                     : null }
-                    <GridList className="bookGridList" cols={5}>
-                        { tableList.map(element => (
-                            <GridListTile className="bookGridListTile">
-                                <RestaurantTablePuzzle
-                                    number={element.number}
-                                    capacity={element.capacity}
-                                />
-                            </GridListTile>
-                        )) }
-                    </GridList>
                 </div>
             </div>
         );
