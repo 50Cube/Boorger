@@ -133,12 +133,15 @@ export default {
         'capacity': 'Capacity',
         'active': 'Active',
         'chooseDate': 'Select the booking date',
-        'checkTables': 'Check availability',
+        'checkTables': 'Check tables availability',
         'duration': 'Duration of the booking (in minutes)',
         'selectedDate': 'Selected date',
         '2tableList': 'Double tabley',
         '3tableList': 'Three-person table',
         '4tableList': 'Four-person table',
-        'selectTable': 'Select table'
+        'selectTable': 'Select table',
+        'cart': 'Basket',
+        'selectedTable': 'Selected table',
+        'total': 'Total'
     }
 }

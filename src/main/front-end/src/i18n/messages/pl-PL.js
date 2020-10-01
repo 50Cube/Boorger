@@ -133,12 +133,15 @@ export default {
         'capacity': 'Pojemność',
         'active': 'Aktywny',
         'chooseDate': 'Wybierz datę rezerwacji',
-        'checkTables': 'Sprawdź dostępność',
+        'checkTables': 'Sprawdź dostępność stolików',
         'duration': 'Czas trwania rezerwacji (w minutach)',
         'selectedDate': 'Wybrana data',
         '2tableList': 'Stolik dwuosobowy',
         '3tableList': 'Stolik trzyosobowy',
         '4tableList': 'Stolik czteroosobowy',
-        'selectTable': 'Wybierz stolik'
+        'selectTable': 'Wybierz stolik',
+        'cart': 'Koszyk',
+        'selectedTable': 'Wybrany stolik',
+        'total': 'Suma'
     }
 }

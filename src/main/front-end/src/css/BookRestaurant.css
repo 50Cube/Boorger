@@ -1,5 +1,5 @@
 .bookDateDiv {
-    width: 61%;
+    width: 62%;
     padding-top: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -52,13 +52,16 @@
 }
 
 .bookTablesDiv {
-    width: 61%;
+    width: 90%;
     margin: 20px auto 20px auto;
 }
 
 .bookSearchLabel {
-    font-size: 110%;
+    text-align: left;
+    font-weight: bold;
+    font-size: 115%;
     font-style: italic;
+    margin-left: 1%;
 }
 
 .bookGridList {
@@ -69,10 +72,12 @@
     margin: 5px 5px 5px 5px;
     border: 2px solid black;
     max-height: 150px;
+    background-color: gainsboro;
 }
 
 .bookGridListTile:hover {
     cursor: pointer;
+    background-color: darkgray;
 }
 
 .tableCapacityLabel {
@@ -104,5 +109,59 @@
 }
 
 .bookListGroup:hover {
+    cursor: pointer;
+}
+
+.bookSelectFirstDiv {
+    display: inline-block;
+    width: 68%;
+}
+
+.bookSelectSecondDiv {
+    display: inline-block;
+    width: 28%;
+    margin: 50px 0 0 4%;
+    vertical-align: top;
+}
+
+.bookCartDiv {
+    border: 3px inset darkgray;
+    padding: 10px;
+    text-align: left;
+    font-size: 110%;
+}
+
+.cartLabel {
+    text-align: center;
+    font-weight: bold;
+    font-size: 160%;
+}
+
+.cartDish {
+    font-size: 110%;
+    font-weight: bold;
+    padding: 5px 0 5px 0;
+}
+
+.cartName {
+    display: inline-block;
+    width: 70%;
+}
+
+.cartPrice {
+    display: inline-block;
+    width: 20%;
+    text-align: right;
+}
+
+.cartTrash {
+    font-size: 125%;
+    display: inline-block;
+    width: 10%;
+    text-align: right;
+    color: darkred;
+}
+
+.cartTrash:hover {
     cursor: pointer;
 }

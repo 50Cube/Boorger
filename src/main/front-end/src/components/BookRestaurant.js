@@ -6,11 +6,13 @@ import 'react-day-picker/lib/style.css';
 import {getHeader, getLanguageShortcut} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
-import { Button, Spinner, ListGroup } from 'react-bootstrap';
+import {Button, Spinner, ListGroup, Tooltip} from 'react-bootstrap';
 import {Dropdown} from "semantic-ui-react";
 import Swal from "sweetalert2";
 import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
 import { GridList, GridListTile } from "@material-ui/core";
+import Sticky from 'react-sticky-el';
+import { BsTrash } from 'react-icons/all';
 import '../css/BookRestaurant.css';
 
 const WEEKDAYS_SHORT = { pl: ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Ndz'] };
@@ -27,11 +29,12 @@ export default class BookRestaurant extends Component {
             selectedDay: new Date(),
             selectedHour: '12:00',
             duration: 30,
-            tables: [{ }],
             freeTables: [{}],
             menu: [{}],
             buttonLoading: false,
-            loaded: false
+            loaded: false,
+            selectedTable: "",
+            selectedMenu: []
         }
     }
 
@@ -45,8 +48,8 @@ export default class BookRestaurant extends Component {
 
         axios.post("/tables", {
             restaurantName: this.state.name,
-            startDate: this.state.selectedDay.toISOString().substring(0, this.state.selectedDay.toLocaleDateString().length) + ' ' + this.state.selectedHour,
-            endDate: this.state.selectedDay.toISOString().substring(0, this.state.selectedDay.toLocaleDateString().length) + ' ' + hours + ':' + minutes
+            startDate: this.state.selectedDay.toISOString().substring(0, 10) + ' ' + this.state.selectedHour,
+            endDate: this.state.selectedDay.toISOString().substring(0, 10) + ' ' + hours + ':' + minutes
             }, { headers: getHeader() })
             .then(response => {
             this.setState({
@@ -64,7 +67,6 @@ export default class BookRestaurant extends Component {
                 this.setState({
                     buttonLoading: false,
                     loaded: true,
-                    tables: response.data.tableDTOs,
                     menu: response.data.dishDTOs
                 })
             }).catch(error => {
@@ -104,9 +106,9 @@ export default class BookRestaurant extends Component {
         if(minutes.toString().length === 1) minutes = minutes + '0';
 
         let tableList = [];
-        for(let i=0; i<this.state.tables.length; i++) {
-            if(this.state.tables[i].active)
-                tableList.push(this.createTableData(this.state.tables[i].number, this.state.tables[i].capacity, this.state.tables[i].active));
+        for(let i=0; i<this.state.freeTables.length; i++) {
+            if(this.state.freeTables[i].active)
+                tableList.push(this.createTableData(this.state.freeTables[i].number, this.state.freeTables[i].capacity, this.state.freeTables[i].active));
         }
 
         let menuList = [];
@@ -139,38 +141,70 @@ export default class BookRestaurant extends Component {
                         { this.state.buttonLoading ? <Spinner className="spinner" animation="border" /> : Translate('checkTables')}
                     </Button>
                 </div>
+
                 <div className="bookTablesDiv">
                     { this.state.loaded ?
                         <div>
-                            <p className="bookSearchLabel">
-                                {Translate('selectedDate')}: {this.state.selectedDay.getDate()}.{this.state.selectedDay.getMonth() + 1}.{this.state.selectedDay.getFullYear()
-                            }  {this.state.selectedHour} - {hours}:{minutes}
-                            </p>
-                            <p className="bookSelectTable">{Translate('selectTable')}</p>
-                            <GridList className="bookGridList" cols={5}>
-                                { tableList.map(element => (
-                                    <GridListTile className="bookGridListTile">
-                                        <RestaurantTablePuzzle
-                                            number={element.number}
-                                            capacity={element.capacity}
-                                        />
-                                    </GridListTile>
-                                )) }
-                            </GridList>
-                            <p className="bookMenuLabel">Menu</p>
-                            <ListGroup>
-                                { menuList.map(element => (
-                                    <ListGroup.Item className="restaurantMenuItem bookListGroup">
-                                        <div className="restaurantMenuFirstDiv">
-                                            <p className="restaurantMenuNameLabel">{element.name}</p>
-                                            <p>{element.description}</p>
-                                        </div>
-                                        <div className="restaurantMenuSecondDiv">
-                                            <p className="restaurantMenuPriceLabel">{element.price} {Translate('pln')}</p>
-                                        </div>
-                                    </ListGroup.Item>
-                                ))}
-                            </ListGroup>
+                            <div className="bookSelectFirstDiv">
+                                <p className="bookSearchLabel">
+                                    {Translate('selectedDate')}: {this.state.selectedDay.getDate()}.{this.state.selectedDay.getMonth() + 1}.{this.state.selectedDay.getFullYear()
+                                }  {this.state.selectedHour} - {hours}:{minutes}
+                                </p>
+                                <p className="bookSelectTable">{Translate('selectTable')}</p>
+                                <GridList className="bookGridList" cols={5}>
+                                    { tableList.map(element => (
+                                        <GridListTile className="bookGridListTile" onClick={() => this.setState({ selectedTable: element.number })}>
+                                            <RestaurantTablePuzzle
+                                                number={element.number}
+                                                capacity={element.capacity}
+                                            />
+                                        </GridListTile>
+                                    )) }
+                                </GridList>
+                                <p className="bookMenuLabel">Menu</p>
+                                <ListGroup>
+                                    { menuList.map(element => (
+                                        <ListGroup.Item className="restaurantMenuItem bookListGroup" onClick={() => this.setState(prevState => ({
+                                        selectedMenu: [...prevState.selectedMenu, element]})) }>
+                                            <div className="restaurantMenuFirstDiv">
+                                                <p className="restaurantMenuNameLabel">{element.name}</p>
+                                                <p>{element.description}</p>
+                                            </div>
+                                            <div className="restaurantMenuSecondDiv">
+                                                <p className="restaurantMenuPriceLabel">{element.price} {Translate('pln')}</p>
+                                            </div>
+                                        </ListGroup.Item>
+                                    ))}
+                                </ListGroup>
+                            </div>
+
+                            <div className="bookSelectSecondDiv">
+                                <Sticky>
+                                    <div className="bookCartDiv">
+                                        <p className="cartLabel">{Translate('cart')}</p>
+                                        <hr/>
+                                        <p>{Translate('selectedTable')}: {this.state.selectedTable}</p>
+                                        <hr/>
+                                        <ListGroup>
+                                            { this.state.selectedMenu.map(element => (
+                                                <div className="cartDish">
+                                                    <div  className="cartName">
+                                                        <p>{element.name}</p>
+                                                    </div>
+                                                    <div className="cartPrice">
+                                                        <p>{element.price} {Translate('pln')}</p>
+                                                    </div>
+                                                    <div className="cartTrash">
+                                                        <BsTrash />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </ListGroup>
+                                        <hr/>
+                                        <p>{Translate('total')}: </p>
+                                    </div>
+                                </Sticky>
+                            </div>
                         </div>
                     : null }
                 </div>

@@ -7,10 +7,7 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
 import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
-import pl.lodz.p.it.boorger.entities.Dish;
-import pl.lodz.p.it.boorger.entities.Reservation;
-import pl.lodz.p.it.boorger.entities.Restaurant;
-import pl.lodz.p.it.boorger.entities.Table;
+import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.*;
 import pl.lodz.p.it.boorger.security.services.SignatureService;
@@ -143,9 +140,8 @@ public class RestaurantService {
 
     private boolean checkDatesOverlap(Table table, LocalDateTime start, LocalDateTime end) {
         boolean tmp = true;
-        //TODO status rezerwacji
         for(Reservation reservation : table.getReservations()) {
-            if(start.isBefore(reservation.getEndDate()) && end.isAfter(reservation.getStartDate()))
+            if(start.isBefore(reservation.getEndDate()) && end.isAfter(reservation.getStartDate()) && reservation.getStatus().equals(Status.BOOKED))
                 tmp = false;
         }
         return tmp;
