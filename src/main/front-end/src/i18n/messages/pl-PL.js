@@ -142,6 +142,7 @@ export default {
         'selectTable': 'Wybierz stolik',
         'cart': 'Koszyk',
         'selectedTable': 'Wybrany stolik',
-        'total': 'Suma'
+        'total': 'Suma',
+        'book': 'Rezerwuj'
     }
 }

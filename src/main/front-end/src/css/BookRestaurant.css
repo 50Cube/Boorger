@@ -165,3 +165,17 @@
 .cartTrash:hover {
     cursor: pointer;
 }
+
+.totalPriceLabel {
+    font-size: 110%;
+    font-weight: bold;
+}
+
+.bookButton {
+    font-size: 120%;
+}
+
+.bookCartListGroup {
+    max-height: 400px;
+    overflow-y: auto;
+}

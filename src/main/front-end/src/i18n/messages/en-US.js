@@ -142,6 +142,7 @@ export default {
         'selectTable': 'Select table',
         'cart': 'Basket',
         'selectedTable': 'Selected table',
-        'total': 'Total'
+        'total': 'Total',
+        'book': 'Make reservation'
     }
 }

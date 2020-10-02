@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 import {getHeader, getLanguageShortcut} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
-import {Button, Spinner, ListGroup, Tooltip} from 'react-bootstrap';
+import {Button, Spinner, ListGroup} from 'react-bootstrap';
 import {Dropdown} from "semantic-ui-react";
 import Swal from "sweetalert2";
 import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
@@ -34,7 +34,8 @@ export default class BookRestaurant extends Component {
             buttonLoading: false,
             loaded: false,
             selectedTable: "",
-            selectedMenu: []
+            selectedMenu: [],
+            total: 0
         }
     }
 
@@ -83,6 +84,16 @@ export default class BookRestaurant extends Component {
 
     createMenuData = (name, description, price) => {
         return { name, description, price };
+    };
+
+    handleDishDelete = (element) => {
+        let dishes = [...this.state.selectedMenu];
+        let index = dishes.indexOf(element);
+        dishes.splice(index, 1);
+        this.setState({
+            selectedMenu: dishes,
+            total: this.state.total - element.price
+        });
     };
 
     render() {
@@ -165,7 +176,8 @@ export default class BookRestaurant extends Component {
                                 <ListGroup>
                                     { menuList.map(element => (
                                         <ListGroup.Item className="restaurantMenuItem bookListGroup" onClick={() => this.setState(prevState => ({
-                                        selectedMenu: [...prevState.selectedMenu, element]})) }>
+                                        selectedMenu: [...prevState.selectedMenu, element],
+                                        total: this.state.total + element.price})) }>
                                             <div className="restaurantMenuFirstDiv">
                                                 <p className="restaurantMenuNameLabel">{element.name}</p>
                                                 <p>{element.description}</p>
@@ -185,7 +197,7 @@ export default class BookRestaurant extends Component {
                                         <hr/>
                                         <p>{Translate('selectedTable')}: {this.state.selectedTable}</p>
                                         <hr/>
-                                        <ListGroup>
+                                        <ListGroup className="bookCartListGroup">
                                             { this.state.selectedMenu.map(element => (
                                                 <div className="cartDish">
                                                     <div  className="cartName">
@@ -195,13 +207,16 @@ export default class BookRestaurant extends Component {
                                                         <p>{element.price} {Translate('pln')}</p>
                                                     </div>
                                                     <div className="cartTrash">
-                                                        <BsTrash />
+                                                        <BsTrash onClick={() => this.handleDishDelete(element)} />
                                                     </div>
                                                 </div>
                                             ))}
                                         </ListGroup>
                                         <hr/>
-                                        <p>{Translate('total')}: </p>
+                                        <p className="totalPriceLabel">{Translate('total')}: {this.state.total} {Translate('pln')}</p>
+                                        <Button className="buttons bookButton" disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
+                                            {Translate('book')}
+                                        </Button>
                                     </div>
                                 </Sticky>
                             </div>
