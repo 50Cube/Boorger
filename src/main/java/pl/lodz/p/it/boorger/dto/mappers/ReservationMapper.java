@@ -1,8 +1,10 @@
 package pl.lodz.p.it.boorger.dto.mappers;
 
 import pl.lodz.p.it.boorger.dto.ReservationDTO;
+import pl.lodz.p.it.boorger.entities.Client;
 import pl.lodz.p.it.boorger.entities.Reservation;
 import pl.lodz.p.it.boorger.entities.Status;
+import pl.lodz.p.it.boorger.entities.Table;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
 public class ReservationMapper {
@@ -30,6 +32,8 @@ public class ReservationMapper {
                 .endDate(DateFormatter.stringToDate(reservationDTO.getEndDate()))
                 .totalPrice(reservationDTO.getTotalPrice())
                 .status(Status.valueOf(reservationDTO.getStatus()))
+                .client(new Client())
+                .table(new Table())
                 .build();
     }
 }

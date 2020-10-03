@@ -3,7 +3,7 @@ import axios from 'axios';
 import {Jumbotron} from "./Jumbotron";
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
-import {getHeader, getLanguageShortcut} from "../services/UserDataService";
+import {getHeader, getLanguage, getLanguageShortcut, getUser} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
 import {Button, Spinner, ListGroup} from 'react-bootstrap';
@@ -26,6 +26,7 @@ export default class BookRestaurant extends Component {
         super(props);
         this.state = {
             name: sessionStorage.getItem("restaurantName"),
+            installment: 0,
             selectedDay: new Date(),
             selectedHour: '12:00',
             duration: 30,
@@ -43,8 +44,10 @@ export default class BookRestaurant extends Component {
         this.setState({ buttonLoading: true });
 
         let durationConcat = this.state.selectedHour.split(':');
-        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor(this.state.duration/60));
-        let minutes = parseInt(durationConcat[1]) + parseInt(this.state.duration%60);
+        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor((parseInt(durationConcat[1]) + this.state.duration)/60));
+        hours = hours%24;
+        if(hours.toString().length === 1) hours = '0' + hours;
+        let minutes = (parseInt(durationConcat[1]) + parseInt(this.state.duration))%60;
         if(minutes.toString().length === 1) minutes = minutes + '0';
 
         axios.post("/tables", {
@@ -54,7 +57,9 @@ export default class BookRestaurant extends Component {
             }, { headers: getHeader() })
             .then(response => {
             this.setState({
-                freeTables: response.data
+                freeTables: response.data,
+                startDate: this.state.selectedDay.toISOString().substring(0, 10) + ' ' + this.state.selectedHour,
+                endDate: this.state.selectedDay.toISOString().substring(0, 10) + ' ' + hours + ':' + minutes
             })
         }).catch(error => {
             Swal.fire({
@@ -68,7 +73,8 @@ export default class BookRestaurant extends Component {
                 this.setState({
                     buttonLoading: false,
                     loaded: true,
-                    menu: response.data.dishDTOs
+                    menu: response.data.dishDTOs,
+                    installment: response.data.installment
                 })
             }).catch(error => {
             Swal.fire({
@@ -96,6 +102,43 @@ export default class BookRestaurant extends Component {
         });
     };
 
+    handleReservation = () => {
+        Swal.fire({
+            icon: 'question',
+            title: getLanguage() === ('en-US') ? 'Are you sure?' : 'Czy jesteś pewien?',
+            showCancelButton: true,
+            cancelButtonColor: '#000000',
+            confirmButtonText: getLanguage() === ('en-US') ? 'yes' : 'Tak',
+            cancelButtonText: getLanguage() === ('en-US') ? 'No' : 'Nie',
+        }).then(result => {
+            if(result.isConfirmed) {
+                axios.post("/reservation", {
+                    guestNumber: this.state.selectedTable.capacity,
+                    startDate: this.state.startDate,
+                    endDate: this.state.endDate,
+                    totalPrice: this.state.total,
+                    restaurantName: this.state.name,
+                    tableNumber: this.state.selectedTable.number,
+                    status: "BOOKED",
+                    clientDTO: {
+                        login: getUser()
+                    }
+                }, { headers: getHeader() })
+                    .then(response => {
+                        Swal.fire({
+                            icon: "success",
+                            title: response.data
+                        })
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: "error",
+                            title: error.response.data
+                        })
+                })
+            }
+        })
+    };
+
     render() {
         const durationOptions = [
             { text: '30', value: 30 },
@@ -112,8 +155,10 @@ export default class BookRestaurant extends Component {
         ];
 
         let durationConcat = this.state.selectedHour.split(':');
-        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor(this.state.duration/60));
-        let minutes = parseInt(durationConcat[1]) + parseInt(this.state.duration%60);
+        let hours = parseInt(durationConcat[0]) + parseInt(Math.floor((parseInt(durationConcat[1]) + this.state.duration)/60));
+        hours = hours%24;
+        if(hours.toString().length === 1) hours = '0' + hours;
+        let minutes = (parseInt(durationConcat[1]) + parseInt(this.state.duration))%60;
         if(minutes.toString().length === 1) minutes = minutes + '0';
 
         let tableList = [];
@@ -164,7 +209,7 @@ export default class BookRestaurant extends Component {
                                 <p className="bookSelectTable">{Translate('selectTable')}</p>
                                 <GridList className="bookGridList" cols={5}>
                                     { tableList.map(element => (
-                                        <GridListTile className="bookGridListTile" onClick={() => this.setState({ selectedTable: element.number })}>
+                                        <GridListTile className="bookGridListTile" onClick={() => this.setState({ selectedTable: element })}>
                                             <RestaurantTablePuzzle
                                                 number={element.number}
                                                 capacity={element.capacity}
@@ -195,7 +240,8 @@ export default class BookRestaurant extends Component {
                                     <div className="bookCartDiv">
                                         <p className="cartLabel">{Translate('cart')}</p>
                                         <hr/>
-                                        <p>{Translate('selectedTable')}: {this.state.selectedTable}</p>
+                                        <p className="totalPriceLabel">{this.state.name}</p>
+                                        <p>{Translate('selectedTable')}: {this.state.selectedTable.number}</p>
                                         <hr/>
                                         <ListGroup className="bookCartListGroup">
                                             { this.state.selectedMenu.map(element => (
@@ -214,7 +260,9 @@ export default class BookRestaurant extends Component {
                                         </ListGroup>
                                         <hr/>
                                         <p className="totalPriceLabel">{Translate('total')}: {this.state.total} {Translate('pln')}</p>
-                                        <Button className="buttons bookButton" disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
+                                        <p>{Translate('installment')}: {this.state.total * this.state.installment/100} {Translate('pln')}</p>
+                                        <Button className="buttons bookButton" onClick={this.handleReservation}
+                                                disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
                                             {Translate('book')}
                                         </Button>
                                     </div>

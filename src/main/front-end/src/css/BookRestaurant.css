@@ -134,7 +134,7 @@
 .cartLabel {
     text-align: center;
     font-weight: bold;
-    font-size: 160%;
+    font-size: 170%;
 }
 
 .cartDish {
@@ -167,7 +167,7 @@
 }
 
 .totalPriceLabel {
-    font-size: 110%;
+    font-size: 120%;
     font-weight: bold;
 }
 
