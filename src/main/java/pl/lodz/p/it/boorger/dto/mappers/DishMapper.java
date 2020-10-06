@@ -10,6 +10,7 @@ public class DishMapper {
                 .name(dish.getName())
                 .description(dish.getDescription())
                 .price(dish.getPrice())
+                .businessKey(dish.getBusinessKey())
                 .build();
     }
 

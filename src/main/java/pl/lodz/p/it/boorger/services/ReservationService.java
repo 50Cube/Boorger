@@ -9,11 +9,14 @@ import pl.lodz.p.it.boorger.configuration.transactions.ServiceTransaction;
 import pl.lodz.p.it.boorger.entities.*;
 import pl.lodz.p.it.boorger.exceptions.*;
 import pl.lodz.p.it.boorger.repositories.ClientRepository;
+import pl.lodz.p.it.boorger.repositories.DishRepository;
 import pl.lodz.p.it.boorger.repositories.ReservationRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Service
 @AllArgsConstructor
@@ -24,8 +27,9 @@ public class ReservationService {
     private ReservationRepository reservationRepository;
     private RestaurantRepository restaurantRepository;
     private ClientRepository clientRepository;
+    private DishRepository dishRepository;
 
-    public void addReservation(@Valid Reservation reservation, String login, String restaurantName, int tableNumber) throws AppBaseException {
+    public void addReservation(@Valid Reservation reservation, String login, String restaurantName, int tableNumber, Collection<String> menuKeys) throws AppBaseException {
         try {
             if(reservation.getStartDate().isBefore(LocalDateTime.now()) || reservation.getEndDate().isBefore(LocalDateTime.now()))
                 throw new DateException("error.date.past");
@@ -47,6 +51,11 @@ public class ReservationService {
                     .orElseThrow(AccountNotFoundException::new);
             client.getReservations().add(reservation);
             reservation.setClient(client);
+
+            Collection<Dish> menu = new ArrayList<>();
+            for(String key : menuKeys)
+                menu.add(dishRepository.findByBusinessKey(key).orElseThrow(AppBaseException::new));
+            reservation.setMenu(menu);
 
             reservation.setStatus(Status.BOOKED);
             reservationRepository.saveAndFlush(reservation);

@@ -38,9 +38,6 @@ public class Dish extends AbstractEntity {
     @ManyToOne
     private Restaurant restaurant;
 
-//    @OneToMany
-//    private Collection<ReservationDishMapping> reservationDishMappings;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

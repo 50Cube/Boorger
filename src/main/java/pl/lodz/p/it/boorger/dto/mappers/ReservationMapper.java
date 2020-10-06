@@ -7,6 +7,8 @@ import pl.lodz.p.it.boorger.entities.Status;
 import pl.lodz.p.it.boorger.entities.Table;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
+import java.util.stream.Collectors;
+
 public class ReservationMapper {
 
     public static ReservationDTO mapToDto(Reservation reservation) {
@@ -22,6 +24,7 @@ public class ReservationMapper {
                 .restaurantName(reservation.getTable().getRestaurant().getName())
                 .tableNumber(reservation.getTable().getNumber())
                 .clientDTO(ClientMapper.mapToDto(reservation.getClient()))
+                .dishDTOs(reservation.getMenu().stream().map(DishMapper::mapToDto).collect(Collectors.toList()))
                 .build();
     }
 

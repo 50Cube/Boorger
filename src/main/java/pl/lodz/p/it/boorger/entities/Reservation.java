@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -49,12 +50,15 @@ public class Reservation extends AbstractEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @ManyToMany
+    @JoinTable(name = "reservation_dish_mapping",
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "dish_id"))
+    private Collection<Dish> menu = new ArrayList<>();
+
     public String getSignatureString() {
         return businessKey + version;
     }
-
-//    @OneToMany
-//    private Collection<ReservationMenuMapping> reservationMenuMappings;
 
     @Override
     public boolean equals(Object o) {

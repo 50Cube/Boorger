@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 @Data
 @Builder
@@ -33,4 +34,5 @@ public class ReservationDTO {
     @Digits(integer = 2, fraction = 0)
     private int tableNumber;
     private ClientDTO clientDTO;
+    private Collection<DishDTO> dishDTOs;
 }

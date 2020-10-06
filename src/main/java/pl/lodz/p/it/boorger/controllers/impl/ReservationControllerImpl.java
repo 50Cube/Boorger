@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import pl.lodz.p.it.boorger.controllers.ReservationController;
+import pl.lodz.p.it.boorger.dto.DishDTO;
 import pl.lodz.p.it.boorger.dto.ReservationDTO;
 import pl.lodz.p.it.boorger.dto.mappers.ReservationMapper;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
@@ -13,6 +14,7 @@ import pl.lodz.p.it.boorger.services.ReservationService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -25,7 +27,8 @@ public class ReservationControllerImpl implements ReservationController {
     @PostMapping("/reservation")
     public ResponseEntity<?> addReservation(@Valid @RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
         reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO), reservationDTO.getClientDTO().getLogin(),
-                reservationDTO.getRestaurantName(), reservationDTO.getTableNumber());
+                reservationDTO.getRestaurantName(), reservationDTO.getTableNumber(),
+                reservationDTO.getDishDTOs().stream().map(DishDTO::getBusinessKey).collect(Collectors.toList()));
         return ResponseEntity.ok(MessageProvider.getTranslatedText("reservation.addnew", language));
     }
 }

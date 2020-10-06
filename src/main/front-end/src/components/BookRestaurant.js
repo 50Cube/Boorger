@@ -88,8 +88,8 @@ export default class BookRestaurant extends Component {
         return { number, capacity, active };
     };
 
-    createMenuData = (name, description, price) => {
-        return { name, description, price };
+    createMenuData = (name, description, price, businessKey) => {
+        return { name, description, price, businessKey };
     };
 
     handleDishDelete = (element) => {
@@ -122,13 +122,14 @@ export default class BookRestaurant extends Component {
                     status: "BOOKED",
                     clientDTO: {
                         login: getUser()
-                    }
+                    },
+                    dishDTOs: this.state.selectedMenu
                 }, { headers: getHeader() })
                     .then(response => {
                         Swal.fire({
                             icon: "success",
                             title: response.data
-                        })
+                        }).then(() => window.location.replace("/"))
                     }).catch(error => {
                         Swal.fire({
                             icon: "error",
@@ -169,7 +170,7 @@ export default class BookRestaurant extends Component {
 
         let menuList = [];
         for(let i=0; i<this.state.menu.length; i++) {
-            menuList.push(this.createMenuData(this.state.menu[i].name, this.state.menu[i].description, this.state.menu[i].price));
+            menuList.push(this.createMenuData(this.state.menu[i].name, this.state.menu[i].description, this.state.menu[i].price, this.state.menu[i].businessKey));
         }
 
         return (

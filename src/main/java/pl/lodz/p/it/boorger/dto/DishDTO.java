@@ -11,6 +11,9 @@ import javax.validation.constraints.Size;
 @Builder
 public class DishDTO {
 
+    @Size(min = 36, max = 36)
+    private String businessKey;
+
     @Size(min = 1, max = 64)
     @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@$^&*,. -]+")
     private String name;
