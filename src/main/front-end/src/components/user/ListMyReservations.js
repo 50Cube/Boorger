@@ -62,7 +62,7 @@ export default class ListMyReservations extends Component {
                                         <TableCell>{row.businessKey}</TableCell>
                                         <TableCell>{row.restaurantName}</TableCell>
                                         <TableCell>{row.startDate}</TableCell>
-                                        <TableCell>{row.status}</TableCell>
+                                        <TableCell>{Translate(row.status)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

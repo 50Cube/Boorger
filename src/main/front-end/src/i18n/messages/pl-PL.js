@@ -148,6 +148,9 @@ export default {
         'reservationNumber': 'Numer rezerwacji',
         'startDate': 'Data rozpoczęcia',
         'reservationStatus': 'Status rezerwacji',
-        'restaurant': 'Restauracja'
+        'restaurant': 'Restauracja',
+        'BOOKED': 'Złożona',
+        'FINISHED': 'Zakończona',
+        'CANCELLED': 'Anulowana'
     }
 }
