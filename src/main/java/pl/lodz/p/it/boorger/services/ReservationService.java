@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -59,6 +60,22 @@ public class ReservationService {
 
             reservation.setStatus(Status.BOOKED);
             reservationRepository.saveAndFlush(reservation);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public List<Reservation> getReservations() throws AppBaseException {
+        try {
+            return reservationRepository.findAll();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public List<Reservation> getUserReservations(String login) throws AppBaseException {
+        try {
+            return reservationRepository.findAllByClient_Account_Login(login);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

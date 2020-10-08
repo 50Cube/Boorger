@@ -12,4 +12,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @RepositoryReadOnlyTransaction
     List<Reservation> findAll();
+
+    @RepositoryReadOnlyTransaction
+    List<Reservation> findAllByClient_Account_Login(String login);
 }

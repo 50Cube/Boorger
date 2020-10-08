@@ -14,6 +14,7 @@ import pl.lodz.p.it.boorger.services.ReservationService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @CrossOrigin
@@ -30,5 +31,15 @@ public class ReservationControllerImpl implements ReservationController {
                 reservationDTO.getRestaurantName(), reservationDTO.getTableNumber(),
                 reservationDTO.getDishDTOs().stream().map(DishDTO::getBusinessKey).collect(Collectors.toList()));
         return ResponseEntity.ok(MessageProvider.getTranslatedText("reservation.addnew", language));
+    }
+
+    @GetMapping("/reservations")
+    public List<ReservationDTO> getReservations() throws AppBaseException {
+        return reservationService.getReservations().stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/reservations/{login}")
+    public List<ReservationDTO> getUserReservations(@PathVariable String login) throws AppBaseException {
+        return reservationService.getUserReservations(login).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 }

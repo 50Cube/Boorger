@@ -143,6 +143,11 @@ export default {
         'cart': 'Koszyk',
         'selectedTable': 'Wybrany stolik',
         'total': 'Suma',
-        'book': 'Rezerwuj'
+        'book': 'Rezerwuj',
+        'myReservations': 'Moje rezerwacje',
+        'reservationNumber': 'Numer rezerwacji',
+        'startDate': 'Data rozpoczęcia',
+        'reservationStatus': 'Status rezerwacji',
+        'restaurant': 'Restauracja'
     }
 }

@@ -143,6 +143,11 @@ export default {
         'cart': 'Basket',
         'selectedTable': 'Selected table',
         'total': 'Total',
-        'book': 'Make reservation'
+        'book': 'Make reservation',
+        'myReservations': 'My reservations',
+        'reservationNumber': 'Reservation number',
+        'startDate': 'Start date',
+        'reservationStatus': 'Reservation status',
+        'restaurant': 'Restaurant'
     }
 }

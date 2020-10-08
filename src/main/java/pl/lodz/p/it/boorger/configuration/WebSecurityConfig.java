@@ -26,9 +26,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register/**", "/boorger/confirm/**", "/boorger/reset/**",
                                         "/boorger/changeResetPassword/**", "/boorger/restaurants", "/boorger/restaurants/**",
                                         "/boorger/restaurant/**"};
-    private final String[] CLIENT_PATHS = new String[]{"/boorger/reservation", "/boorger/tables"};
+    private final String[] CLIENT_PATHS = new String[]{"/boorger/reservation", "/boorger/tables", "/boorger/reservations/**"};
     private final String[] MANAGER_PATHS = new String[]{"/boorger/restaurant", "/boorger/addresses", "/boorger/address",
-                                        "/boorger/dish/**", "/boorger/restaurant/activity", "/boorger/restaurant/edit"};
+                                        "/boorger/dish/**", "/boorger/restaurant/activity", "/boorger/restaurant/edit", "/boorger/reservations",
+                                        "/boorger/reservations/**"};
     private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**", "/boorger/resendEmail", "/boorger/editOtherAccount", "/boorger/addAccount"};
 
     private AuthEntryPointJwt authEntryPointJwt;
