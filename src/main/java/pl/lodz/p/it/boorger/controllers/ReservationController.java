@@ -10,5 +10,7 @@ public interface ReservationController {
 
     ResponseEntity<?> addReservation(ReservationDTO reservationDTO, String language) throws AppBaseException;
     List<ReservationDTO> getReservations() throws AppBaseException;
+    List<ReservationDTO> getFilteredReservation(String filter) throws AppBaseException;
     List<ReservationDTO> getUserReservations(String login) throws AppBaseException;
+    List<ReservationDTO> getUserFilteredReservations(String login, String filter) throws AppBaseException;
 }

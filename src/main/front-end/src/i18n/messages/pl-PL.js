@@ -151,6 +151,9 @@ export default {
         'restaurant': 'Restauracja',
         'BOOKED': 'Złożona',
         'FINISHED': 'Zakończona',
-        'CANCELLED': 'Anulowana'
+        'CANCELLED': 'Anulowana',
+        'filterReservations': 'Szukaj rezerwacji',
+        'user': 'Użytkownik',
+        'listReservations': 'Lista rezerwacji'
     }
 }

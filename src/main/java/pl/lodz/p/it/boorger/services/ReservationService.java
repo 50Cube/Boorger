@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -72,7 +73,19 @@ public class ReservationService {
 
     public List<Reservation> getReservations() throws AppBaseException {
         try {
-            return reservationRepository.findAll();
+            return reservationRepository.findAllByOrderByStartDateDesc();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public List<Reservation> getFilteredReservations(String filter) throws AppBaseException {
+        try {
+            return reservationRepository.findAllByOrderByStartDateDesc().stream()
+                    .filter(r -> r.getBusinessKey().contains(filter)
+                            || r.getClient().getAccount().getLogin().toLowerCase().contains(filter.toLowerCase())
+                            || r.getTable().getRestaurant().getName().toLowerCase().contains(filter.toLowerCase()))
+                    .collect(Collectors.toList());
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
@@ -80,7 +93,17 @@ public class ReservationService {
 
     public List<Reservation> getUserReservations(String login) throws AppBaseException {
         try {
-            return reservationRepository.findAllByClient_Account_Login(login);
+            return reservationRepository.findAllByClient_Account_LoginOrderByStartDateDesc(login);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public List<Reservation> getUserFilteredReservation(String login, String filter) throws AppBaseException {
+        try {
+            return reservationRepository.findAllByClient_Account_LoginOrderByStartDateDesc(login).stream()
+                    .filter(r -> r.getBusinessKey().contains(filter)
+                    || r.getTable().getRestaurant().getName().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }

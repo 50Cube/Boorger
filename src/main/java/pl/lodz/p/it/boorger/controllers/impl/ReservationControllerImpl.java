@@ -38,8 +38,18 @@ public class ReservationControllerImpl implements ReservationController {
         return reservationService.getReservations().stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 
+    @GetMapping("/reservations/filtered/{filter}")
+    public List<ReservationDTO> getFilteredReservation(@PathVariable String filter) throws AppBaseException {
+        return reservationService.getFilteredReservations(filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    }
+
     @GetMapping("/reservations/{login}")
     public List<ReservationDTO> getUserReservations(@PathVariable String login) throws AppBaseException {
         return reservationService.getUserReservations(login).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    }
+
+    @GetMapping("/reservations/filtered/{login}/{filter}")
+    public List<ReservationDTO> getUserFilteredReservations(@PathVariable String login, @PathVariable String filter) throws AppBaseException {
+        return reservationService.getUserFilteredReservation(login, filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 }

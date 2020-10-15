@@ -11,8 +11,8 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
     @RepositoryReadOnlyTransaction
-    List<Reservation> findAll();
+    List<Reservation> findAllByOrderByStartDateDesc();
 
     @RepositoryReadOnlyTransaction
-    List<Reservation> findAllByClient_Account_Login(String login);
+    List<Reservation> findAllByClient_Account_LoginOrderByStartDateDesc(String login);
 }

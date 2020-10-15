@@ -151,6 +151,9 @@ export default {
         'restaurant': 'Restaurant',
         'BOOKED': 'Booked',
         'FINISHED': 'Finished',
-        'CANCELLED': 'Cancelled'
+        'CANCELLED': 'Cancelled',
+        'filterReservations': 'Search for reservations',
+        'user': 'User',
+        'listReservations': 'List reservations'
     }
 }

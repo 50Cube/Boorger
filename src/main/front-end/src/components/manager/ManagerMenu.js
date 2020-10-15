@@ -4,6 +4,7 @@ import { Menu } from 'semantic-ui-react';
 import Translate from "../../i18n/Translate";
 import AddRestaurant from "./AddRestaurant";
 import ListRestaurants from "./ListRestaurants";
+import ListReservations from "./ListReservations";
 import '../../css/ManagerBreadcrumbs.css';
 import '../../css/ManagerMenu.css';
 
@@ -29,6 +30,7 @@ export default class ManagerMenu extends Component {
                                 <Breadcrumb.Item active>{Translate('managerPanel')}</Breadcrumb.Item>
                                 { activeItem === 'listRestaurants' ? <Breadcrumb.Item active>{Translate('listRestaurants')}</Breadcrumb.Item> : null }
                                 { activeItem === 'addRestaurant' ? <Breadcrumb.Item active>{Translate('addRestaurant')}</Breadcrumb.Item> : null }
+                                { activeItem === 'listReservations' ? <Breadcrumb.Item active>{Translate('listReservations')}</Breadcrumb.Item> : null}
                             </Breadcrumb>
                         </div>
                         <div className="menu">
@@ -38,6 +40,9 @@ export default class ManagerMenu extends Component {
                                 </Menu.Item>
                                 <Menu.Item name="addRestaurant" active={activeItem === 'addRestaurant'} onClick={this.handleItemClick}>
                                     {Translate('addRestaurant')}
+                                </Menu.Item>
+                                <Menu.Item name="listReservations" active={activeItem === 'listReservations'} onClick={this.handleItemClick}>
+                                    {Translate('listReservations')}
                                 </Menu.Item>
                             </Menu>
                         </div>
@@ -54,6 +59,10 @@ export default class ManagerMenu extends Component {
                             <div className="managerContent">
                                 <AddRestaurant />
                             </div> : null }
+                        { activeItem === 'listReservations' ?
+                            <div className="managerContent">
+                                <ListReservations />
+                            </div> : null}
                     </div>
                 </div>
             </Fragment>
