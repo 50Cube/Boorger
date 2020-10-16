@@ -108,4 +108,13 @@ public class ReservationService {
             throw new DatabaseException();
         }
     }
+
+    public Reservation getReservation(String businessKey) throws AppBaseException {
+        try {
+            return reservationRepository.findByBusinessKey(businessKey)
+                    .orElseThrow(AppBaseException::new);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
 }

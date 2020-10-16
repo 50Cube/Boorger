@@ -13,4 +13,5 @@ public interface ReservationController {
     List<ReservationDTO> getFilteredReservation(String filter) throws AppBaseException;
     List<ReservationDTO> getUserReservations(String login) throws AppBaseException;
     List<ReservationDTO> getUserFilteredReservations(String login, String filter) throws AppBaseException;
+    ReservationDTO getReservation(String businessKey) throws AppBaseException;
 }

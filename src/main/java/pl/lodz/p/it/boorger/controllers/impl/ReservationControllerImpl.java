@@ -52,4 +52,9 @@ public class ReservationControllerImpl implements ReservationController {
     public List<ReservationDTO> getUserFilteredReservations(@PathVariable String login, @PathVariable String filter) throws AppBaseException {
         return reservationService.getUserFilteredReservation(login, filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
+
+    @GetMapping("/reservation/{businessKey}")
+    public ReservationDTO getReservation(@PathVariable String businessKey) throws AppBaseException {
+        return ReservationMapper.mapToDto(reservationService.getReservation(businessKey));
+    }
 }

@@ -6,6 +6,7 @@ import pl.lodz.p.it.boorger.configuration.transactions.RepositoryTransaction;
 import pl.lodz.p.it.boorger.entities.Reservation;
 
 import java.util.List;
+import java.util.Optional;
 
 @RepositoryTransaction
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
@@ -15,4 +16,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @RepositoryReadOnlyTransaction
     List<Reservation> findAllByClient_Account_LoginOrderByStartDateDesc(String login);
+
+    @RepositoryReadOnlyTransaction
+    Optional<Reservation> findByBusinessKey(String businessKey);
 }

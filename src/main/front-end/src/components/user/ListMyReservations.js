@@ -6,6 +6,7 @@ import {Spinner, Button, InputGroup, Form} from "react-bootstrap";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Translate from '../../i18n/Translate';
 import {BsSearch} from "react-icons/all";
+import MyReservationDetails from "./MyReservationDetails";
 import '../../css/ListReservations.css';
 
 export default class ListMyReservations extends Component {
@@ -13,6 +14,7 @@ export default class ListMyReservations extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            reservationId: "",
             reservations: [{}],
             loaded: false,
             showDetails: false
@@ -63,6 +65,9 @@ export default class ListMyReservations extends Component {
                 this.state.reservations[i].status, this.state.reservations[i].restaurantName));
         }
 
+        if(this.state.showDetails) {
+            return ( <MyReservationDetails reservationId={this.state.reservationId} /> )
+        } else {
         return (
             <div>
                 <p className="filterReservations">{Translate('filterReservations')}</p>
@@ -94,7 +99,8 @@ export default class ListMyReservations extends Component {
                                         <TableCell>{row.startDate}</TableCell>
                                         <TableCell>{Translate(row.status)}</TableCell>
                                         <TableCell>
-                                            <Button className="myReservationsDetailsButton">{Translate('details')}</Button>
+                                            <Button className="myReservationsDetailsButton" onClick={() => this.setState({
+                                                reservationId: row.businessKey, showDetails: true })}>{Translate('details')}</Button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -103,6 +109,6 @@ export default class ListMyReservations extends Component {
                     </TableContainer>
                 </div> : <Spinner animation="border" /> }
             </div>
-        );
+        ); }
     }
 }
