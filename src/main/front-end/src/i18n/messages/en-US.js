@@ -154,6 +154,10 @@ export default {
         'CANCELLED': 'Cancelled',
         'filterReservations': 'Search for reservations',
         'user': 'User',
-        'listReservations': 'List reservations'
+        'listReservations': 'List reservations',
+        'bookingTime': 'Date of booking',
+        'tableNumber': 'Table number',
+        'order': 'Order',
+        'editStatus': 'Edit status'
     }
 }

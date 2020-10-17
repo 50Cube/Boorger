@@ -154,6 +154,10 @@ export default {
         'CANCELLED': 'Anulowana',
         'filterReservations': 'Szukaj rezerwacji',
         'user': 'Użytkownik',
-        'listReservations': 'Lista rezerwacji'
+        'listReservations': 'Lista rezerwacji',
+        'bookingTime': 'Data złożenia',
+        'tableNumber': 'Numer stolika',
+        'order': 'Zamówienie',
+        'editStatus': 'Zmień status'
     }
 }

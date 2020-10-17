@@ -6,7 +6,7 @@ import {Spinner, Button, InputGroup, Form} from "react-bootstrap";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import Translate from '../../i18n/Translate';
 import {BsSearch} from "react-icons/all";
-import MyReservationDetails from "./MyReservationDetails";
+import ReservationDetails from "../ReservationDetails";
 import '../../css/ListReservations.css';
 
 export default class ListMyReservations extends Component {
@@ -21,7 +21,7 @@ export default class ListMyReservations extends Component {
         }
     }
 
-    componentDidMount() {
+    getReservations = () => {
         axios.get("/reservations/" + getUser(), { headers: getHeader() })
             .then(response => {
                 this.setState({
@@ -34,6 +34,10 @@ export default class ListMyReservations extends Component {
                 title: error.response.data
             })
         })
+    };
+
+    componentDidMount() {
+        this.getReservations();
     }
 
     createData = (businessKey, startDate, status, restaurantName) => {
@@ -58,6 +62,11 @@ export default class ListMyReservations extends Component {
         }
     };
 
+    handleBackButtonClick = () => {
+        this.setState({ showDetails: false, loaded: false });
+        this.getReservations();
+    };
+
     render() {
         let rows = [];
         for(let i=0; i<this.state.reservations.length; i++) {
@@ -66,7 +75,7 @@ export default class ListMyReservations extends Component {
         }
 
         if(this.state.showDetails) {
-            return ( <MyReservationDetails reservationId={this.state.reservationId} /> )
+            return ( <ReservationDetails reservationId={this.state.reservationId} handleBackButtonClick={this.handleBackButtonClick} /> )
         } else {
         return (
             <div>
