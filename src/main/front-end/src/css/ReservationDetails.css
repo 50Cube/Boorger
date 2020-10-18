@@ -23,7 +23,8 @@
 }
 
 .reservationContent {
-    padding-bottom: 15px;
+    padding-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .reservationMenuList {
@@ -48,6 +49,36 @@
     text-align: right;
 }
 
-.reservationDetailsEditButton {
-    margin-right: 15px;
+.reservationStatusFinish {
+    display: block;
+    color: darkgreen;
+    background-color: gainsboro;
+    border: 0;
+    padding-left: 0;
+    font-size: 107%;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.reservationStatusFinish:hover, .reservationStatusFinish:active, .reservationStatusFinish:focus {
+    background-color: gainsboro;
+    color: darkgreen;
+    font-style: italic;
+}
+
+.reservationStatusCancel {
+    display: block;
+    color: darkred;
+    background-color: gainsboro;
+    border: 0;
+    padding-left: 0;
+    font-size: 107%;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.reservationStatusCancel:hover, .reservationStatusCancel:active, .reservationStatusCancel:focus {
+    background-color: gainsboro;
+    color: darkred;
+    font-style: italic;
 }

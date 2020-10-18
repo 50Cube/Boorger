@@ -117,4 +117,26 @@ public class ReservationService {
             throw new DatabaseException();
         }
     }
+
+    public void finishReservation(String businessKey) throws AppBaseException {
+        try {
+            Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
+                    .orElseThrow(AppBaseException::new);
+            reservation.setStatus(Status.FINISHED);
+            reservationRepository.saveAndFlush(reservation);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
+
+    public void cancelReservation(String businessKey) throws AppBaseException {
+        try {
+            Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
+                    .orElseThrow(AppBaseException::new);
+            reservation.setStatus(Status.CANCELLED);
+            reservationRepository.saveAndFlush(reservation);
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
 }

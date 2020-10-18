@@ -18,7 +18,7 @@ export default class ReservationDetails extends Component {
         }
     }
 
-    componentDidMount() {
+    getReservation = () => {
         axios.get("/reservation/" + this.props.reservationId, { headers: getHeader() })
             .then(response => {
                 this.setState({
@@ -31,10 +31,27 @@ export default class ReservationDetails extends Component {
                 title: error.response.data
             })
         })
+    };
+
+    componentDidMount() {
+        this.getReservation();
     }
 
     createData = (name, price) => {
       return { name, price };
+    };
+
+    handleStatusChange = (status) => {
+        this.setState({ loaded: false });
+        axios.put("/reservation/" + status + "/" + this.props.reservationId, {}, { headers: getHeader()})
+            .then(() => {
+                this.getReservation();
+            }).catch(error => {
+            Swal.fire({
+                icon: "error",
+                title: error.response.data
+            })
+        })
     };
 
     render() {
@@ -64,6 +81,13 @@ export default class ReservationDetails extends Component {
                         <p className="reservationContent">{this.state.reservation.tableNumber}</p>
                         <p className="reservationLabels">{Translate('reservationStatus')}</p>
                         <p className="reservationContent">{Translate(this.state.reservation.status)}</p>
+                        { this.state.reservation.status === 'BOOKED' ?
+                        <div>
+                            <Button className="reservationStatusFinish" onClick={() => this.handleStatusChange("finish")}>
+                                {Translate('finishReservation')}</Button>
+                            <Button className="reservationStatusCancel" onClick={() => this.handleStatusChange("cancel")}>
+                                {Translate('cancelReservation')}</Button>
+                        </div> : null }
                     </div>
                     <div className="reservationSecondDiv">
                         <p className="reservationLabels">{Translate('order')}</p>
@@ -76,10 +100,7 @@ export default class ReservationDetails extends Component {
                             ))}
                         </ListGroup>
                     </div>
-                    <div>
-                        { this.props.manager ? <Button className="buttons reservationDetailsEditButton" >{Translate('editStatus')}</Button> : null }
-                        <Button className="buttons" onClick={() => this.props.handleBackButtonClick()}>{Translate('back')}</Button>
-                    </div>
+                    <Button className="buttons" onClick={() => this.props.handleBackButtonClick()}>{Translate('back')}</Button>
                 </div>
             );
         } else return ( <Spinner animation="border" /> )

@@ -57,4 +57,14 @@ public class ReservationControllerImpl implements ReservationController {
     public ReservationDTO getReservation(@PathVariable String businessKey) throws AppBaseException {
         return ReservationMapper.mapToDto(reservationService.getReservation(businessKey));
     }
+
+    @PutMapping("/reservation/finish/{businessKey}")
+    public void finishReservation(@PathVariable String businessKey) throws AppBaseException {
+        reservationService.finishReservation(businessKey);
+    }
+
+    @PutMapping("/reservation/cancel/{businessKey}")
+    public void cancelReservation(@PathVariable String businessKey) throws AppBaseException {
+        reservationService.cancelReservation(businessKey);
+    }
 }

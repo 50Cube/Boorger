@@ -158,6 +158,8 @@ export default {
         'bookingTime': 'Data złożenia',
         'tableNumber': 'Numer stolika',
         'order': 'Zamówienie',
-        'editStatus': 'Zmień status'
+        'editStatus': 'Zmień status',
+        'cancelReservation': 'Anuluj rezerwację',
+        'finishReservation': 'Zakończ rezerwację'
     }
 }

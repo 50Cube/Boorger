@@ -30,7 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                                         "/boorger/reservations/filtered/*/*"};
     private final String[] MANAGER_PATHS = new String[]{"/boorger/restaurant", "/boorger/addresses", "/boorger/address",
                                         "/boorger/dish/**", "/boorger/restaurant/activity", "/boorger/restaurant/edit", "/boorger/reservations",
-                                        "/boorger/reservations/**"};
+                                        "/boorger/reservations/**", "/boorger/reservation/finish/**", "/boorger/reservation/cancel/**"};
     private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**", "/boorger/resendEmail", "/boorger/editOtherAccount", "/boorger/addAccount"};
 
     private AuthEntryPointJwt authEntryPointJwt;

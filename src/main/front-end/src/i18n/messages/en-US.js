@@ -158,6 +158,8 @@ export default {
         'bookingTime': 'Date of booking',
         'tableNumber': 'Table number',
         'order': 'Order',
-        'editStatus': 'Edit status'
+        'editStatus': 'Edit status',
+        'cancelReservation': 'Cancel reservation',
+        'finishReservation': 'Finish reservation'
     }
 }
