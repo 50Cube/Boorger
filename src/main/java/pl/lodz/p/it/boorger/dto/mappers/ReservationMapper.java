@@ -5,6 +5,7 @@ import pl.lodz.p.it.boorger.entities.Client;
 import pl.lodz.p.it.boorger.entities.Reservation;
 import pl.lodz.p.it.boorger.entities.Status;
 import pl.lodz.p.it.boorger.entities.Table;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 
 import java.util.stream.Collectors;
@@ -14,7 +15,7 @@ public class ReservationMapper {
     public static ReservationDTO mapToDto(Reservation reservation) {
         return ReservationDTO.builder()
                 .creationDate(DateFormatter.dateToString(reservation.getCreationDate()))
-                .signature(reservation.getSignatureString())
+                .signature(SignatureService.createSignature(reservation.getSignatureString()))
                 .guestNumber(reservation.getGuestNumber())
                 .startDate(DateFormatter.dateToString(reservation.getStartDate()))
                 .endDate(DateFormatter.dateToString(reservation.getEndDate()))

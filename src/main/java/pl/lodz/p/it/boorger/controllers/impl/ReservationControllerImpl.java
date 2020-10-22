@@ -64,15 +64,15 @@ public class ReservationControllerImpl implements ReservationController {
         return ReservationMapper.mapToDto(reservationService.getReservation(businessKey));
     }
 
-    @PutMapping("/reservation/finish/{businessKey}")
+    @PutMapping("/reservation/finish")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void finishReservation(@PathVariable String businessKey) throws AppBaseException {
-        reservationService.finishReservation(businessKey);
+    public void finishReservation(@RequestBody ReservationDTO reservationDTO) throws AppBaseException {
+        reservationService.finishReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
     }
 
-    @PutMapping("/reservation/cancel/{businessKey}")
+    @PutMapping("/reservation/cancel")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void cancelReservation(@PathVariable String businessKey) throws AppBaseException {
-        reservationService.cancelReservation(businessKey);
+    public void cancelReservation(@RequestBody ReservationDTO reservationDTO) throws AppBaseException {
+        reservationService.cancelReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
     }
 }

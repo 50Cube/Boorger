@@ -57,7 +57,7 @@ public class Reservation extends AbstractEntity {
     private Collection<Dish> menu = new ArrayList<>();
 
     public String getSignatureString() {
-        return businessKey + version;
+        return businessKey + status + version;
     }
 
     @Override

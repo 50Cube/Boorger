@@ -43,7 +43,10 @@ export default class ReservationDetails extends Component {
 
     handleStatusChange = (status) => {
         this.setState({ loaded: false });
-        axios.put("/reservation/" + status + "/" + this.props.reservationId, {}, { headers: getHeader()})
+        axios.put("/reservation/" + status, {
+            businessKey: this.props.reservationId,
+            signature: this.state.reservation.signature
+        }, { headers: getHeader()})
             .then(() => {
                 this.getReservation();
             }).catch(error => {

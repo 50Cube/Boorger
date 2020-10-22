@@ -13,6 +13,7 @@ import pl.lodz.p.it.boorger.repositories.ClientRepository;
 import pl.lodz.p.it.boorger.repositories.DishRepository;
 import pl.lodz.p.it.boorger.repositories.ReservationRepository;
 import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
+import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -118,10 +119,12 @@ public class ReservationService {
         }
     }
 
-    public void finishReservation(String businessKey) throws AppBaseException {
+    public void finishReservation(String businessKey, String signatureDTO) throws AppBaseException {
         try {
             Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
                     .orElseThrow(AppBaseException::new);
+            if (!SignatureService.verify(reservation.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
             reservation.setStatus(Status.FINISHED);
             reservationRepository.saveAndFlush(reservation);
         } catch (DataAccessException e) {
@@ -129,10 +132,12 @@ public class ReservationService {
         }
     }
 
-    public void cancelReservation(String businessKey) throws AppBaseException {
+    public void cancelReservation(String businessKey, String signatureDTO) throws AppBaseException {
         try {
             Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
                     .orElseThrow(AppBaseException::new);
+            if (!SignatureService.verify(reservation.getSignatureString(), signatureDTO))
+                throw new OptimisticLockException();
             reservation.setStatus(Status.CANCELLED);
             reservationRepository.saveAndFlush(reservation);
         } catch (DataAccessException e) {
