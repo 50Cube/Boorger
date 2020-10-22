@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,26 +43,31 @@ public class AccountControllerImpl implements AccountController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/account/{login}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin')) or #login == authentication.principal.username")
     public AccountDTO getAccount(@PathVariable String login) throws AppBaseException {
         return AccountMapper.mapToDto(accountService.getAccount(login));
     }
 
     @GetMapping("/accounts/{page}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public List<AccountDTO> getAccounts(@PathVariable int page) throws AppBaseException {
         return accountService.getAccounts(page).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/accounts/pageAmount")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public int getAccountsPageAmount() throws AppBaseException {
         return accountService.getAccounts(0).getTotalPages();
     }
 
     @GetMapping("/accounts/{page}/{filter}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public List<AccountDTO> getFilteredAccounts(@PathVariable int page, @PathVariable String filter) throws AppBaseException {
         return accountService.getFilteredAccounts(page, filter).stream().map(AccountMapper::mapToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/accounts/pageAmount/{filter}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public int getFilteredAccountsPageAmount(@PathVariable String filter) throws AppBaseException {
         return accountService.getFilteredAccounts(0, filter).getTotalPages();
     }
@@ -128,6 +134,7 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @PostMapping("/resendEmail")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public void resendConfirmationEmail(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
         String token = accountService.resendConfirmationEmail(AccountMapper.mapFromDto(accountDTO));
         try {
@@ -139,11 +146,13 @@ public class AccountControllerImpl implements AccountController {
     }
 
     @PutMapping("/editOtherAccount")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public void editOtherAccount(@Valid @RequestBody AccountDTO accountDTO) throws AppBaseException {
         accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels(), accountDTO.getSignature());
     }
 
     @PostMapping("/addAccount")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public ResponseEntity<?> addAccount(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
         String token = accountService.addAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels());

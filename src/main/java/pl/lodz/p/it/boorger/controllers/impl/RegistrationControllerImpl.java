@@ -49,7 +49,7 @@ public class RegistrationControllerImpl implements RegistrationController {
         return ResponseEntity.ok(MessageProvider.getTranslatedText("register.success", accountDTO.getLanguage()));
     }
 
-    @PostMapping(value = "/confirm/{token}")
+    @PostMapping("/confirm/{token}")
     public ResponseEntity<?> confirmAccount(@PathVariable String token, @RequestHeader("lang") String language) throws AppBaseException {
         accountService.confirmAccount(token);
         return ResponseEntity.ok(MessageProvider.getTranslatedText("account.confirmed", language));

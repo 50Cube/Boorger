@@ -3,7 +3,6 @@ package pl.lodz.p.it.boorger.configuration;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,28 +25,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC_PATHS = new String[]{"/boorger/login", "/boorger/register/**", "/boorger/confirm/**", "/boorger/reset/**",
                                         "/boorger/changeResetPassword/**", "/boorger/restaurants", "/boorger/restaurants/**",
                                         "/boorger/restaurant/**"};
-    private final String[] CLIENT_PATHS = new String[]{"/boorger/reservation", "/boorger/tables", "/boorger/reservations/*",
-                                        "/boorger/reservations/filtered/*/*"};
-    private final String[] MANAGER_PATHS = new String[]{"/boorger/restaurant", "/boorger/addresses", "/boorger/address",
-                                        "/boorger/dish/**", "/boorger/restaurant/activity", "/boorger/restaurant/edit", "/boorger/reservations",
-                                        "/boorger/reservations/**", "/boorger/reservation/finish/**", "/boorger/reservation/cancel/**"};
-    private final String[] ADMIN_PATHS = new String[]{"/boorger/accounts/**", "/boorger/resendEmail", "/boorger/editOtherAccount", "/boorger/addAccount"};
 
     private AuthEntryPointJwt authEntryPointJwt;
     private UserDetailsServiceImpl userDetailsService;
-    private Environment env;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(PUBLIC_PATHS).permitAll()
-                .antMatchers("/boorger/**").authenticated()
-                .antMatchers(CLIENT_PATHS).hasAuthority(env.getProperty("boorger.roleClient"))
-                .antMatchers(MANAGER_PATHS).hasAuthority(env.getProperty("boorger.roleManager"))
-                .antMatchers(ADMIN_PATHS).hasAuthority(env.getProperty("boorger.roleAdmin")).and()
+                .antMatchers("/boorger/**").authenticated().and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt).accessDeniedPage("/accessDenied");
+                .exceptionHandling().authenticationEntryPoint(authEntryPointJwt);
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import {getHeader} from "../services/UserDataService";
+import {getHeader, getUser} from "../services/UserDataService";
 import {Spinner, ListGroup, Button} from "react-bootstrap";
 import Swal from "sweetalert2";
 import Translate from '../i18n/Translate';
@@ -19,7 +19,7 @@ export default class ReservationDetails extends Component {
     }
 
     getReservation = () => {
-        axios.get("/reservation/" + this.props.reservationId, { headers: getHeader() })
+        axios.get("/reservation/" + getUser() + "/" + this.props.reservationId, { headers: getHeader() })
             .then(response => {
                 this.setState({
                     reservation: response.data,

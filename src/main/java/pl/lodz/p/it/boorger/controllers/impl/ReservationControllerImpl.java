@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -34,36 +35,43 @@ public class ReservationControllerImpl implements ReservationController {
     }
 
     @GetMapping("/reservations")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public List<ReservationDTO> getReservations() throws AppBaseException {
         return reservationService.getReservations().stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/filtered/{filter}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public List<ReservationDTO> getFilteredReservation(@PathVariable String filter) throws AppBaseException {
         return reservationService.getFilteredReservations(filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/{login}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
     public List<ReservationDTO> getUserReservations(@PathVariable String login) throws AppBaseException {
         return reservationService.getUserReservations(login).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/filtered/{login}/{filter}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
     public List<ReservationDTO> getUserFilteredReservations(@PathVariable String login, @PathVariable String filter) throws AppBaseException {
         return reservationService.getUserFilteredReservation(login, filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
     }
 
-    @GetMapping("/reservation/{businessKey}")
+    @GetMapping("/reservation/{login}/{businessKey}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
     public ReservationDTO getReservation(@PathVariable String businessKey) throws AppBaseException {
         return ReservationMapper.mapToDto(reservationService.getReservation(businessKey));
     }
 
     @PutMapping("/reservation/finish/{businessKey}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public void finishReservation(@PathVariable String businessKey) throws AppBaseException {
         reservationService.finishReservation(businessKey);
     }
 
     @PutMapping("/reservation/cancel/{businessKey}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public void cancelReservation(@PathVariable String businessKey) throws AppBaseException {
         reservationService.cancelReservation(businessKey);
     }

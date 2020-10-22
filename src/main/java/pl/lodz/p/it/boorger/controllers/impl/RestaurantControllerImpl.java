@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,7 @@ public class RestaurantControllerImpl implements RestaurantController {
     }
 
     @PostMapping("/restaurant")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public ResponseEntity<?> addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO, @RequestHeader("lang") String language) throws AppBaseException {
         restaurantService.addRestaurant(RestaurantMapper.mapFromDto(restaurantDTO));
         return ResponseEntity.ok(MessageProvider.getTranslatedText("restaurant.addnew", language));
@@ -52,16 +54,19 @@ public class RestaurantControllerImpl implements RestaurantController {
     }
 
     @PostMapping("/dish/{restaurantName}")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO, @RequestHeader("lang") String language) throws AppBaseException {
         restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
     }
 
     @PutMapping("/restaurant/activity")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public void changeRestaurantActivity(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
         restaurantService.changeRestaurantActivity(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
     }
 
     @PutMapping("/restaurant/edit")
+    @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
     public void editRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
         restaurantService.editRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
     }
