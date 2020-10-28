@@ -45,7 +45,8 @@ export default class ReservationDetails extends Component {
         this.setState({ loaded: false });
         axios.put("/reservation/" + status, {
             businessKey: this.props.reservationId,
-            signature: this.state.reservation.signature
+            signature: this.state.reservation.signature,
+            clientDTO: this.state.reservation.clientDTO
         }, { headers: getHeader()})
             .then(() => {
                 this.getReservation();

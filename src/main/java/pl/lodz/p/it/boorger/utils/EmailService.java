@@ -64,4 +64,28 @@ public class EmailService {
                 + "</a></br></br>" + MessageProvider.getTranslatedText("email.footer", language), true);
         javaMailSender.send(message);
     }
+
+    @Async
+    public void sendReservationCreatedEmail(String mail, String language) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mail);
+        message.setSubject(MessageProvider.getTranslatedText("email.reservation.created.subject", language));
+        message.setText(MessageProvider.getTranslatedText("email.reservation.created.body", language)
+                // TODO numer konta itp. ??
+                + "\n\n" + MessageProvider.getTranslatedText("email.footer", language));
+        javaMailSender.send(message);
+    }
+
+    @Async
+    public void sendReservationStatusChangedEmail(String mail, String number, String status, String language) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mail);
+        message.setSubject(MessageProvider.getTranslatedText("email.reservation.status.subject", language));
+        message.setText(MessageProvider.getTranslatedText("email.reservation.status.body", language) + "\n"
+                + MessageProvider.getTranslatedText("email.reservation.status.body2", language)
+                + " " + number
+                + ", status: " + status
+                + "\n\n" + MessageProvider.getTranslatedText("email.footer", language));
+        javaMailSender.send(message);
+    }
 }

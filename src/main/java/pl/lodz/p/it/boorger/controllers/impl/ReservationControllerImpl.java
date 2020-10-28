@@ -10,8 +10,10 @@ import pl.lodz.p.it.boorger.controllers.ReservationController;
 import pl.lodz.p.it.boorger.dto.DishDTO;
 import pl.lodz.p.it.boorger.dto.ReservationDTO;
 import pl.lodz.p.it.boorger.dto.mappers.ReservationMapper;
+import pl.lodz.p.it.boorger.entities.Status;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.ReservationService;
+import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.validation.Valid;
@@ -25,6 +27,7 @@ import java.util.stream.Collectors;
 public class ReservationControllerImpl implements ReservationController {
 
     private ReservationService reservationService;
+    private EmailService emailService;
 
     @PostMapping("/reservation")
     public ResponseEntity<?> addReservation(@Valid @RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
@@ -66,13 +69,17 @@ public class ReservationControllerImpl implements ReservationController {
 
     @PutMapping("/reservation/finish")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void finishReservation(@RequestBody ReservationDTO reservationDTO) throws AppBaseException {
+    public void finishReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
         reservationService.finishReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
+        emailService.sendReservationStatusChangedEmail(reservationDTO.getClientDTO().getEmail(), reservationDTO.getBusinessKey(),
+                MessageProvider.getTranslatedText("status.finished", language), language);
     }
 
     @PutMapping("/reservation/cancel")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void cancelReservation(@RequestBody ReservationDTO reservationDTO) throws AppBaseException {
+    public void cancelReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
         reservationService.cancelReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
+        emailService.sendReservationStatusChangedEmail(reservationDTO.getClientDTO().getEmail(), reservationDTO.getBusinessKey(),
+                MessageProvider.getTranslatedText("status.cancelled", language), language);
     }
 }

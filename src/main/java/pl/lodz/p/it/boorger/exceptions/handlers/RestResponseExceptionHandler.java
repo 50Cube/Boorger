@@ -26,7 +26,7 @@ public class RestResponseExceptionHandler {
     public ResponseEntity<String> handleException(AppBaseException e, WebRequest request) {
         log.severe("Error occurred " +  e.getClass());
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText(e.getMessage(),
-                Objects.requireNonNull(request.getHeader("lang"))));
+                request.getHeader("lang") == null ? "" : Objects.requireNonNull(request.getHeader("lang"))));
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -46,13 +46,13 @@ public class RestResponseExceptionHandler {
         public ResponseEntity<String> handleTransactionException(TransactionException e, WebRequest request) {
         log.severe("TransactionException occurred: " + e.getClass());
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
-                Objects.requireNonNull(request.getHeader("lang"))));
+                request.getHeader("lang") == null ? "" : Objects.requireNonNull(request.getHeader("lang"))));
     }
 
     @ExceptionHandler(value = {Exception.class})
     public ResponseEntity<String> handleOtherExceptions(Exception e, WebRequest request) {
         log.severe("Unexpected error occurred: " + e.getClass());
         return ResponseEntity.badRequest().body(MessageProvider.getTranslatedText("error.default",
-                Objects.requireNonNull(request.getHeader("lang"))));
+                request.getHeader("lang") == null ? "" : Objects.requireNonNull(request.getHeader("lang"))));
     }
 }
