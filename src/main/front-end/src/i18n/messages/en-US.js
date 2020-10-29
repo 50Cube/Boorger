@@ -136,7 +136,7 @@ export default {
         'checkTables': 'Check tables availability',
         'duration': 'Duration of the booking (in minutes)',
         'selectedDate': 'Selected date',
-        '2tableList': 'Double tabley',
+        '2tableList': 'Double table',
         '3tableList': 'Three-person table',
         '4tableList': 'Four-person table',
         'selectTable': 'Select table',
