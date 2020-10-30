@@ -60,9 +60,6 @@ public class Restaurant extends AbstractEntity {
 
 //    @OneToMany
 //    private Collection<ClientRestaurants> clientRestaurants;
-//
-//    @OneToMany
-//    private Collection<Opinion> opinions;
 
     public String getSignatureString() {
         return businessKey + name + version + hours.getBusinessKey() + hours.getVersion();

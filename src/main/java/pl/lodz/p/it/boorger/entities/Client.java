@@ -19,9 +19,6 @@ public class Client extends AccessLevel {
 
 //    @OneToMany
 //    private Collection<ClientRestaurants> clientRestaurants;
-//
-//    @OneToMany
-//    private Collection<Opinion> opinions;
 
     @OneToMany(mappedBy = "client")
     private Collection<Reservation> reservations = new ArrayList<>();
