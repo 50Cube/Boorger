@@ -19,6 +19,10 @@ export default class NavigationBar extends Component {
     }
 
     logout = () => {
+        axios.post("/logout/" + getHeader().Authorization.replace("Bearer ",""), {}, { headers: getHeader() })
+            .catch(() => {
+                console.log("An error occurred during logout")
+            });
         this.cookies.remove("jwt");
         sessionStorage.removeItem("role");
     };
