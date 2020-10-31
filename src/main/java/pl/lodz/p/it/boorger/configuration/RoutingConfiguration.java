@@ -1,5 +1,6 @@
 package pl.lodz.p.it.boorger.configuration;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -11,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+import pl.lodz.p.it.boorger.interceptors.JwtValidityInterceptor;
 import pl.lodz.p.it.boorger.interceptors.LogInterceptor;
 
 import java.io.IOException;
@@ -39,8 +41,14 @@ public class RoutingConfiguration implements WebMvcConfigurer {
                 });
     }
 
+    @Bean
+    public JwtValidityInterceptor jwtInterceptor() {
+        return new JwtValidityInterceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LogInterceptor());
+        registry.addInterceptor(jwtInterceptor());
     }
 }
