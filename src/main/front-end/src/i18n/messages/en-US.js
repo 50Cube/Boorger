@@ -160,6 +160,9 @@ export default {
         'order': 'Order',
         'editStatus': 'Edit status',
         'cancelReservation': 'Cancel reservation',
-        'finishReservation': 'Finish reservation'
+        'finishReservation': 'Finish reservation',
+        'payment': 'Please charge my account with the:',
+        'partAmountPayment': 'required advance payment',
+        'fullAmountPayment': 'full amount'
     }
 }

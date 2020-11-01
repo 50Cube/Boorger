@@ -6,7 +6,7 @@ import 'react-day-picker/lib/style.css';
 import {getHeader, getLanguage, getLanguageShortcut, getUser} from "../services/UserDataService";
 import Timekeeper from 'react-timekeeper';
 import Translate from '../i18n/Translate';
-import {Button, Spinner, ListGroup} from 'react-bootstrap';
+import {Button, Spinner, ListGroup, Form} from 'react-bootstrap';
 import {Dropdown} from "semantic-ui-react";
 import Swal from "sweetalert2";
 import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
@@ -15,8 +15,8 @@ import Sticky from 'react-sticky-el';
 import { BsTrash } from 'react-icons/all';
 import '../css/BookRestaurant.css';
 
-const WEEKDAYS_SHORT = { pl: ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob', 'Ndz'] };
-const WEEKDAYS_LONG = { pl: ['Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota', 'Niedziela']};
+const WEEKDAYS_SHORT = { pl: ['Ndz', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob'] };
+const WEEKDAYS_LONG = { pl: ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota']};
 const MONTHS = { pl: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień',
         'Wrzesień', 'Październik', 'Listopad', 'Grudzień']};
 
@@ -49,6 +49,8 @@ export default class BookRestaurant extends Component {
         if(hours.toString().length === 1) hours = '0' + hours;
         let minutes = (parseInt(durationConcat[1]) + parseInt(this.state.duration))%60;
         if(minutes.toString().length === 1) minutes = minutes + '0';
+        if(this.state.selectedHour.length === 4)
+            this.setState({ selectedHour: '0' + this.state.selectedHour});
 
         axios.post("/tables", {
             restaurantName: this.state.name,
@@ -161,6 +163,8 @@ export default class BookRestaurant extends Component {
         if(hours.toString().length === 1) hours = '0' + hours;
         let minutes = (parseInt(durationConcat[1]) + parseInt(this.state.duration))%60;
         if(minutes.toString().length === 1) minutes = minutes + '0';
+        if(this.state.selectedHour.length === 4)
+            this.setState({ selectedHour: '0' + this.state.selectedHour});
 
         let tableList = [];
         for(let i=0; i<this.state.freeTables.length; i++) {
@@ -179,8 +183,8 @@ export default class BookRestaurant extends Component {
                 <div className="bookDateDiv">
                     <div className="bookDateFirstDiv">
                         <p className="bookDateLabel">{Translate('chooseDate')}</p>
-                        <DayPicker locale="pl" months={MONTHS[getLanguageShortcut()]} weekdaysLong={WEEKDAYS_LONG[getLanguageShortcut()]}
-                                   weekdaysShort={WEEKDAYS_SHORT[getLanguageShortcut()]} firstDayOfWeek={0} selectedDays={this.state.selectedDay}
+                        <DayPicker months={MONTHS[getLanguageShortcut()]} weekdaysLong={WEEKDAYS_LONG[getLanguageShortcut()]}
+                                   weekdaysShort={WEEKDAYS_SHORT[getLanguageShortcut()]} firstDayOfWeek={1} selectedDays={this.state.selectedDay}
                                    onDayClick={(day) => this.setState({ selectedDay: day })}/>
                     </div>
                     <div className="bookDateSecondDiv">
@@ -262,6 +266,13 @@ export default class BookRestaurant extends Component {
                                         <hr/>
                                         <p className="totalPriceLabel">{Translate('total')}: {this.state.total} {Translate('pln')}</p>
                                         <p>{Translate('installment')}: {this.state.total * this.state.installment/100} {Translate('pln')}</p>
+                                        <p className="cartPayment"> {Translate('payment')} </p>
+                                        <Form>
+                                            <Form.Group>
+                                                <Form.Check checked type="radio" label={Translate('partAmountPayment')} name="formHorizontalRadios" />
+                                                <Form.Check type="radio" label={Translate('fullAmountPayment')} name="formHorizontalRadios" />
+                                            </Form.Group>
+                                        </Form>
                                         <Button className="buttons bookButton" onClick={this.handleReservation}
                                                 disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
                                             {Translate('book')}

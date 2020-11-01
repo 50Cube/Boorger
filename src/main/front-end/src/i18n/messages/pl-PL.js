@@ -160,6 +160,9 @@ export default {
         'order': 'Zamówienie',
         'editStatus': 'Zmień status',
         'cancelReservation': 'Anuluj rezerwację',
-        'finishReservation': 'Zakończ rezerwację'
+        'finishReservation': 'Zakończ rezerwację',
+        'payment': 'Proszę obciążyć moje konto:',
+        'partAmountPayment': 'wymaganą zaliczką',
+        'fullAmountPayment': 'całością kwoty'
     }
 }

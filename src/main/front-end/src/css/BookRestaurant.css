@@ -171,6 +171,10 @@
     font-weight: bold;
 }
 
+.cartPayment {
+    color: darkred;
+}
+
 .bookButton {
     font-size: 120%;
 }
@@ -178,4 +182,8 @@
 .bookCartListGroup {
     max-height: 400px;
     overflow-y: auto;
+}
+
+.form-check-label {
+    margin: 0 0 5px 15px;
 }
