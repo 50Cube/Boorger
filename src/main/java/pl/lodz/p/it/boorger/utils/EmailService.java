@@ -71,7 +71,6 @@ public class EmailService {
         message.setTo(mail);
         message.setSubject(MessageProvider.getTranslatedText("email.reservation.created.subject", language));
         message.setText(MessageProvider.getTranslatedText("email.reservation.created.body", language)
-                // TODO numer konta itp. ??
                 + "\n\n" + MessageProvider.getTranslatedText("email.footer", language));
         javaMailSender.send(message);
     }

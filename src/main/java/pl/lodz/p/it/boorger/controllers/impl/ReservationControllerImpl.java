@@ -34,6 +34,7 @@ public class ReservationControllerImpl implements ReservationController {
         reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO), reservationDTO.getClientDTO().getLogin(),
                 reservationDTO.getRestaurantName(), reservationDTO.getTableNumber(),
                 reservationDTO.getDishDTOs().stream().map(DishDTO::getBusinessKey).collect(Collectors.toList()));
+        emailService.sendReservationCreatedEmail(reservationDTO.getClientDTO().getEmail(), language);
         return ResponseEntity.ok(MessageProvider.getTranslatedText("reservation.addnew", language));
     }
 

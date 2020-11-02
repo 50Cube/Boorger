@@ -3,6 +3,7 @@ package pl.lodz.p.it.boorger.services;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.util.Pair;
 import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionException;
@@ -16,7 +17,9 @@ import pl.lodz.p.it.boorger.repositories.RestaurantRepository;
 import pl.lodz.p.it.boorger.security.services.SignatureService;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,58 +81,41 @@ public class ReservationService {
     }
 
     private boolean checkIfRestaurantIsClosed(Hours hours, LocalDateTime start, LocalDateTime end) {
-        LocalDateTime openingDate;
-        LocalDateTime closingDate;
+        Pair<LocalDateTime, LocalDateTime> openingHours;
 
         switch(start.getDayOfWeek().getValue() + 1) {
             case Calendar.MONDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getMondayStart());
-                if(hours.getMondayStart().isAfter(hours.getMondayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getMondayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getMondayEnd());
+                openingHours = calculateOpeningHours(hours.getMondayStart(), hours.getMondayEnd(), start.toLocalDate());
                 break;
             case Calendar.TUESDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getTuesdayStart());
-                if(hours.getTuesdayStart().isAfter(hours.getTuesdayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getTuesdayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getTuesdayEnd());
+                openingHours = calculateOpeningHours(hours.getTuesdayStart(), hours.getTuesdayEnd(), start.toLocalDate());
                 break;
             case Calendar.WEDNESDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getWednesdayStart());
-                if(hours.getWednesdayStart().isAfter(hours.getWednesdayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getWednesdayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getWednesdayEnd());
+                openingHours = calculateOpeningHours(hours.getWednesdayStart(), hours.getWednesdayEnd(), start.toLocalDate());
                 break;
             case Calendar.THURSDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getThursdayStart());
-                if(hours.getThursdayStart().isAfter(hours.getThursdayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getThursdayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getThursdayEnd());
+                openingHours = calculateOpeningHours(hours.getThursdayStart(), hours.getThursdayEnd(), start.toLocalDate());
                 break;
             case Calendar.FRIDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getFridayStart());
-                if(hours.getFridayStart().isAfter(hours.getFridayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getFridayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getFridayEnd());
+                openingHours = calculateOpeningHours(hours.getFridayStart(), hours.getFridayEnd(), start.toLocalDate());
                 break;
             case Calendar.SATURDAY:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getSaturdayStart());
-                if(hours.getSaturdayStart().isAfter(hours.getSaturdayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getSaturdayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getSaturdayEnd());
+                openingHours = calculateOpeningHours(hours.getSaturdayStart(), hours.getSaturdayEnd(), start.toLocalDate());
                 break;
             case Calendar.SATURDAY + 1:
-                openingDate = LocalDateTime.of(start.toLocalDate(), hours.getSundayStart());
-                if(hours.getSundayStart().isAfter(hours.getSundayEnd()))
-                    closingDate = LocalDateTime.of(start.toLocalDate().plusDays(1), hours.getSundayEnd());
-                else closingDate = LocalDateTime.of(start.toLocalDate(), hours.getSundayEnd());
+                openingHours = calculateOpeningHours(hours.getSundayStart(), hours.getSundayEnd(), start.toLocalDate());
                 break;
             default:
-                openingDate = null;
-                closingDate = null;
+                openingHours = null;
                 break;
         }
-        return start.isBefore(openingDate) || end.isAfter(closingDate);
+        return start.isBefore(openingHours.getFirst()) || end.isAfter(openingHours.getSecond());
+    }
+
+    private Pair<LocalDateTime, LocalDateTime> calculateOpeningHours(LocalTime dayStart, LocalTime dayEnd, LocalDate start) {
+        if(dayStart.isAfter(dayEnd))
+            return Pair.of(LocalDateTime.of(start, dayStart), LocalDateTime.of(start.plusDays(1), dayEnd));
+        else return Pair.of(LocalDateTime.of(start, dayStart), LocalDateTime.of(start, dayEnd));
     }
 
     public List<Reservation> getReservations() throws AppBaseException {
