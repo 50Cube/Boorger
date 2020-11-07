@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import Translate from "../i18n/Translate";
-import image from '../assets/navbarImage.jpg';
+import homeImage1 from '../assets/home1.jpg';
+import homeImage2 from '../assets/home2.jpg';
+import homeImage3 from '../assets/home3.jpg';
 import { BsFillForwardFill, BsSearch } from "react-icons/all";
 import { Jumbotron } from "../components/Jumbotron";
 import {InputGroup, Form, ListGroup, Spinner} from "react-bootstrap";
@@ -83,22 +85,22 @@ export default class Home extends Component {
                 <div className="centerDiv">
                     <div className="steps">
                         <div className="step">
-                            <img alt="loading" className="stepPicture" src={image}/>
+                            <img alt="loading" className="stepPicture" src={homeImage1}/>
                             <h1 className="title">{Translate('choose-restaurant')}</h1>
                         </div>
                         <BsFillForwardFill className="arrow"/>
                         <div className="step">
-                            <img alt="loading" className="stepPicture" src={image}/>
+                            <img alt="loading" className="stepPicture" src={homeImage2}/>
                             <h1 className="title">{Translate('book-table')}</h1>
                         </div>
                         <BsFillForwardFill className="arrow"/>
                         <div className="step">
-                            <img alt="loading" className="stepPicture" src={image}/>
+                            <img alt="loading" className="stepPicture" src={homeImage3}/>
                             <h1 className="title">{Translate('order-food')}</h1>
                         </div>
                     </div>
                     <div className="search">
-                        <p>{Translate('search-restaurant')}</p>
+                        <p className="search">{Translate('search-restaurant')}</p>
                         <InputGroup className="mb-3">
                             <InputGroup.Prepend>
                                 <InputGroup.Text>
