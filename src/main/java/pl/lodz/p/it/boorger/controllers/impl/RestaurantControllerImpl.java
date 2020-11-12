@@ -32,13 +32,17 @@ public class RestaurantControllerImpl implements RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/restaurants")
-    public List<RestaurantDTO> getRestaurants() throws AppBaseException {
-        return restaurantService.getRestaurants().stream().map(RestaurantMapper::mapToDto).collect(Collectors.toList());
+    public List<RestaurantDTO> getRestaurants(@RequestHeader("lang") String language) throws AppBaseException {
+        return restaurantService.getRestaurants().stream()
+                .map(restaurant -> RestaurantMapper.mapToDto(restaurant, language))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("restaurants/{filter}")
-    public List<RestaurantDTO> getFilteredRestaurants(@PathVariable String filter) throws AppBaseException {
-        return restaurantService.getFilteredRestaurants(filter).stream().map(RestaurantMapper::mapToDto).collect(Collectors.toList());
+    public List<RestaurantDTO> getFilteredRestaurants(@PathVariable String filter, @RequestHeader("lang") String language) throws AppBaseException {
+        return restaurantService.getFilteredRestaurants(filter).stream()
+                .map(restaurant -> RestaurantMapper.mapToDto(restaurant, language))
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/restaurant")
@@ -49,8 +53,8 @@ public class RestaurantControllerImpl implements RestaurantController {
     }
 
     @GetMapping("/restaurant/{name}")
-    public RestaurantDTO getRestaurant(@PathVariable String name) throws AppBaseException {
-        return RestaurantMapper.mapToDto(restaurantService.getRestaurantByName(name));
+    public RestaurantDTO getRestaurant(@PathVariable String name, @RequestHeader("lang") String language) throws AppBaseException {
+        return RestaurantMapper.mapToDto(restaurantService.getRestaurantByName(name), language);
     }
 
     @PostMapping("/dish/{restaurantName}")
@@ -72,9 +76,9 @@ public class RestaurantControllerImpl implements RestaurantController {
     }
 
     @PostMapping("/tables")
-    public List<TableDTO> getFreeTables(@Valid @RequestBody FreeTableDTO freeTableDTO) throws AppBaseException {
+    public List<TableDTO> getFreeTables(@Valid @RequestBody FreeTableDTO freeTableDTO, @RequestHeader("lang") String language) throws AppBaseException {
         return restaurantService.getFreeTables(freeTableDTO.getRestaurantName(), DateFormatter.stringToDate(freeTableDTO.getStartDate()),
                 DateFormatter.stringToDate(freeTableDTO.getEndDate()))
-                .stream().map(TableMapper::mapToDto).collect(Collectors.toList());
+                .stream().map(table -> TableMapper.mapToDto(table, language)).collect(Collectors.toList());
     }
 }

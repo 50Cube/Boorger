@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class ReservationMapper {
 
-    public static ReservationDTO mapToDto(Reservation reservation) {
+    public static ReservationDTO mapToDto(Reservation reservation, String language) {
         return ReservationDTO.builder()
                 .creationDate(DateFormatter.dateToString(reservation.getCreationDate()))
                 .signature(SignatureService.createSignature(reservation.getSignatureString()))
@@ -25,7 +25,7 @@ public class ReservationMapper {
                 .restaurantName(reservation.getTable().getRestaurant().getName())
                 .tableNumber(reservation.getTable().getNumber())
                 .clientDTO(ClientMapper.mapToDto(reservation.getClient()))
-                .dishDTOs(reservation.getMenu().stream().map(DishMapper::mapToDto).collect(Collectors.toList()))
+                .dishDTOs(reservation.getMenu().stream().map(dish -> DishMapper.mapToDto(dish, language)).collect(Collectors.toList()))
                 .build();
     }
 

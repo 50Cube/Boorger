@@ -40,32 +40,40 @@ public class ReservationControllerImpl implements ReservationController {
 
     @GetMapping("/reservations")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public List<ReservationDTO> getReservations() throws AppBaseException {
-        return reservationService.getReservations().stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    public List<ReservationDTO> getReservations(@RequestHeader("lang") String language) throws AppBaseException {
+        return reservationService.getReservations().stream()
+                .map(reservation -> ReservationMapper.mapToDto(reservation, language))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/filtered/{filter}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public List<ReservationDTO> getFilteredReservation(@PathVariable String filter) throws AppBaseException {
-        return reservationService.getFilteredReservations(filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    public List<ReservationDTO> getFilteredReservation(@PathVariable String filter, @RequestHeader("lang") String language) throws AppBaseException {
+        return reservationService.getFilteredReservations(filter).stream()
+                .map(reservation -> ReservationMapper.mapToDto(reservation, language))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/{login}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
-    public List<ReservationDTO> getUserReservations(@PathVariable String login) throws AppBaseException {
-        return reservationService.getUserReservations(login).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    public List<ReservationDTO> getUserReservations(@PathVariable String login, @RequestHeader("lang") String language) throws AppBaseException {
+        return reservationService.getUserReservations(login).stream()
+                .map(reservation -> ReservationMapper.mapToDto(reservation, language))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/reservations/filtered/{login}/{filter}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
-    public List<ReservationDTO> getUserFilteredReservations(@PathVariable String login, @PathVariable String filter) throws AppBaseException {
-        return reservationService.getUserFilteredReservation(login, filter).stream().map(ReservationMapper::mapToDto).collect(Collectors.toList());
+    public List<ReservationDTO> getUserFilteredReservations(@PathVariable String login, @PathVariable String filter, @RequestHeader("lang") String language) throws AppBaseException {
+        return reservationService.getUserFilteredReservation(login, filter).stream()
+                .map(reservation -> ReservationMapper.mapToDto(reservation, language))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/reservation/{login}/{businessKey}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager')) or #login == authentication.principal.username")
-    public ReservationDTO getReservation(@PathVariable String businessKey) throws AppBaseException {
-        return ReservationMapper.mapToDto(reservationService.getReservation(businessKey));
+    public ReservationDTO getReservation(@PathVariable String businessKey, @RequestHeader("lang") String language) throws AppBaseException {
+        return ReservationMapper.mapToDto(reservationService.getReservation(businessKey), language);
     }
 
     @PutMapping("/reservation/finish")

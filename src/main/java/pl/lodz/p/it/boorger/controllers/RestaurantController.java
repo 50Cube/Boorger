@@ -11,12 +11,12 @@ import java.util.List;
 
 public interface RestaurantController {
 
-    List<RestaurantDTO> getRestaurants() throws AppBaseException;
-    List<RestaurantDTO> getFilteredRestaurants(String filter) throws AppBaseException;
+    List<RestaurantDTO> getRestaurants(String language) throws AppBaseException;
+    List<RestaurantDTO> getFilteredRestaurants(String filter, String language) throws AppBaseException;
     ResponseEntity<?> addRestaurant(RestaurantDTO restaurantDTO, String language) throws AppBaseException;
-    RestaurantDTO getRestaurant(String name) throws AppBaseException;
+    RestaurantDTO getRestaurant(String name, String language) throws AppBaseException;
     void addDish(String restaurantName, DishDTO dishDTO, String language) throws AppBaseException;
     void changeRestaurantActivity(RestaurantDTO restaurantDTO) throws AppBaseException;
     void editRestaurant(RestaurantDTO restaurantDTO) throws AppBaseException;
-    List<TableDTO> getFreeTables(FreeTableDTO freeTableDTO) throws AppBaseException;
+    List<TableDTO> getFreeTables(FreeTableDTO freeTableDTO, String language) throws AppBaseException;
 }

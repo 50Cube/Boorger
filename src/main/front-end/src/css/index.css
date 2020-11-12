@@ -15,3 +15,7 @@ code {
 html, body > #root > div {
   height: 100vh;
 }
+
+html {
+  min-width: 500px;
+}

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class RestaurantMapper {
 
-    public static RestaurantDTO mapToDto(Restaurant restaurant) {
+    public static RestaurantDTO mapToDto(Restaurant restaurant, String language) {
         return RestaurantDTO.builder()
                 .signature(SignatureService.createSignature(restaurant.getSignatureString()))
                 .name(restaurant.getName())
@@ -21,8 +21,8 @@ public class RestaurantMapper {
                 .creationDate(DateFormatter.dateToString(restaurant.getCreationDate()))
                 .addressDTO(AddressMapper.mapToDto(restaurant.getAddress()))
                 .hoursDTO(HoursMapper.mapToDto(restaurant.getHours()))
-                .tableDTOs(restaurant.getTables().stream().map(TableMapper::mapToDto).collect(Collectors.toList()))
-                .dishDTOs(restaurant.getDishes().stream().map(DishMapper::mapToDto).collect(Collectors.toList()))
+                .tableDTOs(restaurant.getTables().stream().map(table -> TableMapper.mapToDto(table, language)).collect(Collectors.toList()))
+                .dishDTOs(restaurant.getDishes().stream().map(dish -> DishMapper.mapToDto(dish, language)).collect(Collectors.toList()))
                 .build();
     }
 

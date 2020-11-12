@@ -7,12 +7,13 @@ import java.util.stream.Collectors;
 
 public class TableMapper {
 
-    public static TableDTO mapToDto(Table table) {
+    public static TableDTO mapToDto(Table table, String language) {
         return TableDTO.builder()
                 .number(table.getNumber())
                 .capacity(table.getCapacity())
                 .active(table.isActive())
-                .reservationDTOs(table.getReservations().stream().map(ReservationMapper::mapToDto).collect(Collectors.toList()))
+                .reservationDTOs(table.getReservations().stream().map(reservation -> ReservationMapper.mapToDto(reservation, language))
+                        .collect(Collectors.toList()))
                 .build();
     }
 

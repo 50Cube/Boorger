@@ -34,6 +34,10 @@ public class Dish extends AbstractEntity {
     @Pattern(regexp = "[a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ!@#$%^&*():,./\n -]+")
     private String description;
 
+    @NotBlank
+    @Size(min = 2, max = 2)
+    private String descriptionLanguage;
+
     @NotNull
     @ManyToOne
     private Restaurant restaurant;
