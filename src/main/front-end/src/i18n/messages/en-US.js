@@ -163,6 +163,7 @@ export default {
         'finishReservation': 'Finish reservation',
         'payment': 'Please charge my account with the:',
         'partAmountPayment': 'required advance payment',
-        'fullAmountPayment': 'full amount'
+        'fullAmountPayment': 'full amount',
+        'descriptionLanguage': 'Language of description'
     }
 }

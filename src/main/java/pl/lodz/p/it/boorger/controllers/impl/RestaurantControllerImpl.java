@@ -1,11 +1,14 @@
 package pl.lodz.p.it.boorger.controllers.impl;
 
 import lombok.AllArgsConstructor;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.it.boorger.cache.CacheService;
+import pl.lodz.p.it.boorger.cache.DishTranslation;
 import pl.lodz.p.it.boorger.controllers.RestaurantController;
 import pl.lodz.p.it.boorger.dto.DishDTO;
 import pl.lodz.p.it.boorger.dto.FreeTableDTO;
@@ -20,6 +23,8 @@ import pl.lodz.p.it.boorger.utils.DateFormatter;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +35,7 @@ import java.util.stream.Collectors;
 public class RestaurantControllerImpl implements RestaurantController {
 
     private RestaurantService restaurantService;
+    private Environment env;
 
     @GetMapping("/restaurants")
     public List<RestaurantDTO> getRestaurants(@RequestHeader("lang") String language) throws AppBaseException {
@@ -59,8 +65,16 @@ public class RestaurantControllerImpl implements RestaurantController {
 
     @PostMapping("/dish/{restaurantName}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO, @RequestHeader("lang") String language) throws AppBaseException {
+    public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO) throws AppBaseException {
         restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
+        for(String lang : getTranslationLanguages())
+            CacheService.addToCache(new DishTranslation(dishDTO.getBusinessKey(), lang, dishDTO.getDescription()), dishDTO.getDescriptionLanguage());
+    }
+
+    private List<String> getTranslationLanguages() {
+        String languages = env.getProperty("boorger.translationLanguages");
+        if(languages == null) return new ArrayList<>();
+        return Arrays.stream(languages.split(",")).collect(Collectors.toList());
     }
 
     @PutMapping("/restaurant/activity")

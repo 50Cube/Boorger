@@ -163,6 +163,7 @@ export default {
         'finishReservation': 'Zakończ rezerwację',
         'payment': 'Proszę obciążyć moje konto:',
         'partAmountPayment': 'wymaganą zaliczką',
-        'fullAmountPayment': 'całością kwoty'
+        'fullAmountPayment': 'całością kwoty',
+        'descriptionLanguage': 'Język wprowadzonego opisu'
     }
 }

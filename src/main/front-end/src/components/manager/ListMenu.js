@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import axios from 'axios';
 import {ListGroup, Button, Spinner, FormGroup, FormLabel, FormControl} from "react-bootstrap";
 import Translate from '../../i18n/Translate';
-import {getHeader} from "../../services/UserDataService";
+import {getHeader, getLanguageShortcut} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import { FcPlus } from "react-icons/all";
 import ValidationMessage from "../../i18n/ValidationMessage";
 import ValidationService from "../../services/ValidationService";
 import TextareaCounter from "react-textarea-counter";
+import { Dropdown } from "semantic-ui-react";
 import '../../css/ListMenu.css';
 
 export default class ListMenu extends Component {
@@ -24,6 +25,7 @@ export default class ListMenu extends Component {
             newDish: false, newDishButtonLoading: false,
             name: "", nameValid: false,
             description: "", descriptionValid: false,
+            descriptionLanguage: getLanguageShortcut(),
             price: 0, priceValid: false,
             formValid: false,
             errorMsg: {}
@@ -78,6 +80,7 @@ export default class ListMenu extends Component {
         axios.post("/dish/" + this.props.restaurantName, {
             name: this.state.name,
             description: this.state.description,
+            descriptionLanguage: this.state.descriptionLanguage,
             price: this.state.price.replace(',', '.')
         }, { headers: getHeader() })
             .then(() => {
@@ -104,6 +107,11 @@ export default class ListMenu extends Component {
             list.push(this.createData(this.state.dishes[i].name, this.state.dishes[i].description, this.state.dishes[i].price, this.state.dishes[i].active));
         }
 
+        const descLangOptions = [
+            { text: 'polski', value: 'pl' },
+            { text: 'english', value: 'en' }
+        ];
+
         return (
             <div>
                 { this.state.newDish ?
@@ -115,10 +123,17 @@ export default class ListMenu extends Component {
                             <ValidationMessage valid={this.state.nameValid} message={this.state.errorMsg.name}/>
                         </FormGroup>
 
-                        <FormGroup className="newDishLabels">
+                        <FormGroup className="newDishLabels newDishLabelsDesc">
                             <FormLabel>{Translate('description')} *</FormLabel>
                             <TextareaCounter countLimit={255} value={this.state.description} onChange={event => this.updateDescription(event.target.value)} />
                             <ValidationMessage valid={this.state.descriptionValid} message={this.state.errorMsg.description} />
+                        </FormGroup>
+
+                        <FormGroup className="newDishLabels">
+                            <FormLabel>{Translate('descriptionLanguage')}</FormLabel>
+                            <br/>
+                            <Dropdown value={this.state.descriptionLanguage} selection options={descLangOptions}
+                                 onChange={(e, {value}) => this.setState({ descriptionLanguage: value})}/>
                         </FormGroup>
 
                         <FormGroup className="newDishLabels">

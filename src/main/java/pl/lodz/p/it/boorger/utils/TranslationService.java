@@ -18,13 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class TranslationService {
 
+    private static final String REGION = "us-east-1";
+
     public static String translate(String text, String sourceLanguage, String targetLanguage) {
         try {
             log.info("AWS Translate called");
             AWSCredentialsProvider awsCredentialsProvider = DefaultAWSCredentialsProviderChain.getInstance();
             AmazonTranslate amazonTranslate = AmazonTranslateClient.builder()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCredentialsProvider.getCredentials()))
-                    .withRegion("us-east-1")
+                    .withRegion(REGION)
                     .build();
 
             TranslateTextRequest request = new TranslateTextRequest()

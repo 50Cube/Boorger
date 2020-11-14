@@ -12,15 +12,18 @@ import pl.lodz.p.it.boorger.utils.TranslationService;
 @Transactional(propagation = Propagation.NEVER)
 public class CacheService {
 
+    private static final String CACHE_NAME = "boorger";
+
     private static Cache<String, DishTranslation> cache;
 
     static {
         EmbeddedCacheManager cacheManager = new DefaultCacheManager();
-        cacheManager.defineConfiguration("boorger", new ConfigurationBuilder().build());
-        cache = cacheManager.getCache("boorger");
+        cacheManager.defineConfiguration(CACHE_NAME, new ConfigurationBuilder().build());
+        cache = cacheManager.getCache(CACHE_NAME);
     }
 
-    public static void addToCache(DishTranslation element) {
+    public static void addToCache(DishTranslation element, String sourceLanguage) {
+        element.setTranslation(TranslationService.translate(element.getTranslation(), sourceLanguage, element.getLanguage()));
         cache.put(element.getCacheKey(), element);
     }
 
@@ -31,9 +34,8 @@ public class CacheService {
                     dish.getBusinessKey(),
                     language,
                     TranslationService.translate(dish.getDescription(), dish.getDescriptionLanguage(), language));
-            addToCache(dishTranslation);
+            cache.put(dishTranslation.getCacheKey(), dishTranslation);
         }
         return dishTranslation;
     }
 }
-

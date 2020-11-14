@@ -34,4 +34,6 @@ public class CustomProperties {
 
     private String keystorePassword;
     private String keyPassword;
+
+    private String translationLanguages;
 }

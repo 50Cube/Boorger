@@ -66,3 +66,7 @@
     font-size: 120%;
     font-style: italic;
 }
+
+.newDishLabelsDesc {
+    margin-bottom: 0;
+}
