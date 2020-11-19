@@ -353,4 +353,13 @@ public class AccountService {
         }
         return "";
     }
+
+    public String getEmailFromLogin(String login) throws AppBaseException {
+        try {
+            Account account = accountRepository.findByLogin(login).orElseThrow(AccountNotFoundException::new);
+            return account.getEmail();
+        } catch (DataAccessException e) {
+            throw new DatabaseException();
+        }
+    }
 }

@@ -64,3 +64,8 @@
         text-align: center;
     }
 }
+
+.payment{
+    letter-spacing: 5px;
+    line-height: 55px !important;
+}

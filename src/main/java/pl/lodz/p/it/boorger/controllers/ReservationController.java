@@ -4,11 +4,12 @@ import org.springframework.http.ResponseEntity;
 import pl.lodz.p.it.boorger.dto.ReservationDTO;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ReservationController {
 
-    ResponseEntity<?> addReservation(ReservationDTO reservationDTO, String language) throws AppBaseException;
+    ResponseEntity<?> addReservation(ReservationDTO ReservationDTO, String language, HttpServletRequest request) throws AppBaseException;
     List<ReservationDTO> getReservations(String language) throws AppBaseException;
     List<ReservationDTO> getFilteredReservation(String filter, String language) throws AppBaseException;
     List<ReservationDTO> getUserReservations(String login, String language) throws AppBaseException;

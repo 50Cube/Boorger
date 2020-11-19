@@ -6,6 +6,7 @@ import pl.lodz.p.it.boorger.entities.abstraction.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +50,10 @@ public class Reservation extends AbstractEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @NotNull
+    @Size(max = 64)
+    private String paymentToken;
 
     @ManyToMany
     @JoinTable(name = "reservation_dish_mapping",

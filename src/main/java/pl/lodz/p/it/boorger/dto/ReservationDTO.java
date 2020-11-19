@@ -2,6 +2,7 @@ package pl.lodz.p.it.boorger.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import pl.lodz.p.it.boorger.dto.payment.PaymentDTO;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Pattern;
@@ -35,4 +36,5 @@ public class ReservationDTO {
     private int tableNumber;
     private ClientDTO clientDTO;
     private Collection<DishDTO> dishDTOs;
+    private PaymentDTO paymentDTO;
 }

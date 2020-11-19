@@ -164,6 +164,12 @@ export default {
         'payment': 'Please charge my account with the:',
         'partAmountPayment': 'required advance payment',
         'fullAmountPayment': 'full amount',
-        'descriptionLanguage': 'Language of description'
+        'descriptionLanguage': 'Language of description',
+        'finishPayment': 'Please finish payment',
+        'finishPayment2': 'You can close this page',
+        'paymentSucceeded': 'Reservation status:',
+        'paymentCancelled': 'Reservation has been cancelled',
+        'backToHome': 'Go back to homepage',
+        'paymentLoading': 'Payment is being verified'
     }
 }

@@ -36,4 +36,8 @@ public class CustomProperties {
     private String keyPassword;
 
     private String translationLanguages;
+
+    private String paymentMode;
+    private String paymentClientId;
+    private String paymentClientSecret;
 }

@@ -9,6 +9,7 @@ public class DishTranslation {
 
     private String businessKey;
     private String language;
+    private String sourceLanguage;
     private String translation;
 
     public String getCacheKey() {

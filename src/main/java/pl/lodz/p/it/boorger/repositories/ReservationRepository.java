@@ -19,4 +19,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
     @RepositoryReadOnlyTransaction
     Optional<Reservation> findByBusinessKey(String businessKey);
+
+    @RepositoryReadOnlyTransaction
+    Optional<Reservation> findByPaymentToken(String paymentToken);
 }

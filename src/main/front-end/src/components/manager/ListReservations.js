@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import {getHeader, getUser} from "../../services/UserDataService";
+import {getHeader} from "../../services/UserDataService";
 import Swal from "sweetalert2";
 import Translate from "../../i18n/Translate";
 import {Button, Form, InputGroup, Spinner} from "react-bootstrap";

@@ -10,12 +10,13 @@ import pl.lodz.p.it.boorger.controllers.ReservationController;
 import pl.lodz.p.it.boorger.dto.DishDTO;
 import pl.lodz.p.it.boorger.dto.ReservationDTO;
 import pl.lodz.p.it.boorger.dto.mappers.ReservationMapper;
-import pl.lodz.p.it.boorger.entities.Status;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
+import pl.lodz.p.it.boorger.services.AccountService;
 import pl.lodz.p.it.boorger.services.ReservationService;
 import pl.lodz.p.it.boorger.utils.EmailService;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,14 +29,20 @@ public class ReservationControllerImpl implements ReservationController {
 
     private ReservationService reservationService;
     private EmailService emailService;
+    private AccountService accountService;
 
     @PostMapping("/reservation")
-    public ResponseEntity<?> addReservation(@Valid @RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO), reservationDTO.getClientDTO().getLogin(),
+    public ResponseEntity<?> addReservation(@Valid @RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language,
+                                            HttpServletRequest request) throws AppBaseException {
+        String link = reservationService.addReservation(ReservationMapper.mapFromDto(reservationDTO), reservationDTO.getClientDTO().getLogin(),
                 reservationDTO.getRestaurantName(), reservationDTO.getTableNumber(),
-                reservationDTO.getDishDTOs().stream().map(DishDTO::getBusinessKey).collect(Collectors.toList()));
-        emailService.sendReservationCreatedEmail(reservationDTO.getClientDTO().getEmail(), language);
-        return ResponseEntity.ok(MessageProvider.getTranslatedText("reservation.addnew", language));
+                reservationDTO.getDishDTOs().stream().map(DishDTO::getBusinessKey).collect(Collectors.toList()),
+                reservationDTO.getPaymentDTO(),
+                request.getRequestURL().toString(),
+                request.getServletPath());
+        String email = accountService.getEmailFromLogin(reservationDTO.getClientDTO().getLogin());
+        emailService.sendReservationCreatedEmail(email, language);
+        return ResponseEntity.ok(link);
     }
 
     @GetMapping("/reservations")

@@ -20,6 +20,9 @@ import UserMenu from "./components/user/UserMenu";
 import ManagerMenu from "./components/manager/ManagerMenu";
 import Restaurant from "./components/Restaurant";
 import BookRestaurant from "./components/BookRestaurant";
+import Payment from "./components/Payment";
+import PaymentSucceeded from "./components/PaymentSucceeded";
+import PaymentCancelled from "./components/PaymentCancelled";
 import './css/App.css';
 
 
@@ -63,6 +66,12 @@ export default class App extends Component {
                                                                     process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
 
                                     <Route path="/accessDenied" component={AccessDenied} />
+                                    <PrivateRoute path="/finishPayment" component={Payment} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                    <PrivateRoute path="/paymentSucceeded" component={PaymentSucceeded} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                    <PrivateRoute path="/paymentCancelled" component={PaymentCancelled} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
                                     <Route component={NotFound} />
                                 </Switch>
                             </div>

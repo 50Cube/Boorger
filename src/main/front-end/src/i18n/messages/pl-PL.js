@@ -164,6 +164,12 @@ export default {
         'payment': 'Proszę obciążyć moje konto:',
         'partAmountPayment': 'wymaganą zaliczką',
         'fullAmountPayment': 'całością kwoty',
-        'descriptionLanguage': 'Język wprowadzonego opisu'
+        'descriptionLanguage': 'Język wprowadzonego opisu',
+        'finishPayment': 'Dokończ płatność',
+        'finishPayment2': 'Możesz zamknąć tę stronę',
+        'paymentSucceeded': 'Status rezerwacji:',
+        'paymentCancelled': 'Rezerwacja została anulowana',
+        'backToHome': 'Wróć na stronę główną',
+        'paymentLoading': 'Trwa weryfikacja płatności'
     }
 }

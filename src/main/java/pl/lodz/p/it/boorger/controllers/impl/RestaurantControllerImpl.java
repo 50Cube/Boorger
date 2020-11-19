@@ -68,7 +68,7 @@ public class RestaurantControllerImpl implements RestaurantController {
     public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO) throws AppBaseException {
         restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
         for(String lang : getTranslationLanguages())
-            CacheService.addToCache(new DishTranslation(dishDTO.getBusinessKey(), lang, dishDTO.getDescription()), dishDTO.getDescriptionLanguage());
+            CacheService.addToCache(new DishTranslation(dishDTO.getBusinessKey(), lang, dishDTO.getDescriptionLanguage(), dishDTO.getDescription()));
     }
 
     private List<String> getTranslationLanguages() {

@@ -36,7 +36,8 @@ export default class BookRestaurant extends Component {
             loaded: false,
             selectedTable: "",
             selectedMenu: [],
-            total: 0
+            total: 0,
+            fullAmount: false
         }
     }
 
@@ -125,14 +126,19 @@ export default class BookRestaurant extends Component {
                     clientDTO: {
                         login: getUser()
                     },
-                    dishDTOs: this.state.selectedMenu
+                    dishDTOs: this.state.selectedMenu,
+                    paymentDTO: {
+                        price: this.state.fullAmount ? this.state.total : this.state.total * this.state.installment/100,
+                        currency: "PLN",
+                        method: "paypal",
+                        intent: "sale",
+                        description: ""
+                    }
                 }, { headers: getHeader() })
                     .then(response => {
-                        Swal.fire({
-                            icon: "success",
-                            title: response.data
-                        }).then(() => window.location.replace("/"))
-                    }).catch(error => {
+                        window.open(response.data, "_blank")
+                    }).then(() => window.location.replace("/finishPayment"))
+                    .catch(error => {
                         Swal.fire({
                             icon: "error",
                             title: error.response.data
@@ -269,10 +275,13 @@ export default class BookRestaurant extends Component {
                                         <p className="cartPayment"> {Translate('payment')} </p>
                                         <Form>
                                             <Form.Group>
-                                                <Form.Check checked type="radio" label={Translate('partAmountPayment')} name="formHorizontalRadios" />
-                                                <Form.Check type="radio" label={Translate('fullAmountPayment')} name="formHorizontalRadios" />
+                                                <Form.Check checked={!this.state.fullAmount} type="radio" label={Translate('partAmountPayment')} name="formHorizontalRadios"
+                                                            onClick={() => this.setState({ fullAmount: false })} />
+                                                <Form.Check checked={this.state.fullAmount} type="radio" label={Translate('fullAmountPayment')} name="formHorizontalRadios"
+                                                            onClick={() => this.setState({ fullAmount: true })} />
                                             </Form.Group>
                                         </Form>
+
                                         <Button className="buttons bookButton" onClick={this.handleReservation}
                                                 disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
                                             {Translate('book')}
