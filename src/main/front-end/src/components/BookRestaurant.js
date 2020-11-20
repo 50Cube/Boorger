@@ -12,7 +12,7 @@ import Swal from "sweetalert2";
 import RestaurantTablePuzzle from "./RestaurantTablePuzzle";
 import { GridList, GridListTile } from "@material-ui/core";
 import Sticky from 'react-sticky-el';
-import { BsTrash } from 'react-icons/all';
+import { BsTrash, FaPaypal } from 'react-icons/all';
 import '../css/BookRestaurant.css';
 
 const WEEKDAYS_SHORT = { pl: ['Ndz', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sob'] };
@@ -282,9 +282,12 @@ export default class BookRestaurant extends Component {
                                             </Form.Group>
                                         </Form>
 
-                                        <Button className="buttons bookButton" onClick={this.handleReservation}
+                                        <Button className="paypalButton" onClick={this.handleReservation}
                                                 disabled={!this.state.selectedTable || this.state.selectedMenu.length === 0}>
-                                            {Translate('book')}
+                                            {Translate('paypal')}
+                                            <FaPaypal className="paypalIcon"/>
+                                            <p className="pay">Pay</p>
+                                            <p className="pal">Pal</p>
                                         </Button>
                                     </div>
                                 </Sticky>
