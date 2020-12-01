@@ -171,6 +171,7 @@ export default {
         'paymentCancelled': 'Reservation has been cancelled',
         'backToHome': 'Go back to homepage',
         'paymentLoading': 'Payment is being verified',
-        'paypal': 'Pay with '
+        'paypal': 'Pay with ',
+        'unexpectedError': 'An unexpected error occurred'
     }
 }

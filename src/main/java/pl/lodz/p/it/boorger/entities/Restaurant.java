@@ -58,9 +58,6 @@ public class Restaurant extends AbstractEntity {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.PERSIST)
     private Collection<Table> tables = new ArrayList<>();
 
-//    @OneToMany
-//    private Collection<ClientRestaurants> clientRestaurants;
-
     public String getSignatureString() {
         return businessKey + name + version + hours.getBusinessKey() + hours.getVersion();
     }

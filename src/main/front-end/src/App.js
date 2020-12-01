@@ -23,6 +23,8 @@ import BookRestaurant from "./components/BookRestaurant";
 import Payment from "./components/Payment";
 import PaymentSucceeded from "./components/PaymentSucceeded";
 import PaymentCancelled from "./components/PaymentCancelled";
+import ExceptionHandler from "./services/ExceptionHandler";
+import UnexpectedError from "./components/UnexpectedError";
 import './css/App.css';
 
 
@@ -42,43 +44,47 @@ export default class App extends Component {
 
     render() {
         return (
-            <RoleContext.Provider value={this.state}>
-                <I18nProvider locale={getLanguage()}>
-                    <Fragment>
-                        <Router>
-                            <NavigationBar />
-                            <div className="mainDiv">
-                                <Switch>
-                                    <Route exact path="/" component={Home} />
-                                    <RestrictedRoute path="/login" component={Login} />
-                                    <RestrictedRoute path="/register" component={Register} />
-                                    <RestrictedRoute path="/confirm" component={Confirm} />
-                                    <RestrictedRoute path="/reset" component={ResetPassword} />
+            <ExceptionHandler>
+                <RoleContext.Provider value={this.state}>
+                    <I18nProvider locale={getLanguage()}>
+                        <Fragment>
+                            <Router>
+                                <NavigationBar />
+                                <div className="mainDiv">
+                                    <Switch>
+                                        <Route exact path="/" component={Home} />
+                                        <RestrictedRoute path="/login" component={Login} />
+                                        <RestrictedRoute path="/register" component={Register} />
+                                        <RestrictedRoute path="/confirm" component={Confirm} />
+                                        <RestrictedRoute path="/reset" component={ResetPassword} />
 
-                                    <Route path="/changeResetPassword" component={ChangeResetPassword} />
-                                    <Route path="/restaurant" component={Restaurant} />
+                                        <Route path="/changeResetPassword" component={ChangeResetPassword} />
+                                        <Route path="/restaurant" component={Restaurant} />
 
-                                    <PrivateRoute path="/book" component={BookRestaurant} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
-                                                                    process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
-                                    <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
-                                    <PrivateRoute path="/managerMenu" component={ManagerMenu} accessLevels={[process.env.REACT_APP_MANAGER_ROLE]} />
-                                    <PrivateRoute path="/userMenu" component={UserMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
-                                                                    process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                        <PrivateRoute path="/book" component={BookRestaurant} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                        <PrivateRoute path="/adminMenu" component={AdminMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE]} />
+                                        <PrivateRoute path="/managerMenu" component={ManagerMenu} accessLevels={[process.env.REACT_APP_MANAGER_ROLE]} />
+                                        <PrivateRoute path="/userMenu" component={UserMenu} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
 
-                                    <Route path="/accessDenied" component={AccessDenied} />
-                                    <PrivateRoute path="/finishPayment" component={Payment} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
-                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
-                                    <PrivateRoute path="/paymentSucceeded" component={PaymentSucceeded} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
-                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
-                                    <PrivateRoute path="/paymentCancelled" component={PaymentCancelled} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
-                                        process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
-                                    <Route component={NotFound} />
-                                </Switch>
-                            </div>
-                        </Router>
-                    </Fragment>
-                </I18nProvider>
-            </RoleContext.Provider>
+                                        <Route path="/accessDenied" component={AccessDenied} />
+                                        <PrivateRoute path="/finishPayment" component={Payment} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                            process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                        <PrivateRoute path="/paymentSucceeded" component={PaymentSucceeded} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                            process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+                                        <PrivateRoute path="/paymentCancelled" component={PaymentCancelled} accessLevels={[process.env.REACT_APP_ADMIN_ROLE,
+                                            process.env.REACT_APP_MANAGER_ROLE, process.env.REACT_APP_CLIENT_ROLE]} />
+
+                                        <Route path="/error" component={UnexpectedError} />
+                                        <Route component={NotFound} />
+                                    </Switch>
+                                </div>
+                            </Router>
+                        </Fragment>
+                    </I18nProvider>
+                </RoleContext.Provider>
+            </ExceptionHandler>
         );
     }
 };

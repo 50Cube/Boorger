@@ -4,7 +4,6 @@ import Translate from '../i18n/Translate';
 import ErrorPageImage from "./ErrorPageImage";
 import {Button} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import Swal from "sweetalert2";
 import {getHeader} from "../services/UserDataService";
 import '../css/ErrorPageImage.css';
 

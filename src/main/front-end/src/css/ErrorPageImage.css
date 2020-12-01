@@ -69,3 +69,7 @@
     letter-spacing: 5px;
     line-height: 55px !important;
 }
+
+.errorMessage {
+    line-height: 60px !important;
+}

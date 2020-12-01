@@ -171,6 +171,7 @@ export default {
         'paymentCancelled': 'Rezerwacja została anulowana',
         'backToHome': 'Wróć na stronę główną',
         'paymentLoading': 'Trwa weryfikacja płatności',
-        'paypal': 'Zapłać z '
+        'paypal': 'Zapłać z ',
+        'unexpectedError': 'Wystąpił nieoczekiwany błąd'
     }
 }
