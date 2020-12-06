@@ -16,10 +16,10 @@ public interface AccountController {
     int getFilteredAccountsPageAmount(String filter) throws AppBaseException;
     void changeLanguage(String login, String language) throws AppBaseException;
     ResponseEntity<?> resetPassword(String email, String language, HttpServletRequest request) throws AppBaseException;
-    ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha) throws AppBaseException;
-    ResponseEntity<?> changePassword(AccountDTO accountDTO, String captcha) throws AppBaseException;
-    void editAccount(AccountDTO accountDTO) throws AppBaseException;
+    ResponseEntity<?> changeResetPassword(String token, AccountDTO accountDTO, String captcha, HttpServletRequest request) throws AppBaseException;
+    ResponseEntity<?> changePassword(AccountDTO accountDTO, String captcha, HttpServletRequest request) throws AppBaseException;
+    void editAccount(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
     void resendConfirmationEmail(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
-    void editOtherAccount(AccountDTO accountDTO) throws AppBaseException;
+    void editOtherAccount(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
     ResponseEntity<?> addAccount(AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException;
 }

@@ -85,16 +85,16 @@ public class ReservationControllerImpl implements ReservationController {
 
     @PutMapping("/reservation/finish")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void finishReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        reservationService.finishReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
+    public void finishReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language, HttpServletRequest request) throws AppBaseException {
+        reservationService.finishReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature(), request.getRemoteUser());
         emailService.sendReservationStatusChangedEmail(reservationDTO.getClientDTO().getEmail(), reservationDTO.getBusinessKey(),
                 MessageProvider.getTranslatedText("status.finished", language), language);
     }
 
     @PutMapping("/reservation/cancel")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void cancelReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        reservationService.cancelReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature());
+    public void cancelReservation(@RequestBody ReservationDTO reservationDTO, @RequestHeader("lang") String language, HttpServletRequest request) throws AppBaseException {
+        reservationService.cancelReservation(reservationDTO.getBusinessKey(), reservationDTO.getSignature(), request.getRemoteUser());
         emailService.sendReservationStatusChangedEmail(reservationDTO.getClientDTO().getEmail(), reservationDTO.getBusinessKey(),
                 MessageProvider.getTranslatedText("status.cancelled", language), language);
     }

@@ -22,6 +22,7 @@ import pl.lodz.p.it.boorger.services.RestaurantService;
 import pl.lodz.p.it.boorger.utils.DateFormatter;
 import pl.lodz.p.it.boorger.utils.MessageProvider;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,8 +54,8 @@ public class RestaurantControllerImpl implements RestaurantController {
 
     @PostMapping("/restaurant")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public ResponseEntity<?> addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO, @RequestHeader("lang") String language) throws AppBaseException {
-        restaurantService.addRestaurant(RestaurantMapper.mapFromDto(restaurantDTO));
+    public ResponseEntity<?> addRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO, @RequestHeader("lang") String language, HttpServletRequest request) throws AppBaseException {
+        restaurantService.addRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), request.getRemoteUser());
         return ResponseEntity.ok(MessageProvider.getTranslatedText("restaurant.addnew", language));
     }
 
@@ -65,8 +66,8 @@ public class RestaurantControllerImpl implements RestaurantController {
 
     @PostMapping("/dish/{restaurantName}")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO) throws AppBaseException {
-        restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO));
+    public void addDish(@PathVariable String restaurantName, @Valid @RequestBody DishDTO dishDTO, HttpServletRequest request) throws AppBaseException {
+        restaurantService.addDish(restaurantName, DishMapper.mapFromDto(dishDTO), request.getRemoteUser());
         for(String lang : getTranslationLanguages())
             CacheService.addToCache(new DishTranslation(dishDTO.getBusinessKey(), lang, dishDTO.getDescriptionLanguage(), dishDTO.getDescription()));
     }
@@ -79,14 +80,15 @@ public class RestaurantControllerImpl implements RestaurantController {
 
     @PutMapping("/restaurant/activity")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void changeRestaurantActivity(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
-        restaurantService.changeRestaurantActivity(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
+    public void changeRestaurantActivity(@Valid @RequestBody RestaurantDTO restaurantDTO, HttpServletRequest request) throws AppBaseException {
+        restaurantService.changeRestaurantActivity(RestaurantMapper.mapFromDto(restaurantDTO),
+                restaurantDTO.getSignature(), request.getRemoteUser());
     }
 
     @PutMapping("/restaurant/edit")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void editRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO) throws AppBaseException {
-        restaurantService.editRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature());
+    public void editRestaurant(@Valid @RequestBody RestaurantDTO restaurantDTO, HttpServletRequest request) throws AppBaseException {
+        restaurantService.editRestaurant(RestaurantMapper.mapFromDto(restaurantDTO), restaurantDTO.getSignature(), request.getRemoteUser());
     }
 
     @PostMapping("/tables")

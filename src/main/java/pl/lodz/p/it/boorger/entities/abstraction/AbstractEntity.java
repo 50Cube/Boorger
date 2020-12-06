@@ -25,7 +25,6 @@ public abstract class AbstractEntity implements Serializable {
     @Setter(lombok.AccessLevel.NONE)
     protected String businessKey;
 
-    @NotBlank
     @Size(min = 1, max = 32)
     @Pattern(regexp = "[a-zA-Z0-9!@$^&*]+")
     protected String createdBy;
@@ -46,7 +45,6 @@ public abstract class AbstractEntity implements Serializable {
     public AbstractEntity() {
         this.businessKey = UUID.randomUUID().toString();
         this.creationDate = LocalDateTime.now();
-        this.createdBy = "tmp";
     }
 
     @PrePersist

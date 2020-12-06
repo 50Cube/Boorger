@@ -113,24 +113,24 @@ public class AccountControllerImpl implements AccountController {
 
     @PostMapping("/changeResetPassword/{token}/{captcha}")
     public ResponseEntity<?> changeResetPassword(@PathVariable String token, @Valid @RequestBody AccountDTO accountDTO,
-                                            @PathVariable String captcha) throws AppBaseException {
+                                            @PathVariable String captcha, HttpServletRequest request) throws AppBaseException {
         if(!captchaValidator.validateCaptcha(captcha))
             throw new CaptchaException();
-        accountService.changeResetPassword(token, AccountMapper.mapFromDto(accountDTO));
+        accountService.changeResetPassword(token, AccountMapper.mapFromDto(accountDTO), request.getRemoteUser());
         return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", accountDTO.getLanguage()));
     }
 
     @PostMapping("/changePassword/{captcha}")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO, @PathVariable String captcha) throws AppBaseException {
+    public ResponseEntity<?> changePassword(@Valid @RequestBody AccountDTO accountDTO, @PathVariable String captcha, HttpServletRequest request) throws AppBaseException {
         if(!captchaValidator.validateCaptcha(captcha))
             throw new CaptchaException();
-        accountService.changePassword(AccountMapper.mapFromDto(accountDTO), accountDTO.getPreviousPassword());
+        accountService.changePassword(AccountMapper.mapFromDto(accountDTO), accountDTO.getPreviousPassword(), request.getRemoteUser());
         return ResponseEntity.ok(MessageProvider.getTranslatedText("account.password.changed", accountDTO.getLanguage()));
     }
 
     @PutMapping("/editPersonal")
-    public void editAccount(@Valid @RequestBody AccountDTO accountDTO) throws AppBaseException {
-        accountService.editPersonal(AccountMapper.mapFromDto(accountDTO), accountDTO.getSignature());
+    public void editAccount(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
+        accountService.editPersonal(AccountMapper.mapFromDto(accountDTO), accountDTO.getSignature(), request.getRemoteUser());
     }
 
     @PostMapping("/resendEmail")
@@ -147,15 +147,16 @@ public class AccountControllerImpl implements AccountController {
 
     @PutMapping("/editOtherAccount")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
-    public void editOtherAccount(@Valid @RequestBody AccountDTO accountDTO) throws AppBaseException {
-        accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels(), accountDTO.getSignature());
+    public void editOtherAccount(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
+        accountService.editOtherAccount(AccountMapper.mapFromDto(accountDTO),
+                accountDTO.getAccessLevels(), accountDTO.getSignature(), request.getRemoteUser());
     }
 
     @PostMapping("/addAccount")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleAdmin'))")
     public ResponseEntity<?> addAccount(@Valid @RequestBody AccountDTO accountDTO, HttpServletRequest request) throws AppBaseException {
         accountDTO.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
-        String token = accountService.addAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels());
+        String token = accountService.addAccount(AccountMapper.mapFromDto(accountDTO), accountDTO.getAccessLevels(), request.getRemoteUser());
         try {
             emailService.sendConfirmationEmail(accountDTO.getEmail(), accountDTO.getLanguage(), token,
                     request.getRequestURL().toString(), request.getServletPath());

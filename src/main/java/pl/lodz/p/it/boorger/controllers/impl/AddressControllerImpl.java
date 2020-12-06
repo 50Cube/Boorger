@@ -11,6 +11,7 @@ import pl.lodz.p.it.boorger.dto.mappers.AddressMapper;
 import pl.lodz.p.it.boorger.exceptions.AppBaseException;
 import pl.lodz.p.it.boorger.services.AddressService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,7 +32,7 @@ public class AddressControllerImpl implements AddressController {
 
     @PostMapping("/address")
     @PreAuthorize("hasAuthority(@environment.getProperty('boorger.roleManager'))")
-    public void addAddress(@Valid @RequestBody AddressDTO addressDTO) throws AppBaseException {
-        addressService.addAddress(AddressMapper.mapFromDto(addressDTO));
+    public void addAddress(@Valid @RequestBody AddressDTO addressDTO, HttpServletRequest request) throws AppBaseException {
+        addressService.addAddress(AddressMapper.mapFromDto(addressDTO), request.getRemoteUser());
     }
 }

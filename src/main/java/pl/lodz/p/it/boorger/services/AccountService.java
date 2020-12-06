@@ -95,6 +95,7 @@ public class AccountService {
             account.setConfirmed(false);
             account.setActive(true);
             account.getAuthData().setAccount(account);
+            account.setCreatedBy(account.getLogin());
 
             AccountConfirmToken token = generateConfirmToken(account);
             account.setAccountTokens(new ArrayList<>());
@@ -222,13 +223,14 @@ public class AccountService {
         }
     }
 
-    public void changeResetPassword(String token, @Valid  Account editedAccount) throws AppBaseException {
+    public void changeResetPassword(String token, @Valid  Account editedAccount, String modifiedBy) throws AppBaseException {
         try {
             ForgotPasswordToken forgotPasswordToken = (ForgotPasswordToken) accountTokenRepository.findByBusinessKey(token)
                     .orElseThrow(AppBaseException::new);
             if(forgotPasswordToken.getExpireDate().isBefore(LocalDateTime.now()))
                 throw new TokenExpiredException();
             Account account = forgotPasswordToken.getAccount();
+            account.setModifiedBy(modifiedBy);
             addPreviousPassword(account, editedAccount);
             accountRepository.saveAndFlush(account);
             accountTokenRepository.delete(forgotPasswordToken);
@@ -254,20 +256,21 @@ public class AccountService {
         account.setPassword(editedAccount.getPassword());
     }
 
-    public void changePassword(@Valid Account editedAccount, String previous) throws AppBaseException {
+    public void changePassword(@Valid Account editedAccount, String previous, String modifiedBy) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
             if(!passwordEncoder.matches(previous, account.getPassword()))
                 throw new IncorrectCurrentPasswordException();
             addPreviousPassword(account, editedAccount);
+            account.setModifiedBy(modifiedBy);
             accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
     }
 
-    public void editPersonal(@Valid Account editedAccount, String signatureDTO) throws AppBaseException {
+    public void editPersonal(@Valid Account editedAccount, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
@@ -275,6 +278,7 @@ public class AccountService {
                 throw new OptimisticLockException();
             account.setFirstname(editedAccount.getFirstname());
             account.setLastname(editedAccount.getLastname());
+            account.setModifiedBy(modifiedBy);
             accountRepository.saveAndFlush(account);
         } catch (DataAccessException e) {
             throw new DatabaseException();
@@ -300,7 +304,7 @@ public class AccountService {
         }
     }
 
-    public void editOtherAccount(@Valid Account editedAccount, Collection<String> accessLevels, String signatureDTO) throws AppBaseException {
+    public void editOtherAccount(@Valid Account editedAccount, Collection<String> accessLevels, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Account account = accountRepository.findByLogin(editedAccount.getLogin())
                     .orElseThrow(AccountNotFoundException::new);
@@ -309,6 +313,7 @@ public class AccountService {
             account.setFirstname(editedAccount.getFirstname());
             account.setLastname(editedAccount.getLastname());
             account.setActive(editedAccount.isActive());
+            account.setModifiedBy(modifiedBy);
 
             for(AccessLevel a : account.getAccessLevels())
                 if(accessLevels.contains(a.getAccessLevel()))
@@ -321,7 +326,7 @@ public class AccountService {
         }
     }
 
-    public String addAccount(@Valid Account account, Collection<String> accessLevels) throws AppBaseException {
+    public String addAccount(@Valid Account account, Collection<String> accessLevels, String createdBy) throws AppBaseException {
         try {
             account.setAccessLevels(generateAccessLevels(account));
 
@@ -339,6 +344,7 @@ public class AccountService {
             account.setAccountTokens(new ArrayList<>());
             account.getAccountTokens().add(token);
             account.setPreviousPasswords(new ArrayList<>());
+            account.setCreatedBy(createdBy);
 
             accountRepository.saveAndFlush(account);
             accountTokenRepository.saveAndFlush(token);

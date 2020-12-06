@@ -74,6 +74,7 @@ public class ReservationService {
                     .orElseThrow(AccountNotFoundException::new);
             client.getReservations().add(reservation);
             reservation.setClient(client);
+            reservation.setCreatedBy(client.getAccount().getLogin());
 
             Collection<Dish> menu = new ArrayList<>();
             for (String key : menuKeys)
@@ -199,26 +200,28 @@ public class ReservationService {
         }
     }
 
-    public void finishReservation(String businessKey, String signatureDTO) throws AppBaseException {
+    public void finishReservation(String businessKey, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
                     .orElseThrow(AppBaseException::new);
             if (!SignatureService.verify(reservation.getSignatureString(), signatureDTO))
                 throw new OptimisticLockException();
             reservation.setStatus(Status.FINISHED);
+            reservation.setModifiedBy(modifiedBy);
             reservationRepository.saveAndFlush(reservation);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
     }
 
-    public void cancelReservation(String businessKey, String signatureDTO) throws AppBaseException {
+    public void cancelReservation(String businessKey, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Reservation reservation = reservationRepository.findByBusinessKey(businessKey)
                     .orElseThrow(AppBaseException::new);
             if (!SignatureService.verify(reservation.getSignatureString(), signatureDTO))
                 throw new OptimisticLockException();
             reservation.setStatus(Status.CANCELLED);
+            reservation.setModifiedBy(modifiedBy);
             reservationRepository.saveAndFlush(reservation);
         } catch (DataAccessException e) {
             throw new DatabaseException();

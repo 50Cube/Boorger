@@ -47,11 +47,12 @@ public class RestaurantService {
         }
     }
 
-    public void addRestaurant(@Valid Restaurant restaurant) throws AppBaseException {
+    public void addRestaurant(@Valid Restaurant restaurant, String createdBy) throws AppBaseException {
         try {
             restaurant.getHours().setRestaurant(restaurant);
             restaurant.getTables().forEach(table -> table.setRestaurant(restaurant));
             restaurant.setDishes(new ArrayList<>());
+            restaurant.setCreatedBy(createdBy);
             if(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
                     restaurant.getAddress().getStreet(), restaurant.getAddress().getStreetNo()).isPresent())
                 restaurant.setAddress(addressRepository.findByCityAndStreetAndStreetNo(restaurant.getAddress().getCity(),
@@ -75,11 +76,12 @@ public class RestaurantService {
         }
     }
 
-    public void addDish(String restaurantName, @Valid Dish dish) throws AppBaseException {
+    public void addDish(String restaurantName, @Valid Dish dish, String createdBy) throws AppBaseException {
         try {
             Restaurant restaurant = restaurantRepository.findByName(restaurantName)
                     .orElseThrow(RestaurantNotFoundException::new);
             dish.setRestaurant(restaurant);
+            dish.setCreatedBy(createdBy);
             restaurant.getDishes().add(dish);
             dishRepository.saveAndFlush(dish);
             restaurantRepository.saveAndFlush(restaurant);
@@ -91,20 +93,21 @@ public class RestaurantService {
         }
     }
 
-    public void changeRestaurantActivity(@Valid Restaurant editedRestaurant, String signatureDTO) throws AppBaseException {
+    public void changeRestaurantActivity(@Valid Restaurant editedRestaurant, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Restaurant restaurant = restaurantRepository.findByName(editedRestaurant.getName())
                     .orElseThrow(RestaurantNotFoundException::new);
             if(!SignatureService.verify(restaurant.getSignatureString(), signatureDTO))
                 throw new OptimisticLockException();
             restaurant.setActive(!restaurant.isActive());
+            restaurant.setModifiedBy(modifiedBy);
             restaurantRepository.saveAndFlush(restaurant);
         } catch (DataAccessException e) {
             throw new DatabaseException();
         }
     }
 
-    public void editRestaurant(@Valid Restaurant editedRestaurant, String signatureDTO) throws AppBaseException {
+    public void editRestaurant(@Valid Restaurant editedRestaurant, String signatureDTO, String modifiedBy) throws AppBaseException {
         try {
             Restaurant restaurant = restaurantRepository.findByName(editedRestaurant.getName())
                     .orElseThrow(RestaurantNotFoundException::new);
@@ -114,6 +117,7 @@ public class RestaurantService {
                 throw new OptimisticLockException();
             restaurant.setDescription(editedRestaurant.getDescription());
             restaurant.setInstallment(editedRestaurant.getInstallment());
+            restaurant.setModifiedBy(modifiedBy);
             hoursRepository.delete(restaurant.getHours());
             editedRestaurant.getHours().setRestaurant(restaurant);
             restaurant.setHours(editedRestaurant.getHours());

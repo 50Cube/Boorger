@@ -1,7 +1,6 @@
 package pl.lodz.p.it.boorger.services;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.java.Log;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.retry.annotation.Retryable;
@@ -18,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
-@Log
 @Service
 @AllArgsConstructor
 @ServiceTransaction
@@ -35,8 +33,9 @@ public class AddressService {
         }
     }
 
-    public void addAddress(@Valid Address address) throws AppBaseException {
+    public void addAddress(@Valid Address address, String createdBy) throws AppBaseException {
         try {
+            address.setCreatedBy(createdBy);
             addressRepository.saveAndFlush(address);
         } catch (DataIntegrityViolationException e) {
             if(Objects.requireNonNull(e.getMessage()).contains("address_street_street_no_city_uindex"))
