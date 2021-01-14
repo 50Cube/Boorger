@@ -36,3 +36,8 @@
 .MuiStepIcon-root.MuiStepIcon-completed, .MuiStepIcon-root.MuiStepIcon-active, .MuiCheckbox-colorSecondary.Mui-checked {
   color: black !important;
 }
+
+.logo {
+  width: 125px;
+  height: 25px;
+}

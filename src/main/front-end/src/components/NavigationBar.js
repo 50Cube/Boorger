@@ -10,6 +10,7 @@ import RoleContext from "../services/RoleContext";
 import NavLink from "react-bootstrap/NavLink";
 import {Link} from "react-router-dom";
 import axios from 'axios';
+import logo from '../assets/logo.png';
 
 export default class NavigationBar extends Component {
 
@@ -142,7 +143,9 @@ export default class NavigationBar extends Component {
             <RoleContext.Consumer>
                 {({ role }) => (
                 <Navbar expand="lg">
-                    <Navbar.Brand as={Link} to="/">BOORGER</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/">
+                        <img className="logo" src={logo} alt="Boorger" />
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ml-auto">
